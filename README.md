@@ -27,21 +27,36 @@ Dibuat khusus untuk memenuhi tugas portofolio akademik dan demonstrasi rekayasa 
 
 ---
 
-## 🚀 Cara Menjalankan Proyek
+## 🚀 Panduan Menjalankan Proyek
 
-### 1. Menjalankan Versi Mobile (React Native via Expo Go)
+### 1. Menjalankan di Perangkat Baru (Setelah Clone dari GitHub)
 
-1. Pastikan Node.js sudah terpasang.
-2. Buka terminal di folder proyek ini:
-   ```bash
-   npm start
-   ```
-3. Buka aplikasi **Expo Go** di HP (tersedia di Google Play Store & Apple App Store).
-4. Pastikan HP dan Laptop terhubung ke Wi-Fi / Hotspot yang sama.
-5. Scan **QR Code** yang tampil di terminal laptop.
-6. Aplikasi akan langsung memuat dan berjalan di HP Anda.
+Jika Anda baru saja meng-clone repositori ini atau baru meng-install ulang laptop:
+```bash
+# 1. Clone repositori
+git clone https://github.com/dewanmochpratama23-sys/dewan-portofolio.git
 
-### 2. Menjalankan Versi Web (HTML)
+# 2. Masuk ke folder proyek
+cd dewan-portofolio
+
+# 3. Pasang semua dependensi
+npm install
+
+# 4. Jalankan server Expo
+npm start
+```
+
+### 2. Menjalankan Versi Mobile (React Native via Expo Go)
+
+1. Jalankan `npm start` di terminal.
+2. Buka aplikasi **Expo Go** di HP (tersedia di Google Play Store & Apple App Store).
+3. Pastikan HP dan Laptop terhubung ke Wi-Fi / Hotspot yang sama:
+   - *Di Rumah:* Sambungkan ke Wi-Fi rumah yang sama.
+   - *Di Kampus / Tempat Umum:* Gunakan Hotspot pribadi dari HP ke Laptop (untuk menghindari blokir keamanan jaringan publik).
+4. Scan **QR Code** yang tampil di terminal laptop.
+5. Aplikasi akan langsung memuat dan berjalan di HP Anda.
+
+### 3. Menjalankan Versi Web (HTML)
 
 Cukup buka file `index.html` langsung dengan klik dua kali (double-click) untuk membukanya di browser (Google Chrome, Microsoft Edge, dll).
 

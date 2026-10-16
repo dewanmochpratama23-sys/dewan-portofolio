@@ -1,78 +1,117 @@
 ================================================================================
    PANDUAN LENGKAP MENJALANKAN PORTOFOLIO - DEWAN MOCHAMAD PRATAMA
 ================================================================================
+Repositori Resmi GitHub: 
+👉 https://github.com/dewanmochpratama23-sys/dewan-portofolio
 
 Folder ini berisi 2 VERSI PORTOFOLIO LENGKAP:
-1. VERSI WEB BIASA (HTML5 + Tailwind CSS + JavaScript)
+1. VERSI WEB BIASA (HTML5 + Tailwind CSS + JavaScript murni)
 2. VERSI MOBILE ASLI (React Native + Expo SDK 57)
 
---------------------------------------------------------------------------------
+================================================================================
 A. CARA MEMBUKA VERSI WEB BIASA (Paling Cepat & Langsung Jalan)
---------------------------------------------------------------------------------
-Jika ingin langsung melihat hasil desain di laptop tanpa instalasi/server apa pun:
-1. Buka folder ini di File Explorer laptop Anda:
-   C:\Users\LENOVO\.gemini\antigravity\scratch\dewan-portfolio
+================================================================================
+Jika ingin langsung melihat tampilan desain di browser laptop tanpa server/terminal:
+1. Buka folder ini di File Explorer laptop Anda.
 2. Klik 2x (double-click) file: index.html
 3. Halaman portofolio akan langsung terbuka di browser (Chrome / Edge).
 4. Tampilan sudah 100% responsif (rapi untuk layar HP maupun laptop).
 
---------------------------------------------------------------------------------
+================================================================================
 B. CARA MENJALANKAN VERSI REACT NATIVE DI HP (Untuk Presentasi Dosen)
---------------------------------------------------------------------------------
+================================================================================
 Aplikasi mobile ini dibuat dengan React Native murni (Expo SDK 57) dan sudah
 dilengkapi fitur animasi interaktif & simulasi fisika (Spring Physics Lab).
 
-Langkah 1: Koneksi Wi-Fi
-- Pastikan HP dan Laptop Anda terhubung ke JARINGAN WI-FI YANG SAMA.
-  (IP Wi-Fi laptop Anda sudah otomatis dikunci ke: 192.168.1.13)
+Langkah 1: Koneksi Jaringan
+- Pastikan HP dan Laptop terhubung ke koneksi yang sama.
+- 💡 Catatan Jaringan:
+  * Jika di Rumah: Sambungkan HP dan Laptop ke Wi-Fi rumah yang sama.
+  * Jika di Kampus / Kafe: Gunakan HOTSPOT PRIBADI DARI HP ke Laptop 
+    (untuk menghindari blokir keamanan AP Isolation pada Wi-Fi kampus).
 
 Langkah 2: Buka Terminal di VS Code
-- Buka folder proyek ini di VS Code.
-- Buka Terminal di VS Code (tekan tombol Ctrl + ` atau menu Terminal -> New Terminal).
+- Buka VS Code.
+- Buka terminal (menu Terminal -> New Terminal atau tekan Ctrl + `).
+- Pastikan posisi terminal berada di folder proyek:
+  cd "C:\Users\LENOVO\.gemini\antigravity\scratch\dewan-portfolio"
 
-Langkah 3: Jalankan Perintah Start
-- Ketik perintah ini di terminal VS Code, lalu tekan Enter:
+Langkah 3: Jalankan Server Expo
+- Ketik perintah ini lalu tekan Enter:
   npm start
 
-- Tunggu beberapa detik sampai tulisan "Starting Metro Bundler" dan 
+- Tunggu beberapa detik sampai tulisan "Starting Metro Bundler" dan
   QR CODE (BARCODE) BESAR muncul di terminal.
 
 Langkah 4: Scan QR Code di HP
 - Buka aplikasi "Expo Go" di HP Anda.
 - Pilih menu "Scan QR Code".
-- Arahkan kamera HP ke barcode yang muncul di terminal laptop.
-- Tunggu proses bundling ("Android Bundling... 100%").
-- Portofolio React Native Anda akan langsung muncul dan interaktif di layar HP!
+- Arahkan kamera HP ke barcode besar yang ada di terminal laptop.
+- Tunggu proses loading ("Android Bundling... 100%").
+- Portofolio React Native Anda akan langsung muncul di HP.
+- Ketuk tombol "🚀 Buka Portofolio" pada Layar Cover untuk menjelajahi seluruhnya!
 
---------------------------------------------------------------------------------
-C. TIPS & SOLUSI JIKA MENGALAMI KENDALA
---------------------------------------------------------------------------------
-1. Jika barcode tidak muncul atau port sibuk:
-   - Tekan Ctrl + C di terminal VS Code untuk menghentikan server lama.
-   - Ketik `npm start` kembali.
+================================================================================
+C. CARA MENJALANKAN SETELAH LAPTOP DI-INSTALL ULANG (CLONE GITHUB)
+================================================================================
+Jika laptop Anda baru saja di-install ulang Windows-nya:
+
+Langkah 1: Pasang 3 Aplikasi Utama
+1. Node.js (Versi LTS) : https://nodejs.org
+2. Git for Windows     : https://git-scm.com
+3. VS Code             : https://code.visualstudio.com
+
+Langkah 2: Unduh (Clone) Proyek dari GitHub
+- Buat / buka folder tempat Anda menyimpan tugas kuliah (misal: D:\Kuliah).
+- Buka Terminal / PowerShell di folder tersebut, lalu ketik:
+  git clone https://github.com/dewanmochpratama23-sys/dewan-portofolio.git
+
+Langkah 3: Masuk ke Folder & Pasang Ulang Paket (Dependencies)
+- Masuk ke folder proyek:
+  cd dewan-portofolio
+- Pasang modul React Native (hanya 1x di awal):
+  npm install
+
+Langkah 4: Jalankan Seperti Biasa
+- Ketik:
+  npm start
+- Buka Expo Go di HP Anda dan scan barcodenya!
+
+================================================================================
+D. CARA MEMPERBARUI (UPDATE) KODINGAN KE GITHUB
+================================================================================
+Jika di kemudian hari Anda mengedit kodingan dan ingin mengunggah pembaruan ke GitHub:
+1. Buka terminal di folder proyek.
+2. Jalankan 3 perintah berurutan ini:
+   git add .
+   git commit -m "Update tampilan dan fitur terbaru"
+   git push origin main
+3. Perubahan akan langsung terunggah otomatis ke GitHub Anda.
+
+================================================================================
+E. TIPS JIKA MENGALAMI KENDALA
+================================================================================
+1. Jika barcode tidak muncul atau server lama masih jalan:
+   - Tekan Ctrl + C di terminal untuk mematikan server lama.
+   - Jalankan `npm start` kembali.
 
 2. Jika aplikasi di HP sempat menampilkan cache lama atau blank:
    - Tutup aplikasi Expo Go di HP (swipe close dari recent apps).
-   - Buka kembali Expo Go dan scan ulang barcode-nya.
+   - Buka kembali Expo Go dan scan ulang barcodenya.
    - Atau goyang-goyangkan (shake) HP saat di Expo Go, lalu pilih "Reload".
 
-3. Cara melihat versi Web dari React Native di Browser Laptop:
+3. Cara melihat versi Web dari React Native di Layar Laptop:
    - Saat terminal `npm start` sedang menyala, cukup tekan tombol huruf `w`
      pada keyboard di terminal tersebut.
-   - Browser laptop akan otomatis membuka versi web dari React Native.
-
---------------------------------------------------------------------------------
-D. PENJELASAN FILE-FILE DI DALAM FOLDER INI:
---------------------------------------------------------------------------------
-1. App.js              : File kodingan utama React Native (yang dinilai dosen).
-2. index.html          : File kodingan versi web HTML5 + Tailwind CSS biasa.
-3. dewan-foto.jpg      : File foto asli profil Anda.
-4. package.json        : Konfigurasi nama aplikasi & paket Expo SDK 57.
-5. app.json            : Konfigurasi metadata aplikasi mobile Expo.
-6. babel.config.js     : Konfigurasi compiler Babel Expo SDK 57.
-7. start.js            : Skrip otomatis pengunci IP Wi-Fi laptop.
-8. PANDUAN_LENGKAP.txt : Panduan langkah demi langkah ini.
 
 ================================================================================
-   Selamat Mencoba & Sukses untuk Presentasi Tugasnya! 🚀
+F. DAFTAR KONTAK RESMI YANG TERPASANG DI APLIKASI
+================================================================================
+- WhatsApp  : 0831-3753-8544 (https://wa.me/6283137538544)
+- Email     : dewan.mochpratama23@gmail.com (mailto:dewan.mochpratama23@gmail.com)
+- LinkedIn  : Dewan Mochamad Pratama (https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/)
+- GitHub    : @dewanmochpratama23-sys (https://github.com/dewanmochpratama23-sys)
+
+================================================================================
+   Selamat Mencoba, Sukses untuk Presentasi & Kuliahnya! 🚀
 ================================================================================
