@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Dewan Portfolio",
+    "slug": "dewan-portfolio",
+    "version": "1.0.0",
+    "sdkVersion": "57.0.0",
+    "orientation": "portrait",
+    "icon": "./dewan-foto.jpg",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#080d1a"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#080d1a"
+      }
+    },
+    "web": {
+      "favicon": "./dewan-foto.jpg"
+    },
+    "plugins": [
+      "expo-asset",
+      "expo-font"
+    ]
+  }
+}
