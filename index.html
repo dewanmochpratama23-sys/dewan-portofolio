@@ -48,6 +48,16 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
+        #cover-screen {
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        #cover-screen.is-closed {
+            opacity: 0 !important;
+            transform: translateY(-100%) !important;
+            pointer-events: none !important;
+            display: none !important;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #080d1a;
@@ -120,7 +130,7 @@
             
             <!-- Invitation badge -->
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-5 shadow-inner">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span class="text-cyan-400">✨</span>
                 Official Web Portfolio & Bio
             </div>
 
@@ -149,13 +159,18 @@
             </p>
 
             <!-- Interactive Action Button (Buka Portofolio) -->
-            <button id="btn-open-portfolio" class="group relative inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-sm sm:text-base shadow-lg shadow-cyan-500/25 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 cursor-pointer">
-                <i class="fa-solid fa-envelope-open-text text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110"></i>
-                <span>🚀 Buka Portofolio</span>
-                <i class="fa-solid fa-arrow-right text-xs opacity-70 group-hover:translate-x-1 transition-transform"></i>
+            <button id="btn-open-portfolio" class="group relative inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-4.5 rounded-2xl bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-base sm:text-lg shadow-xl shadow-cyan-500/30 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 cursor-pointer">
+                <i class="fa-solid fa-arrow-right-to-bracket text-xl transition-transform duration-300 group-hover:scale-110"></i>
+                <span>🚀 MASUK KE PORTOFOLIO</span>
             </button>
 
-            <span class="text-[11px] text-slate-500 mt-4 sm:mt-5">Klik untuk membuka halaman & efek interaktif</span>
+            <!-- Auto-open indicator and Skip option -->
+            <div class="mt-4 flex flex-col items-center gap-1.5">
+                <span id="cover-auto-timer" class="text-xs text-cyan-300/80 font-medium">⚡ Otomatis terbuka dalam <span id="countdown-num">3</span> detik...</span>
+                <button id="btn-skip-cover" class="text-xs text-slate-400 hover:text-cyan-300 underline cursor-pointer transition-colors mt-1">
+                    Langsung masuk sekarang &rarr;
+                </button>
+            </div>
         </div>
     </div>
 
@@ -821,44 +836,104 @@
             /* 1. COVER SCREEN OPENING (Digital Wedding Invitation UX) */
             const coverScreen = document.getElementById('cover-screen');
             const btnOpenPortfolio = document.getElementById('btn-open-portfolio');
+            const btnSkipCover = document.getElementById('btn-skip-cover');
             const btnReopenCover = document.getElementById('btn-reopen-cover');
+            const countdownNum = document.getElementById('countdown-num');
+
+            let isCoverDismissed = false;
 
             function triggerConfettiBurst() {
                 if (typeof confetti === 'function') {
-                    // Confetti left burst
-                    confetti({
-                        particleCount: 60,
-                        spread: 70,
-                        origin: { y: 0.6, x: 0.3 }
-                    });
-                    // Confetti right burst
-                    confetti({
-                        particleCount: 60,
-                        spread: 70,
-                        origin: { y: 0.6, x: 0.7 }
-                    });
+                    try {
+                        // Confetti left burst
+                        confetti({
+                            particleCount: 50,
+                            spread: 60,
+                            origin: { y: 0.6, x: 0.3 }
+                        });
+                        // Confetti right burst
+                        confetti({
+                            particleCount: 50,
+                            spread: 60,
+                            origin: { y: 0.6, x: 0.7 }
+                        });
+                    } catch (e) {}
                 }
             }
 
-            btnOpenPortfolio.addEventListener('click', () => {
-                // Confetti burst
+            function openPortfolio() {
+                if (isCoverDismissed || !coverScreen) return;
+                isCoverDismissed = true;
                 triggerConfettiBurst();
 
-                // Smooth fade and slide up animation
-                coverScreen.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                // Direct inline styling guarantees transition even if Tailwind CDN is slow/offline
+                coverScreen.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                coverScreen.style.opacity = '0';
+                coverScreen.style.transform = 'translateY(-100%)';
+                coverScreen.style.pointerEvents = 'none';
 
                 setTimeout(() => {
-                    coverScreen.classList.add('hidden');
-                }, 1000);
+                    coverScreen.style.display = 'none';
+                    coverScreen.classList.add('hidden', 'is-closed');
+                }, 550);
+            }
+
+            if (btnOpenPortfolio) {
+                btnOpenPortfolio.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openPortfolio();
+                });
+            }
+
+            if (btnSkipCover) {
+                btnSkipCover.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openPortfolio();
+                });
+            }
+
+            // Click anywhere on cover overlay to open immediately
+            if (coverScreen) {
+                coverScreen.addEventListener('click', () => {
+                    openPortfolio();
+                });
+            }
+
+            // Press Enter or Space to open immediately
+            window.addEventListener('keydown', (e) => {
+                if (!isCoverDismissed && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')) {
+                    openPortfolio();
+                }
             });
+
+            // Auto-open countdown timer (3 seconds) so user never gets stuck!
+            let secondsLeft = 3;
+            const timerInterval = setInterval(() => {
+                if (isCoverDismissed) {
+                    clearInterval(timerInterval);
+                    return;
+                }
+                secondsLeft--;
+                if (countdownNum) countdownNum.textContent = secondsLeft;
+                if (secondsLeft <= 0) {
+                    clearInterval(timerInterval);
+                    openPortfolio();
+                }
+            }, 1000);
 
             // Re-open cover screen if user wants to see it again
-            btnReopenCover.addEventListener('click', () => {
-                coverScreen.classList.remove('hidden');
-                setTimeout(() => {
-                    coverScreen.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
-                }, 50);
-            });
+            if (btnReopenCover) {
+                btnReopenCover.addEventListener('click', () => {
+                    isCoverDismissed = false;
+                    coverScreen.classList.remove('hidden', 'is-closed');
+                    coverScreen.style.display = 'flex';
+                    coverScreen.style.pointerEvents = 'auto';
+                    setTimeout(() => {
+                        coverScreen.style.opacity = '1';
+                        coverScreen.style.transform = 'translateY(0)';
+                    }, 30);
+                });
+            }
 
 
             /* 2. TYPING ANIMATION (Mahasiswa Informatika & Roles) */

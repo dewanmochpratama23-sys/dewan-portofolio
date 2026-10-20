@@ -140,6 +140,17 @@ export default function App() {
     ).start();
   }, [floatAnim]);
 
+  // Auto-open cover screen after 3.5 seconds if user doesn't touch it
+  useEffect(() => {
+    let timer;
+    if (isCoverOpen) {
+      timer = setTimeout(() => {
+        handleOpenPortfolio();
+      }, 3500);
+    }
+    return () => clearTimeout(timer);
+  }, [isCoverOpen]);
+
   // Open / Close Cover Screen
   const handleOpenPortfolio = () => {
     Animated.parallel([
@@ -862,40 +873,46 @@ export default function App() {
             },
           ]}
         >
-          <View style={styles.coverCard}>
-            <View style={styles.coverBadge}>
-              <Text style={styles.coverBadgeText}>OFFICIAL MOBILE PORTFOLIO</Text>
+          <TouchableOpacity
+            style={{ width: '100%', alignItems: 'center' }}
+            activeOpacity={0.95}
+            onPress={handleOpenPortfolio}
+          >
+            <View style={styles.coverCard}>
+              <View style={styles.coverBadge}>
+                <Text style={styles.coverBadgeText}>✨ OFFICIAL MOBILE PORTFOLIO</Text>
+              </View>
+
+              <View style={styles.coverAvatarBorder}>
+                <Image
+                  source={PROFILE_IMAGE}
+                  style={styles.coverAvatarImage}
+                  resizeMode="cover"
+                />
+              </View>
+
+              <Text style={styles.coverSubtitle}>Kepada Yang Terhormat Dosen & Rekan,</Text>
+              <Text style={styles.coverTitle}>Dewan Mochamad Pratama</Text>
+              <Text style={styles.coverNick}>
+                Panggilan akrab: <Text style={{ color: '#38bdf8' }}>Dewan / Tama</Text>
+              </Text>
+
+              <Text style={styles.coverDesc}>
+                Selamat datang di aplikasi portofolio interaktif pribadi berbasis React Native.
+                Menampilkan eksplorasi rekayasa perangkat lunak dan interaksi antarmuka mobile.
+              </Text>
+
+              <TouchableOpacity
+                style={styles.btnOpenPortfolio}
+                onPress={handleOpenPortfolio}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.btnOpenPortfolioText}>🚀 Buka Portofolio</Text>
+              </TouchableOpacity>
+
+              <Text style={styles.coverHint}>⚡ Otomatis terbuka dalam 3 detik, atau ketuk di mana saja</Text>
             </View>
-
-            <View style={styles.coverAvatarBorder}>
-              <Image
-                source={PROFILE_IMAGE}
-                style={styles.coverAvatarImage}
-                resizeMode="cover"
-              />
-            </View>
-
-            <Text style={styles.coverSubtitle}>Kepada Yang Terhormat Dosen & Rekan,</Text>
-            <Text style={styles.coverTitle}>Dewan Mochamad Pratama</Text>
-            <Text style={styles.coverNick}>
-              Panggilan akrab: <Text style={{ color: '#38bdf8' }}>Dewan / Tama</Text>
-            </Text>
-
-            <Text style={styles.coverDesc}>
-              Selamat datang di aplikasi portofolio interaktif pribadi berbasis React Native.
-              Menampilkan eksplorasi rekayasa perangkat lunak dan interaksi antarmuka mobile.
-            </Text>
-
-            <TouchableOpacity
-              style={styles.btnOpenPortfolio}
-              onPress={handleOpenPortfolio}
-              activeOpacity={0.85}
-            >
-              <Text style={styles.btnOpenPortfolioText}>🚀 Buka Portofolio</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.coverHint}>Ketuk tombol untuk membuka aplikasi</Text>
-          </View>
+          </TouchableOpacity>
         </Animated.View>
       )}
     </SafeAreaView>
