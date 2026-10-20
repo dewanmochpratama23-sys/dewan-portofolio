@@ -3,92 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dewan Mochamad Pratama | Portfolio & Digital Identity</title>
+    <title>Dewan Mochamad Pratama | Software & Mobile App Developer</title>
+    <meta name="description" content="Portofolio resmi Dewan Mochamad Pratama - Mahasiswa Teknik Informatika, Software Developer, dan Mobile App Enthusiast.">
+    <meta name="author" content="Dewan Mochamad Pratama">
+
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        darkbg: '#0a0f1d',
-                        darkcard: '#111827',
-                        cyanAccent: '#06b6d4',
-                        emeraldAccent: '#10b981',
-                        violetAccent: '#8b5cf6',
-                    },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
-                    animation: {
-                        'float-slow': 'float 5s ease-in-out infinite',
-                        'pulse-glow': 'pulseGlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-12px)' },
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
-                            '50%': { opacity: '0.9', transform: 'scale(1.08)' },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
                         }
                     }
                 }
             }
         }
     </script>
-    <!-- Google Fonts & Font Awesome Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Canvas Confetti CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        #cover-screen {
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        #cover-screen.is-closed {
-            opacity: 0 !important;
-            transform: translateY(-100%) !important;
-            pointer-events: none !important;
-            display: none !important;
-        }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #080d1a;
-            color: #e2e8f0;
-            overflow-x: hidden;
+            background-color: #f8fafc;
+            color: #0f172a;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Glassmorphism custom effects */
-        .glass-card {
-            background: rgba(17, 24, 39, 0.72);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        /* Subtle modern grid background */
+        .tech-grid-bg {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 28px 28px;
         }
 
-        .glass-card:hover {
-            border-color: rgba(6, 182, 212, 0.35);
+        /* Clean shadow for professional cards */
+        .card-clean {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 50%, #34d399 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .gradient-border-wrap {
-            position: relative;
-            background: linear-gradient(135deg, #06b6d4, #8b5cf6, #10b981);
-            padding: 3px;
-            border-radius: 9999px;
+        .card-clean:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+            transform: translateY(-2px);
         }
 
         /* Custom scrollbar */
@@ -96,1147 +72,717 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0b1120;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1e293b;
+            background: #cbd5e1;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #06b6d4;
-        }
-
-        /* Ambient background glow */
-        .ambient-glow {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.18;
+            background: #94a3b8;
         }
     </style>
 </head>
-<body class="relative min-h-screen">
-
-    <!-- Ambient Glowing Light Orbs -->
-    <div class="ambient-glow w-96 h-96 bg-cyan-500 top-10 left-[-80px]"></div>
-    <div class="ambient-glow w-[32rem] h-[32rem] bg-indigo-600 bottom-20 right-[-100px]"></div>
-    <div class="ambient-glow w-80 h-80 bg-emerald-500 top-1/2 left-1/3"></div>
-
-    <!-- COVER HERO SCREEN (UNDANGAN DIGITAL GATEWAY) -->
-    <div id="cover-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#070b16] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(14,165,233,0.25),rgba(255,255,255,0))] transition-all duration-1000 ease-in-out p-4 overflow-y-auto">
-        <div class="relative z-10 max-w-xl w-full my-auto p-6 sm:p-12 text-center glass-card rounded-3xl border border-cyan-500/20 shadow-2xl flex flex-col items-center">
-            
-            <!-- Invitation badge -->
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-5 shadow-inner">
-                <span class="text-cyan-400">✨</span>
-                Official Web Portfolio & Bio
-            </div>
-
-            <!-- Profile Avatar with animated pulse aura -->
-            <div class="relative mb-5">
-                <div class="absolute -inset-1.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 rounded-full blur-md opacity-70 animate-pulse-glow"></div>
-                <div class="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-white/20 p-1 bg-slate-900 shadow-2xl">
-                    <!-- Foto Asli Dewan M Pratama -->
-                    <img id="cover-photo" src="dewan-foto.jpg" 
-                         alt="Dewan Mochamad Pratama" 
-                         class="w-full h-full object-cover object-center rounded-full transition-transform duration-500 hover:scale-110"
-                         onerror="this.src='https://placehold.co/400x400/0f172a/38bdf8?text=Dewan+Pratama'">
-                </div>
-            </div>
-
-            <!-- Greeting and Title -->
-            <p class="text-xs sm:text-sm font-medium text-slate-400 tracking-widest uppercase mb-1">Kepada Yang Terhormat Dosen & Rekan,</p>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">
-                Dewan Mochamad Pratama
-            </h1>
-            <p class="text-cyan-400 text-xs sm:text-base font-medium mb-3">
-                <span class="text-slate-400">Panggilan akrab:</span> Dewan / Tama
-            </p>
-            <p class="text-slate-300 text-xs sm:text-sm max-w-md mx-auto leading-relaxed mb-6 sm:mb-8">
-                Selamat datang di portofolio interaktif pribadi. Menampilkan eksplorasi teknologi informasi, rekayasa perangkat lunak, dan interaksi web responsif.
-            </p>
-
-            <!-- Interactive Action Button (Buka Portofolio) -->
-            <button id="btn-open-portfolio" class="group relative inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-4.5 rounded-2xl bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-extrabold text-base sm:text-lg shadow-xl shadow-cyan-500/30 transition-all duration-300 transform hover:-translate-y-1 active:scale-95 cursor-pointer">
-                <i class="fa-solid fa-arrow-right-to-bracket text-xl transition-transform duration-300 group-hover:scale-110"></i>
-                <span>🚀 MASUK KE PORTOFOLIO</span>
-            </button>
-
-            <!-- Auto-open indicator and Skip option -->
-            <div class="mt-4 flex flex-col items-center gap-1.5">
-                <span id="cover-auto-timer" class="text-xs text-cyan-300/80 font-medium">⚡ Otomatis terbuka dalam <span id="countdown-num">3</span> detik...</span>
-                <button id="btn-skip-cover" class="text-xs text-slate-400 hover:text-cyan-300 underline cursor-pointer transition-colors mt-1">
-                    Langsung masuk sekarang &rarr;
-                </button>
-            </div>
-        </div>
-    </div>
+<body class="tech-grid-bg min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900">
 
     <!-- STICKY NAVBAR -->
-    <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-slate-950/90 border-b border-slate-800/80">
+    <header class="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all duration-200">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <a href="#hero" class="flex items-center gap-3 group">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-slate-900 text-sm shadow-md group-hover:rotate-6 transition-transform">
+            
+            <!-- Brand / Logo -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-sm group-hover:bg-blue-700 transition-colors">
                     DP
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold text-white tracking-wide">Dewan M. Pratama</span>
-                    <span class="text-[10px] text-cyan-400">Informatics Student</span>
+                <div>
+                    <span class="font-bold text-slate-900 text-sm sm:text-base tracking-tight block">Dewan M. Pratama</span>
+                    <span class="text-[11px] font-medium text-slate-500 block leading-none">Informatics Engineering</span>
                 </div>
             </a>
 
             <!-- Desktop Nav Links -->
-            <nav class="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                <a href="#about" class="hover:text-cyan-400 transition-colors">Tentang Saya</a>
-                <a href="#skills" class="hover:text-cyan-400 transition-colors">Keahlian</a>
-                <a href="#journey" class="hover:text-cyan-400 transition-colors">Perjalanan</a>
-                <a href="#gravity-playground" class="hover:text-cyan-400 transition-colors flex items-center gap-1.5 text-cyan-300">
-                    <i class="fa-solid fa-atom animate-spin" style="animation-duration: 8s;"></i> Gravity Lab
-                </a>
-                <a href="#projects" class="hover:text-cyan-400 transition-colors">Karya</a>
-                <a href="#guestbook" class="hover:text-cyan-400 transition-colors">Buku Tamu</a>
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                <a href="#home" class="hover:text-blue-600 transition-colors">Tentang</a>
+                <a href="#projects" class="hover:text-blue-600 transition-colors">Proyek</a>
+                <a href="#skills" class="hover:text-blue-600 transition-colors">Keahlian</a>
+                <a href="#code-lab" class="hover:text-blue-600 transition-colors">Lab Kode</a>
+                <a href="#guestbook" class="hover:text-blue-600 transition-colors">Buku Tamu</a>
+                <a href="#contact" class="hover:text-blue-600 transition-colors">Kontak</a>
             </nav>
 
-            <!-- Quick Action / Audio & Contact CTA + Mobile Hamburger -->
-            <div class="flex items-center gap-2">
-                <button id="btn-reopen-cover" title="Buka Kembali Cover Undangan" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-address-card"></i>
-                    <span class="hidden sm:inline">Cover</span>
-                </button>
-                <a href="#guestbook" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500 hover:text-slate-950 transition-all">
-                    Hubungi
+            <!-- Quick Action Buttons -->
+            <div class="flex items-center gap-2.5">
+                <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
+                   class="w-9 h-9 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 flex items-center justify-center transition-all"
+                   title="GitHub Profile">
+                    <i class="fa-brands fa-github text-base"></i>
                 </a>
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-slate-800/80 text-slate-200 hover:text-cyan-400 hover:bg-slate-800 transition-colors" aria-label="Buka Menu Navigasi">
-                    <i id="mobile-menu-icon" class="fa-solid fa-bars text-base"></i>
-                </button>
+                <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" rel="noopener noreferrer" 
+                   class="w-9 h-9 rounded-lg border border-slate-200 text-blue-600 hover:border-blue-300 hover:bg-blue-50 flex items-center justify-center transition-all"
+                   title="LinkedIn Profile">
+                    <i class="fa-brands fa-linkedin-in text-base"></i>
+                </a>
+                <a href="https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20tertarik%20dengan%20portofolio%20Anda" target="_blank" rel="noopener noreferrer"
+                   class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 shadow-sm transition-all">
+                    <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
+                    <span>Hubungi Saya</span>
+                </a>
             </div>
-        </div>
-
-        <!-- Mobile Dropdown Navigation Menu -->
-        <div id="mobile-nav-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-950/95 backdrop-blur-xl px-4 py-3 space-y-1 shadow-2xl transition-all duration-300">
-            <a href="#about" class="mobile-nav-link flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-colors">
-                <i class="fa-solid fa-user-astronaut w-4 text-cyan-400"></i> Tentang Saya
-            </a>
-            <a href="#skills" class="mobile-nav-link flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-colors">
-                <i class="fa-solid fa-code w-4 text-cyan-400"></i> Keahlian & Teknologi
-            </a>
-            <a href="#journey" class="mobile-nav-link flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-colors">
-                <i class="fa-solid fa-timeline w-4 text-cyan-400"></i> Rekam Jejak Perjalanan
-            </a>
-            <a href="#gravity-playground" class="mobile-nav-link flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-colors">
-                <i class="fa-solid fa-atom w-4 text-cyan-400"></i> Gravity Lab Experiment
-            </a>
-            <a href="#projects" class="mobile-nav-link flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-colors">
-                <i class="fa-solid fa-layer-group w-4 text-cyan-400"></i> Proyek Pilihan
-            </a>
-            <a href="#guestbook" class="mobile-nav-link flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-cyan-500/10 hover:text-cyan-300 transition-colors">
-                <i class="fa-regular fa-comment-dots w-4 text-cyan-400"></i> Buku Tamu & Pesan
-            </a>
         </div>
     </header>
 
-    <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-20 space-y-20 sm:space-y-28">
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16">
 
-        <!-- SECTION 1: HERO SECTION -->
-        <section id="hero" class="pt-4 sm:pt-14 pb-8 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-12">
-            <!-- Left Info & Typing Effect -->
-            <div class="flex-1 text-center lg:text-left space-y-5 sm:space-y-6">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300 text-xs">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                    <span>Ready for Collaboration & Internship</span>
-                </div>
-
-                <div class="space-y-2">
-                    <p class="text-slate-400 text-sm sm:text-lg">Halo semuanya! 👋 Saya,</p>
-                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
-                        Dewan Mochamad <br>
-                        <span class="gradient-text">Pratama</span>
-                    </h1>
-                </div>
-
-                <!-- Animated Role Typer -->
-                <div class="text-base sm:text-2xl font-medium text-slate-300 h-9 flex items-center justify-center lg:justify-start gap-2">
-                    <span class="text-cyan-400 font-semibold">&gt;</span>
-                    <span id="typing-text" class="border-r-2 border-cyan-400 pr-1 text-slate-100"></span>
-                </div>
-
-                <p class="text-slate-400 text-xs sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-                    Mahasiswa Informatika berusia 25 tahun asal Karawang. Berfokus pada perancangan antarmuka pengguna interaktif, rekayasa web modern, serta pemecahan masalah komputasi yang terstruktur.
-                </p>
-
-                <!-- Social and CTA Buttons -->
-                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
-                    <a href="#projects" class="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/20 flex items-center gap-2">
-                        <i class="fa-solid fa-code"></i> Lihat Hasil Karya
-                    </a>
-                    <a href="#guestbook" class="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs sm:text-sm transition-all border border-slate-700 flex items-center gap-2">
-                        <i class="fa-regular fa-comment-dots"></i> Tinggalkan Pesan
-                    </a>
-                </div>
-
-                <!-- Social badges -->
-                <div class="flex items-center justify-center lg:justify-start gap-3 pt-3 sm:pt-4 text-slate-400 text-base sm:text-lg">
-                    <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" class="w-9 sm:w-10 h-9 sm:h-10 rounded-lg bg-slate-900 hover:bg-slate-800 hover:text-white flex items-center justify-center border border-slate-800 transition-colors" title="GitHub Profile (@dewanmochpratama23-sys)">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" rel="noopener noreferrer" class="w-9 sm:w-10 h-9 sm:h-10 rounded-lg bg-slate-900 hover:bg-slate-800 hover:text-cyan-400 flex items-center justify-center border border-slate-800 transition-colors" title="LinkedIn Profile (Dewan Mochamad Pratama)">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                    <a href="mailto:dewan.mochpratama23@gmail.com" class="w-9 sm:w-10 h-9 sm:h-10 rounded-lg bg-slate-900 hover:bg-slate-800 hover:text-emerald-400 flex items-center justify-center border border-slate-800 transition-colors" title="Direct Email (dewan.mochpratama23@gmail.com)">
-                        <i class="fa-solid fa-envelope"></i>
-                    </a>
-                    <a href="https://wa.me/6283137538544" target="_blank" rel="noopener noreferrer" class="w-9 sm:w-10 h-9 sm:h-10 rounded-lg bg-slate-900 hover:bg-slate-800 hover:text-emerald-400 flex items-center justify-center border border-slate-800 transition-colors" title="WhatsApp Message (083137538544)">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Right Profile Avatar with Interactive 3D tilt & Float -->
-            <div class="relative flex items-center justify-center w-full max-w-xs sm:max-w-sm mx-auto lg:mx-0">
-                <!-- Floating decorative badges around avatar -->
-                <div class="absolute -top-2 -right-2 z-20 px-3 py-1.5 rounded-xl bg-slate-900/95 border border-cyan-500/40 text-cyan-300 text-xs font-semibold shadow-xl flex items-center gap-1.5 animate-bounce" style="animation-duration: 4s;">
-                    <i class="fa-solid fa-location-dot text-cyan-400"></i> Karawang, ID
-                </div>
-                <div class="absolute -bottom-2 -left-2 z-20 px-3 py-1.5 rounded-xl bg-slate-900/95 border border-emerald-500/40 text-emerald-300 text-xs font-semibold shadow-xl flex items-center gap-1.5 animate-bounce" style="animation-duration: 5s;">
-                    <i class="fa-solid fa-graduation-cap text-emerald-400"></i> Informatika
-                </div>
-
-                <!-- Avatar Card with Floating Animation -->
-                <div class="w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80 relative rounded-3xl p-2 bg-gradient-to-tr from-cyan-500 via-indigo-600 to-emerald-400 animate-float-slow shadow-2xl">
-                    <div class="w-full h-full rounded-2xl overflow-hidden bg-slate-950 relative group">
-                        <!-- Foto Asli Dewan M Pratama -->
-                        <img src="dewan-foto.jpg" 
-                             alt="Dewan Mochamad Pratama" 
-                             class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-700"
-                             onerror="this.src='https://placehold.co/600x600/0f172a/38bdf8?text=Dewan+Pratama'">
-                        <!-- Overlay gradient on hover -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
-                        <div class="absolute bottom-3 left-4 text-xs font-medium text-white/90">
-                            Dewan / Tama
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2: ABOUT ME -->
-        <section id="about" class="space-y-10">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Biografi Diri</span>
-                <h2 class="text-3xl font-extrabold text-white">Tentang Saya</h2>
-                <p class="text-slate-400 text-sm">Mengenal latar belakang, identitas, dan motivasi dalam bidang teknologi informasi.</p>
-            </div>
-
-            <!-- Bento Card Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Main Bio Card -->
-                <div class="md:col-span-2 glass-card rounded-2xl p-6 sm:p-8 space-y-5">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-user-astronaut"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-white">Dewan Mochamad Pratama</h3>
-                            <p class="text-xs text-slate-400">Nama Panggilan: Dewan / Tama</p>
-                        </div>
-                    </div>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                        Halo! Saya adalah mahasiswa program studi Informatika yang berdomisili di 
-                        <strong class="text-cyan-300 font-semibold">Karawang, Jawa Barat</strong>. Saya memiliki antusiasme tinggi dalam merancang dan mengembangkan sistem web yang dinamis, interaktif, serta memiliki kegunaan yang tinggi.
-                    </p>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Saya meyakini bahwa teknologi bukan hanya sekadar barisan kode logika, melainkan media komunikasi dan solusi nyata bagi permasalahan pengguna. Dalam proses belajar, saya selalu berusaha menyeimbangkan pemahaman algoritma backend dengan estetika antarmuka frontend.
-                    </p>
-                    <div class="pt-3 border-t border-slate-800 flex flex-wrap gap-4 text-xs text-slate-300">
-                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-cake-candles text-cyan-400"></i> Usia: 25 Tahun</span>
-                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-map-pin text-emerald-400"></i> Karawang, Jawa Barat</span>
-                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-moon text-indigo-400"></i> Keyakinan: Islam</span>
-                    </div>
-                </div>
-
-                <!-- Fast Facts / Metrics -->
-                <div class="space-y-4">
-                    <div class="glass-card rounded-2xl p-5 border-l-4 border-l-cyan-500">
-                        <div class="text-xs font-semibold text-cyan-400 uppercase tracking-wide mb-1">Status Akademik</div>
-                        <div class="text-white font-bold text-base">Mahasiswa Informatika</div>
-                        <p class="text-slate-400 text-xs mt-1">Fokus pada Web Engineering, Database Systems, & Algoritma.</p>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-5 border-l-4 border-l-emerald-500">
-                        <div class="text-xs font-semibold text-emerald-400 uppercase tracking-wide mb-1">Domisili</div>
-                        <div class="text-white font-bold text-base">Karawang, Indonesia</div>
-                        <p class="text-slate-400 text-xs mt-1">Terbuka untuk pekerjaan lokal, on-site, maupun remote project.</p>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-5 border-l-4 border-l-violet-500">
-                        <div class="text-xs font-semibold text-violet-400 uppercase tracking-wide mb-1">Prinsip Kerja</div>
-                        <div class="text-white font-bold text-base">Clean & User-Centric</div>
-                        <p class="text-slate-400 text-xs mt-1">Mengutamakan kerapian arsitektur kode dan kenyamanan pengguna.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3: GOOGLE GRAVITY PLAYGROUND (Fitur Unik Permintaan Dosen) -->
-        <section id="gravity-playground" class="space-y-6">
-            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-cyan-500/30 overflow-hidden relative">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-                    <div>
-                        <div class="inline-flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Interactive Gravity Experiment
-                        </div>
-                        <h2 class="text-2xl font-black text-white">Interactive Particle & Gravity Canvas</h2>
-                        <p class="text-slate-400 text-xs sm:text-sm">
-                            Terinspirasi dari interaksi "Google Gravity". Gerakkan kursor atau klik kanvas di bawah untuk memantulkan elemen keahlian saya!
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button id="btn-toggle-gravity" class="px-4 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950 font-bold text-xs border border-cyan-500/40 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-arrows-up-down"></i>
-                            <span id="gravity-status-label">Gravity: Aktif</span>
-                        </button>
-                        <button id="btn-reset-physics" class="px-3 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs border border-slate-700 transition-all" title="Reset Posisi">
-                            <i class="fa-solid fa-rotate-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- HTML5 Canvas for physics balls & badges -->
-                <div class="relative w-full h-64 sm:h-80 bg-slate-950/80 rounded-2xl border border-slate-800 overflow-hidden cursor-crosshair">
-                    <canvas id="gravity-canvas" class="w-full h-full block" style="touch-action: pan-y;"></canvas>
-                    <div class="absolute bottom-3 left-4 pointer-events-none text-[11px] text-slate-500 flex items-center gap-2">
-                        <i class="fa-regular fa-hand-pointer"></i> Sentuh / klik atau geser untuk dorongan gaya fisika (impulse).
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: SKILLS & TECH STACK -->
-        <section id="skills" class="space-y-10">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Kemampuan Teknis</span>
-                <h2 class="text-3xl font-extrabold text-white">Keahlian & Teknologi</h2>
-                <p class="text-slate-400 text-sm">Teknologi dan perkakas yang saya gunakan dalam membangun solusi digital.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Frontend Skills -->
-                <div class="glass-card rounded-2xl p-6 sm:p-7 space-y-6">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-code"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-base font-bold text-white">Frontend Development</h3>
-                                <p class="text-xs text-slate-400">Antarmuka & Pengalaman Pengguna</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Skill bars -->
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">HTML5 / Semantic Web</span>
-                                <span class="text-cyan-400">90%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-1000" style="width: 90%;"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">CSS3 / Tailwind CSS / Responsive Design</span>
-                                <span class="text-cyan-400">88%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-cyan-500 to-teal-400 rounded-full transition-all duration-1000" style="width: 88%;"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">JavaScript (ES6+) & DOM Manipulation</span>
-                                <span class="text-cyan-400">82%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-full transition-all duration-1000" style="width: 82%;"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">UI/UX Prototyping (Figma)</span>
-                                <span class="text-cyan-400">80%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-cyan-500 to-violet-500 rounded-full transition-all duration-1000" style="width: 80%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Backend & Tools -->
-                <div class="glass-card rounded-2xl p-6 sm:p-7 space-y-6">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-server"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-base font-bold text-white">Backend & Tools</h3>
-                                <p class="text-xs text-slate-400">Logika Server, Data & Ekosistem</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">PHP & Pemrograman Berorientasi Objek</span>
-                                <span class="text-emerald-400">80%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-1000" style="width: 80%;"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">Relational Database (MySQL / PostgreSQL)</span>
-                                <span class="text-emerald-400">82%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 rounded-full transition-all duration-1000" style="width: 82%;"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">Git & Version Control (GitHub)</span>
-                                <span class="text-emerald-400">85%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-full transition-all duration-1000" style="width: 85%;"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1.5">
-                                <span class="text-slate-300">REST API Architecture & Testing</span>
-                                <span class="text-emerald-400">78%</span>
-                            </div>
-                            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                                <div class="h-full bg-gradient-to-r from-emerald-500 to-indigo-500 rounded-full transition-all duration-1000" style="width: 78%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Interactive Skill Tags -->
-            <div class="glass-card rounded-2xl p-6 text-center">
-                <span class="text-xs uppercase tracking-wider text-slate-400 font-bold block mb-4">Tech Stack & Lingkungan Kerja Tambahan</span>
-                <div class="flex flex-wrap justify-center gap-2.5">
-                    <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors">VS Code</span>
-                    <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors">Node.js</span>
-                    <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors">React Native</span>
-                    <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors">Postman</span>
-                    <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors">Bootstrap</span>
-                    <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors">Linux / Bash</span>
-                    <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors">XAMPP / Laragon</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 5: JOURNEY / REKAM JEJAK (ADAPTASI "JOURNEY STORY" UNDANGAN) -->
-        <section id="journey" class="space-y-10">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Perjalanan & Pendidikan</span>
-                <h2 class="text-3xl font-extrabold text-white">Garis Waktu Perjalanan</h2>
-                <p class="text-slate-400 text-sm">Menampilkan tahapan penting selama menempuh studi dan eksplorasi di bidang teknologi.</p>
-            </div>
-
-            <div class="relative max-w-3xl mx-auto pl-8 sm:pl-10 space-y-10 sm:space-y-12 before:content-[''] before:absolute before:left-3 sm:before:left-4 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-cyan-500 before:via-indigo-500 before:to-emerald-500">
+        <!-- 1. INTEGRATED WELCOMING HERO CARD (Apple/Stripe Professional Banner) -->
+        <section id="home" class="relative">
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10 lg:p-12">
                 
-                <!-- Timeline Item 1 -->
-                <div class="relative group">
-                    <!-- Glowing Dot -->
-                    <div class="absolute -left-[29px] sm:-left-[33px] top-1.5 w-5 h-5 rounded-full bg-slate-900 border-2 border-cyan-400 flex items-center justify-center group-hover:scale-125 transition-transform shadow-lg shadow-cyan-500/50">
-                        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                <!-- Status Badge & Academic Track -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-100 mb-8">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Terbuka untuk Tugas, Proyek & Kolaborasi Tech</span>
                     </div>
-
-                    <div class="glass-card rounded-2xl p-5 sm:p-6 transition-all duration-300 group-hover:-translate-y-1">
-                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-950 text-cyan-300 border border-cyan-800">
-                                2025 - Sekarang
-                            </span>
-                            <span class="text-xs text-slate-400 font-medium">Fase Kolaborasi & Pengembangan Lanjutan</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white">Pengembangan Aplikasi Komprehensif & Studi Lanjut</h3>
-                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">
-                            Mendalami integrasi full-stack modern, manajemen basis data berskala menengah, serta implementasi antarmuka yang dinamis untuk penyelesaian tugas akhir dan portofolio profesional.
-                        </p>
+                    <div class="text-xs font-medium text-slate-500 flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-slate-400"></i>
+                        <span>S1 Teknik Informatika &bull; Karawang, Jawa Barat</span>
                     </div>
                 </div>
 
-                <!-- Timeline Item 2 -->
-                <div class="relative group">
-                    <div class="absolute -left-[29px] sm:-left-[33px] top-1.5 w-5 h-5 rounded-full bg-slate-900 border-2 border-indigo-400 flex items-center justify-center group-hover:scale-125 transition-transform shadow-lg shadow-indigo-500/50">
-                        <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                <!-- Main Hero Grid: Bio & Real Portrait Photo -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    
+                    <!-- Left Column: Biography & Narrative -->
+                    <div class="lg:col-span-8 space-y-5">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Portofolio & Rekam Jejak Rekayasa</span>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                                Dewan Mochamad Pratama
+                            </h1>
+                            <p class="text-sm sm:text-base font-semibold text-slate-600">
+                                Panggilan akrab: <span class="text-slate-900 font-bold">Dewan / Tama</span> &bull; 
+                                <span class="text-blue-600">Software & Mobile App Developer Enthusiast</span>
+                            </p>
+                        </div>
+
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                            Selamat datang di laman portofolio profesional saya. Saya merupakan mahasiswa Teknik Informatika yang berfokus pada 
+                            <strong>rekayasa perangkat lunak</strong>, perancangan antarmuka aplikasi yang intuitif, dan implementasi teknologi nyata. 
+                            Portofolio ini mendokumentasikan dua karya utama saya: sistem kecerdasan buatan <em>Face Recognition</em> berbasis Python 
+                            dan aplikasi mobile interaktif cross-platform berbasis React Native.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="pt-2 flex flex-wrap items-center gap-3">
+                            <a href="#projects" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 shadow-sm transition-all hover:shadow-md">
+                                <i class="fa-solid fa-folder-open text-xs"></i>
+                                <span>Lihat Proyek Unggulan</span>
+                            </a>
+                            <a href="https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20ingin%20berdiskusi%20mengenai%20proyek%20Anda" target="_blank" rel="noopener noreferrer" 
+                               class="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/90 font-semibold text-sm hover:bg-emerald-100 transition-all">
+                                <i class="fa-brands fa-whatsapp text-base"></i>
+                                <span>WhatsApp (0831-3753-8544)</span>
+                            </a>
+                            <a href="mailto:dewan.mochpratama23@gmail.com" 
+                               class="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-medium text-sm hover:bg-slate-50 transition-all">
+                                <i class="fa-regular fa-envelope text-slate-500"></i>
+                                <span>Kirim Email</span>
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="glass-card rounded-2xl p-5 sm:p-6 transition-all duration-300 group-hover:-translate-y-1">
-                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950 text-indigo-300 border border-indigo-800">
-                                2024
-                            </span>
-                            <span class="text-xs text-slate-400 font-medium">Fase Rekayasa Antarmuka & Mobile</span>
+                    <!-- Right Column: Foto Asli Dewan (Collage Portrait) -->
+                    <div class="lg:col-span-4 flex flex-col items-center">
+                        <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100 ring-1 ring-slate-200">
+                            <img src="dewan-foto.jpg" alt="Dewan Mochamad Pratama" class="w-full h-full object-cover object-center"
+                                 onerror="this.src='https://placehold.co/400x400/e2e8f0/0f172a?text=Dewan+Pratama'">
                         </div>
-                        <h3 class="text-lg font-bold text-white">Eksplorasi UI/UX & Proyek Web Interaktif</h3>
-                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">
-                            Membangun pengalaman visual interaktif dengan Tailwind CSS, perancangan prototipe sistem di Figma, serta implementasi logika JavaScript asinkron untuk konsumsi API.
-                        </p>
+                        <div class="mt-4 text-center">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                                <i class="fa-solid fa-circle-check text-blue-600 text-xs"></i>
+                                <span>Identitas Terverifikasi Mahasiswa</span>
+                            </span>
+                        </div>
                     </div>
+
                 </div>
 
-                <!-- Timeline Item 3 -->
-                <div class="relative group">
-                    <div class="absolute -left-[29px] sm:-left-[33px] top-1.5 w-5 h-5 rounded-full bg-slate-900 border-2 border-emerald-400 flex items-center justify-center group-hover:scale-125 transition-transform shadow-lg shadow-emerald-500/50">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <!-- Quick Highlights Metric Grid -->
+                <div class="mt-10 pt-8 border-t border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Fokus Bidang</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Software & Mobile</span>
                     </div>
-
-                    <div class="glass-card rounded-2xl p-5 sm:p-6 transition-all duration-300 group-hover:-translate-y-1">
-                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950 text-emerald-300 border border-emerald-800">
-                                2023
-                            </span>
-                            <span class="text-xs text-slate-400 font-medium">Fase Fondasi Akademik</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white">Fondasi Pemrograman & Algoritma Komputer</h3>
-                        <p class="text-slate-300 text-sm mt-2 leading-relaxed">
-                            Memulai perjalanan terstruktur dalam logika komputasi, struktur data dasar, pemrograman berorientasi objek (OOP), dan pemodelan basis data relasional.
-                        </p>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Proyek Utama</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Face Recog & App</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Platform</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Desktop & Mobile</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Version Control</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Git & GitHub Sync</span>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <!-- SECTION 6: PROJECTS SHOWCASE -->
-        <section id="projects" class="space-y-10">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Katalog Karya</span>
-                <h2 class="text-3xl font-extrabold text-white">Proyek Pilihan</h2>
-                <p class="text-slate-400 text-sm">Dokumentasi hasil pengerjaan proyek kuliah dan eksplorasi mandiri.</p>
+
+        <!-- 2. PROYEK UNGGULAN (PORTFOLIO PROJECTS) -->
+        <section id="projects" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Showcase Karya</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Proyek & Implementasi Rekayasa</h2>
+                    <p class="text-sm text-slate-500 mt-1">Dua proyek inti yang dibangun dengan pendekatan perangkat lunak modern dan siap diuji.</p>
+                </div>
+                <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 group">
+                    <span>Kunjungi Semua Repositori</span>
+                    <i class="fa-solid fa-arrow-right text-[11px] group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Proyek 1: Face Recognition -->
+                <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                Computer Vision & AI
+                            </span>
+                            <span class="text-xs font-medium text-slate-400">Desktop App</span>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">
+                                Sistem Deteksi & Pengenalan Wajah (Face Recognition)
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-0.5 font-medium">Teknologi: Python, OpenCV, Tkinter GUI, NumPy</p>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Aplikasi kecerdasan buatan berbasis desktop yang mampu mendeteksi wajah secara real-time melalui kamera komputer, 
+                            mengekstrak fitur biometrik, melatih dataset secara mandiri, dan mengenali identitas individu dengan tingkat akurasi tinggi.
+                        </p>
+
+                        <!-- Key Features Checklist -->
+                        <ul class="text-xs text-slate-600 space-y-1.5 pt-2">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <span>Deteksi wajah multi-frame real-time dengan algoritma Haar Cascade / Dlib</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <span>Perekaman dataset mandiri dan pelatihan model pengenalan otomatis</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <span>Antarmuka grafis ramah pengguna berbasis Tkinter desktop</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                            <i class="fa-brands fa-python text-blue-600 text-sm"></i>
+                            <span>Python Environment</span>
+                        </div>
+                        <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-github"></i>
+                            <span>Lihat di GitHub</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Proyek 2: Cross-Platform Mobile Portfolio -->
+                <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                                Mobile Engineering
+                            </span>
+                            <span class="text-xs font-medium text-slate-400">Android & iOS</span>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">
+                                Interactive Mobile Portfolio & Identity App
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-0.5 font-medium">Teknologi: React Native, Expo SDK 57, JavaScript ES6+</p>
+                        </div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Aplikasi mobile interaktif yang dirancang khusus untuk mempresentasikan karya, keahlian, dan identitas rekayasa 
+                            secara native di perangkat Android dan iOS menggunakan Expo. Dilengkapi integrasi langsung WhatsApp, GitHub, LinkedIn, dan form interaktif.
+                        </p>
+
+                        <!-- Key Features Checklist -->
+                        <ul class="text-xs text-slate-600 space-y-1.5 pt-2">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <span>Arsitektur React Native dengan dukungan Expo Go live debugging</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <span>Pemicu tautan deep-linking ke WhatsApp, Telepon, Email & LinkedIn</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <span>Auto IP detection script (<code class="bg-slate-100 px-1 py-0.5 rounded text-[11px]">start.js</code>) untuk Wi-Fi kampus & rumah</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                            <i class="fa-brands fa-react text-cyan-500 text-sm"></i>
+                            <span>React Native + Expo</span>
+                        </div>
+                        <a href="https://github.com/dewanmochpratama23-sys/dewan-portofolio" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors">
+                            <i class="fa-brands fa-github"></i>
+                            <span>Repositori Proyek</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- 3. KEAHLIAN & TEKNOLOGI (TECH STACK & COMPETENCIES) -->
+        <section id="skills" class="space-y-6">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Kompetensi Teknis</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Keahlian & Perkakas Pengembangan</h2>
+                <p class="text-sm text-slate-500 mt-1">Perangkat lunak, bahasa pemrograman, dan ekosistem yang digunakan secara rutin.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Project Card 1 -->
-                <div class="glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300 hover:-translate-y-2">
-                    <div class="h-48 overflow-hidden bg-slate-800 relative">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" 
-                             alt="Sistem Manajemen Data Mahasiswa" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                             onerror="this.src='https://placehold.co/600x400/1e293b/38bdf8?text=Data+Dashboard'">
-                        <div class="absolute inset-0 bg-slate-950/40 group-hover:opacity-0 transition-opacity"></div>
+
+                <!-- Card 1: Frontend & Mobile -->
+                <div class="card-clean rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
                     </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex flex-wrap gap-1.5 mb-2">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-cyan-950 text-cyan-300">PHP</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950 text-emerald-300">MySQL</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300">Bootstrap</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">Sistem Manajemen Data & Akademik</h3>
-                            <p class="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
-                                Aplikasi berbasis web untuk mengelola informasi nilai, absensi, serta rekapitulasi data mahasiswa dengan proteksi peran (*role-based access*).
-                            </p>
-                        </div>
-                        <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-                            <span class="text-slate-400">Tugas Rekayasa Web</span>
-                            <span class="text-cyan-400 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Selesai</span>
-                        </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Mobile & Frontend Dev</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Membangun antarmuka pengguna yang bersih dan adaptif.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">React Native</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Expo Framework</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">JavaScript (ES6+)</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">HTML5 Semantik</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">CSS3 & Tailwind</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Responsive UI</span>
                     </div>
                 </div>
 
-                <!-- Project Card 2 -->
-                <div class="glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300 hover:-translate-y-2">
-                    <div class="h-48 overflow-hidden bg-slate-800 relative">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" 
-                             alt="Interactive Portfolio Invitation" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                             onerror="this.src='https://placehold.co/600x400/1e293b/38bdf8?text=Interactive+Web'">
-                        <div class="absolute inset-0 bg-slate-950/40 group-hover:opacity-0 transition-opacity"></div>
+                <!-- Card 2: AI & Python -->
+                <div class="card-clean rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-brain"></i>
                     </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex flex-wrap gap-1.5 mb-2">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-cyan-950 text-cyan-300">JavaScript</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-950 text-indigo-300">Tailwind</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950 text-emerald-300">Canvas</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">Portofolio Interaktif Dewan Tama</h3>
-                            <p class="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
-                                Web profil interaktif yang memadukan mekanisme gerbang undangan digital, efek fisika partikel gravitasi, dan buku tamu dinamis.
-                            </p>
-                        </div>
-                        <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-                            <span class="text-slate-400">Proyek Mandiri</span>
-                            <span class="text-cyan-400 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Aktif</span>
-                        </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Python & Computer Vision</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Pemrosesan citra digital dan logika cerdas.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Python 3.x</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">OpenCV</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Face Recognition</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">NumPy Matrix</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Tkinter GUI</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Machine Learning Basics</span>
                     </div>
                 </div>
 
-                <!-- Project Card 3 -->
-                <div class="glass-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300 hover:-translate-y-2">
-                    <div class="h-48 overflow-hidden bg-slate-800 relative">
-                        <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=600&q=80" 
-                             alt="Desain Aplikasi Mobile" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                             onerror="this.src='https://placehold.co/600x400/1e293b/38bdf8?text=Mobile+UI+Design'">
-                        <div class="absolute inset-0 bg-slate-950/40 group-hover:opacity-0 transition-opacity"></div>
+                <!-- Card 3: Tools & Workflow -->
+                <div class="card-clean rounded-2xl p-6 space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-code-branch"></i>
                     </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div class="flex flex-wrap gap-1.5 mb-2">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-violet-950 text-violet-300">Figma</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-cyan-950 text-cyan-300">UI/UX</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-950 text-emerald-300">Mobile Concept</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">Desain Antarmuka Layanan Mahasiswa</h3>
-                            <p class="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
-                                Purwarupa aplikasi mobile berbasis pengguna untuk memudahkan akses jadwal perkuliahan, notifikasi pengumuman, dan materi dosen.
-                            </p>
-                        </div>
-                        <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-                            <span class="text-slate-400">Eksplorasi Desain</span>
-                            <span class="text-cyan-400 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Purwarupa</span>
-                        </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Workflow & Environments</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Standar kolaborasi dan manajemen kode modern.</p>
                     </div>
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Git Version Control</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">GitHub Cloud</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">VS Code</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Node.js & npm</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">PowerShell / CLI</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Laragon Local Stack</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- 4. INTERACTIVE CODE LAB (DEMONSTRASI KODE NYATA) -->
+        <section id="code-lab" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Arsitektur Kode Nyata</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Cuplikan Kode & Logika Teknis</h2>
+                    <p class="text-sm text-slate-500 mt-1">Intip implementasi logika yang ditulis pada proyek Face Recognition dan Mobile Portfolio.</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-800 text-slate-200">
+                <!-- Window Header / Tabs -->
+                <div class="flex items-center justify-between px-4 sm:px-6 py-3 bg-slate-950 border-b border-slate-800">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="text-xs text-slate-400 font-mono ml-2 hidden sm:inline">dewan-workspace &mdash; bash</span>
+                    </div>
+
+                    <!-- Code Switcher Buttons -->
+                    <div class="flex items-center gap-2">
+                        <button id="tab-btn-python" onclick="switchCodeTab('python')" class="px-3 py-1 rounded-lg text-xs font-mono font-medium bg-blue-600 text-white transition-all">
+                            face_recognition.py
+                        </button>
+                        <button id="tab-btn-rn" onclick="switchCodeTab('rn')" class="px-3 py-1 rounded-lg text-xs font-mono font-medium bg-slate-800 text-slate-400 hover:text-white transition-all">
+                            App.js (React Native)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Content Body -->
+                <div class="p-4 sm:p-6 font-mono text-xs sm:text-sm overflow-x-auto leading-relaxed">
+                    <!-- Tab 1: Python -->
+                    <pre id="code-snippet-python" class="text-slate-300"><code><span class="text-slate-500"># ==============================================================</span>
+<span class="text-slate-500"># Dewan Mochamad Pratama - Face Recognition Core Pipeline</span>
+<span class="text-slate-500"># Mendeteksi wajah secara real-time dan mengekstrak matriks fitur</span>
+<span class="text-slate-500"># ==============================================================</span>
+
+<span class="text-blue-400">import</span> cv2
+<span class="text-blue-400">import</span> numpy <span class="text-blue-400">as</span> np
+
+<span class="text-blue-400">def</span> <span class="text-emerald-400">detect_and_recognize_face</span>(camera_index=<span class="text-amber-400">0</span>):
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + <span class="text-emerald-300">'haarcascade_frontalface_default.xml'</span>)
+    cap = cv2.VideoCapture(camera_index)
+    
+    <span class="text-blue-400">print</span>(<span class="text-emerald-300">"[INFO] Memulai streaming webcam untuk Dewan Mochamad Pratama..."</span>)
+    
+    <span class="text-blue-400">while</span> <span class="text-cyan-400">True</span>:
+        ret, frame = cap.read()
+        <span class="text-blue-400">if not</span> ret:
+            <span class="text-blue-400">break</span>
+            
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=<span class="text-amber-400">1.2</span>, minNeighbors=<span class="text-amber-400">5</span>)
+        
+        <span class="text-blue-400">for</span> (x, y, w, h) <span class="text-blue-400">in</span> faces:
+            <span class="text-slate-500"># Gambar bounding box presisi tinggi</span>
+            cv2.rectangle(frame, (x, y), (x + w, y + h), (<span class="text-amber-400">0</span>, <span class="text-amber-400">255</span>, <span class="text-amber-400">128</span>), <span class="text-amber-400">2</span>)
+            cv2.putText(frame, <span class="text-emerald-300">"Verified: Dewan Pratama"</span>, (x, y - <span class="text-amber-400">10</span>), 
+                        cv2.FONT_HERSHEY_SIMPLEX, <span class="text-amber-400">0.65</span>, (<span class="text-amber-400">0</span>, <span class="text-amber-400">255</span>, <span class="text-amber-400">128</span>), <span class="text-amber-400">2</span>)
+                        
+        cv2.imshow(<span class="text-emerald-300">'Dewan M Pratama - Facial Recognition Monitor'</span>, frame)
+        <span class="text-blue-400">if</span> cv2.waitKey(<span class="text-amber-400">1</span>) & <span class="text-amber-400">0xFF</span> == <span class="text-blue-400">ord</span>(<span class="text-emerald-300">'q'</span>):
+            <span class="text-blue-400">break</span>
+            
+    cap.release()
+    cv2.destroyAllWindows()</code></pre>
+
+                    <!-- Tab 2: React Native -->
+                    <pre id="code-snippet-rn" class="hidden text-slate-300"><code><span class="text-slate-500">// ==============================================================</span>
+<span class="text-slate-500">// Dewan Mochamad Pratama - Cross-Platform Mobile Link Handler</span>
+<span class="text-slate-500">// Menghubungkan langsung ke WhatsApp, LinkedIn, GitHub & Telepon</span>
+<span class="text-slate-500">// ==============================================================</span>
+
+<span class="text-blue-400">import</span> React, { useState } <span class="text-blue-400">from</span> <span class="text-emerald-300">'react'</span>;
+<span class="text-blue-400">import</span> { View, Text, Linking, TouchableOpacity, StyleSheet } <span class="text-blue-400">from</span> <span class="text-emerald-300">'react-native'</span>;
+
+<span class="text-blue-400">export default function</span> <span class="text-emerald-400">PortfolioContactCard</span>() {
+  <span class="text-blue-400">const</span> handleOpenWhatsApp = <span class="text-blue-400">async</span> () => {
+    <span class="text-blue-400">const</span> phoneNumber = <span class="text-emerald-300">'6283137538544'</span>;
+    <span class="text-blue-400">const</span> message = <span class="text-emerald-300">'Halo Dewan Mochamad Pratama, saya tertarik berdiskusi!'</span>;
+    <span class="text-blue-400">const</span> url = <span class="text-emerald-300">`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`</span>;
+    
+    <span class="text-blue-400">const</span> supported = <span class="text-blue-400">await</span> Linking.canOpenURL(url);
+    <span class="text-blue-400">if</span> (supported) {
+      <span class="text-blue-400">await</span> Linking.openURL(url);
+    }
+  };
+
+  <span class="text-blue-400">return</span> (
+    &lt;<span class="text-cyan-400">View</span> style={styles.card}&gt;
+      &lt;<span class="text-cyan-400">Text</span> style={styles.title}&gt;Dewan Mochamad Pratama&lt;/<span class="text-cyan-400">Text</span>&gt;
+      &lt;<span class="text-cyan-400">TouchableOpacity</span> onPress={handleOpenWhatsApp} style={styles.btn}&gt;
+        &lt;<span class="text-cyan-400">Text</span> style={styles.btnText}&gt;Hubungi via WhatsApp&lt;/<span class="text-cyan-400">Text</span>&gt;
+      &lt;/<span class="text-cyan-400">TouchableOpacity</span>&gt;
+    &lt;/<span class="text-cyan-400">View</span>&gt;
+  );
+}</code></pre>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 7: GUESTBOOK / BUKU TAMU & PESAN (ADAPTASI RSVP UNDANGAN) -->
-        <section id="guestbook" class="space-y-10">
-            <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Buku Tamu Interaktif</span>
-                <h2 class="text-3xl font-extrabold text-white">Ucapan & Feedback</h2>
-                <p class="text-slate-400 text-sm">
-                    Fitur yang diadaptasi dari buku ucapan undangan digital. Dosen dan rekan dapat menulis pesan atau feedback yang langsung muncul di layar.
-                </p>
+
+        <!-- 5. BUKU TAMU INTERAKTIF (CLEAN MODERN GUESTBOOK) -->
+        <section id="guestbook" class="space-y-6">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Interaksi & Masukan</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Buku Tamu & Catatan Dosen</h2>
+                <p class="text-sm text-slate-500 mt-1">Silakan tinggalkan sapaan, ulasan tugas, atau pesan apresiasi.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <!-- Form Submission -->
-                <div class="lg:col-span-5 glass-card rounded-2xl p-6 sm:p-7 space-y-4">
-                    <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-pen-nib text-cyan-400"></i> Kirim Catatan / Ucapan
-                    </h3>
-                    <form id="guestbook-form" class="space-y-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- Guestbook Form -->
+                <div class="lg:col-span-5 card-clean rounded-2xl p-6 sm:p-7 space-y-4">
+                    <h3 class="text-base font-bold text-slate-900">Tulis Catatan / Pesan</h3>
+                    <form id="form-guestbook" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Lengkap / Instansi</label>
-                            <input type="text" id="guest-name" required placeholder="Contoh: Pak Budi (Dosen Penguji)" 
-                                   class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-colors">
+                            <label for="input-name" class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap / Instansi</label>
+                            <input type="text" id="input-name" required placeholder="Contoh: Budi Santoso (Dosen / Rekan)" 
+                                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Hubungan / Peran</label>
-                            <select id="guest-role" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-colors">
-                                <option value="Dosen">Dosen / Dosen Pembimbing</option>
+                            <label for="select-role" class="block text-xs font-semibold text-slate-700 mb-1">Peran / Kategori</label>
+                            <select id="select-role" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50">
+                                <option value="Dosen Pembimbing / Penguji">Dosen Pembimbing / Penguji</option>
                                 <option value="Rekan Mahasiswa">Rekan Mahasiswa</option>
-                                <option value="Tamu Umum" selected>Tamu / Pengunjung Web</option>
-                                <option value="Recruiter">Recruiter / HRD</option>
+                                <option value="Tamu / Pengunjung Umum">Tamu / Pengunjung Umum</option>
+                                <option value="Recruiter / Industri Tech">Recruiter / Industri Tech</option>
                             </select>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Pesan / Komentar</label>
-                            <textarea id="guest-message" rows="3" required placeholder="Tuliskan masukan atau sapaan untuk Dewan di sini..." 
-                                      class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-colors"></textarea>
+                            <label for="input-message" class="block text-xs font-semibold text-slate-700 mb-1">Pesan / Masukan</label>
+                            <textarea id="input-message" rows="3" required placeholder="Tuliskan ulasan atau sapaan untuk Dewan di sini..." 
+                                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
-                            <i class="fa-solid fa-paper-plane"></i> Kirim Pesan ke Buku Tamu
+                        <button type="submit" class="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition-colors shadow-sm flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-paper-plane text-xs"></i>
+                            <span>Kirim ke Buku Tamu</span>
                         </button>
                     </form>
                 </div>
 
-                <!-- Feed of comments -->
-                <div class="lg:col-span-7 glass-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Daftar Pesan Masuk</span>
-                        <span id="comment-counter" class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800">3 Pesan</span>
+                <!-- Guestbook Feed -->
+                <div class="lg:col-span-7 space-y-3">
+                    <div class="flex items-center justify-between pb-2">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ulasan & Catatan Masuk</span>
+                        <span id="comment-counter" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">3 Pesan</span>
                     </div>
 
-                    <!-- Scrollable Comments container -->
-                    <div id="comments-container" class="space-y-3.5 max-h-[340px] overflow-y-auto pr-2">
-                        <!-- Initial mock comments -->
-                        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1.5 transition-all">
-                            <div class="flex items-center justify-between text-xs">
-                                <span class="font-bold text-white flex items-center gap-1.5">
-                                    <i class="fa-solid fa-user-tie text-cyan-400"></i> Bpk. Dr. Hendra, M.Kom
-                                </span>
-                                <span class="text-[11px] text-cyan-400 font-medium">Dosen</span>
-                            </div>
-                            <p class="text-slate-300 text-xs leading-relaxed">
-                                "Konsep pembuka portofolio ala undangan digitalnya sangat kreatif dan eksekusinya rapi. Teruskan eksplorasi fitur animasinya, Mas Dewan!"
-                            </p>
-                            <span class="text-[10px] text-slate-500 block">Baru saja</span>
-                        </div>
-
-                        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1.5 transition-all">
-                            <div class="flex items-center justify-between text-xs">
-                                <span class="font-bold text-white flex items-center gap-1.5">
-                                    <i class="fa-solid fa-graduation-cap text-emerald-400"></i> Rian Pratama
-                                </span>
-                                <span class="text-[11px] text-emerald-400 font-medium">Rekan Mahasiswa</span>
-                            </div>
-                            <p class="text-slate-300 text-xs leading-relaxed">
-                                "Keren banget Tama! Bagian Google Gravity canvas-nya beneran interaktif waktu kursor digeser."
-                            </p>
-                            <span class="text-[10px] text-slate-500 block">1 jam lalu</span>
-                        </div>
-                    </div>
-
-                    <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-500 text-center">
-                        Pesan disimpan secara dinamis pada sesi peramban ini.
+                    <div id="guestbook-feed" class="space-y-3">
+                        <!-- Dynamic Comments Rendered Here -->
                     </div>
                 </div>
+
+            </div>
+        </section>
+
+
+        <!-- 6. KONTAK & JARINGAN RESMI (DIRECT CONTACT CHANNELS) -->
+        <section id="contact" class="space-y-6">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Saluran Komunikasi</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Hubungi & Terhubung</h2>
+                <p class="text-sm text-slate-500 mt-1">Jangan ragu untuk berdiskusi, memberikan penawaran proyek, atau menjalin relasi profesional.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                <!-- WhatsApp Card -->
+                <a href="https://wa.me/6283137538544?text=Halo%20Dewan%20Mochamad%20Pratama,%20saya%20melihat%20portofolio%20Anda." target="_blank" rel="noopener noreferrer" 
+                   class="card-clean rounded-2xl p-6 group hover:border-emerald-300">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mt-4">WhatsApp</h3>
+                    <p class="text-xs text-slate-500 mt-0.5 font-medium">0831-3753-8544</p>
+                    <span class="text-xs font-semibold text-emerald-600 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        Chat Langsung &rarr;
+                    </span>
+                </a>
+
+                <!-- Email Card -->
+                <a href="mailto:dewan.mochpratama23@gmail.com" 
+                   class="card-clean rounded-2xl p-6 group hover:border-blue-300">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mt-4">Email</h3>
+                    <p class="text-xs text-slate-500 mt-0.5 font-medium truncate">dewan.mochpratama23@gmail.com</p>
+                    <span class="text-xs font-semibold text-blue-600 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        Kirim Pesan &rarr;
+                    </span>
+                </a>
+
+                <!-- LinkedIn Card -->
+                <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" rel="noopener noreferrer" 
+                   class="card-clean rounded-2xl p-6 group hover:border-indigo-300">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mt-4">LinkedIn</h3>
+                    <p class="text-xs text-slate-500 mt-0.5 font-medium">Dewan Mochamad Pratama</p>
+                    <span class="text-xs font-semibold text-indigo-600 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        Koneksi Profesional &rarr;
+                    </span>
+                </a>
+
+                <!-- GitHub Card -->
+                <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
+                   class="card-clean rounded-2xl p-6 group hover:border-slate-400">
+                    <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center text-2xl group-hover:bg-slate-900 group-hover:text-white transition-all">
+                        <i class="fa-brands fa-github"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mt-4">GitHub</h3>
+                    <p class="text-xs text-slate-500 mt-0.5 font-medium">dewanmochpratama23-sys</p>
+                    <span class="text-xs font-semibold text-slate-700 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        Repositori & Commit &rarr;
+                    </span>
+                </a>
+
             </div>
         </section>
 
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t border-slate-800 bg-slate-950 py-10 relative z-10 text-center text-xs text-slate-400 space-y-4">
-        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer class="mt-16 border-t border-slate-200 bg-white py-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-cyan-500 inline-block"></span>
-                <span class="font-bold text-white">Dewan Mochamad Pratama</span> &copy; 2026. Karawang, Jawa Barat.
+                <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                <span class="font-semibold text-slate-900">Dewan Mochamad Pratama</span> &copy; 2026. Karawang, Jawa Barat.
             </div>
-            <div class="flex items-center gap-4 text-slate-400 text-sm">
-                <a href="#hero" class="hover:text-cyan-400 transition-colors">Kembali ke Atas</a>
+            <div class="flex items-center gap-4">
+                <a href="#home" class="hover:text-blue-600 transition-colors">Kembali ke Atas &uarr;</a>
                 <span>&bull;</span>
-                <a href="mailto:dewan.mochpratama23@gmail.com" class="hover:text-cyan-400 transition-colors">dewan.mochpratama23@gmail.com</a>
+                <span>Dokumentasi Tugas Portofolio Teknik Informatika</span>
             </div>
         </div>
-        <p class="text-[11px] text-slate-600">Dibuat khusus untuk demonstrasi tugas portofolio web interaktif.</p>
     </footer>
 
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // 1. Code Lab Switcher
+        function switchCodeTab(tab) {
+            const pySnippet = document.getElementById('code-snippet-python');
+            const rnSnippet = document.getElementById('code-snippet-rn');
+            const pyBtn = document.getElementById('tab-btn-python');
+            const rnBtn = document.getElementById('tab-btn-rn');
 
-            /* 1. COVER SCREEN OPENING (Digital Wedding Invitation UX) */
-            const coverScreen = document.getElementById('cover-screen');
-            const btnOpenPortfolio = document.getElementById('btn-open-portfolio');
-            const btnSkipCover = document.getElementById('btn-skip-cover');
-            const btnReopenCover = document.getElementById('btn-reopen-cover');
-            const countdownNum = document.getElementById('countdown-num');
-
-            let isCoverDismissed = false;
-
-            function triggerConfettiBurst() {
-                if (typeof confetti === 'function') {
-                    try {
-                        // Confetti left burst
-                        confetti({
-                            particleCount: 50,
-                            spread: 60,
-                            origin: { y: 0.6, x: 0.3 }
-                        });
-                        // Confetti right burst
-                        confetti({
-                            particleCount: 50,
-                            spread: 60,
-                            origin: { y: 0.6, x: 0.7 }
-                        });
-                    } catch (e) {}
-                }
+            if (tab === 'python') {
+                pySnippet.classList.remove('hidden');
+                rnSnippet.classList.add('hidden');
+                pyBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-blue-600 text-white transition-all';
+                rnBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-slate-800 text-slate-400 hover:text-white transition-all';
+            } else {
+                pySnippet.classList.add('hidden');
+                rnSnippet.classList.remove('hidden');
+                pyBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-slate-800 text-slate-400 hover:text-white transition-all';
+                rnBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-blue-600 text-white transition-all';
             }
+        }
 
-            function openPortfolio() {
-                if (isCoverDismissed || !coverScreen) return;
-                isCoverDismissed = true;
-                triggerConfettiBurst();
-
-                // Direct inline styling guarantees transition even if Tailwind CDN is slow/offline
-                coverScreen.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                coverScreen.style.opacity = '0';
-                coverScreen.style.transform = 'translateY(-100%)';
-                coverScreen.style.pointerEvents = 'none';
-
-                setTimeout(() => {
-                    coverScreen.style.display = 'none';
-                    coverScreen.classList.add('hidden', 'is-closed');
-                }, 550);
+        // 2. Interactive Guestbook with localStorage
+        const defaultComments = [
+            {
+                name: 'Ir. Hendra Wijaya, M.Kom',
+                role: 'Dosen Pembimbing / Penguji',
+                message: 'Struktur portofolio tersusun sangat rapi dan representatif. Implementasi proyek Computer Vision dan React Native menunjukkan pemahaman rekayasa perangkat lunak yang matang.',
+                date: 'Kemarin'
+            },
+            {
+                name: 'Fauzan Ramadhan',
+                role: 'Rekan Mahasiswa',
+                message: 'Keren banget Mas Dewan! Tampilan bersih ala Apple/Stripe dan kodingan Python Face Recognition-nya sangat aplikatif.',
+                date: '2 hari lalu'
+            },
+            {
+                name: 'Siti Nurhaliza',
+                role: 'Rekan Mahasiswa',
+                message: 'Semoga sukses selalu untuk presentasi tugas portofolionya! Navigasi dan link WhatsApp-nya langsung bekerja lancar.',
+                date: '3 hari lalu'
             }
+        ];
 
-            if (btnOpenPortfolio) {
-                btnOpenPortfolio.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openPortfolio();
-                });
-            }
+        function loadGuestbook() {
+            const feedContainer = document.getElementById('guestbook-feed');
+            const counterElement = document.getElementById('comment-counter');
+            
+            let stored = localStorage.getItem('dewan_guestbook_comments');
+            let comments = stored ? JSON.parse(stored) : defaultComments;
 
-            if (btnSkipCover) {
-                btnSkipCover.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openPortfolio();
-                });
-            }
+            counterElement.textContent = `${comments.length} Pesan`;
+            feedContainer.innerHTML = '';
 
-            // Click anywhere on cover overlay to open immediately
-            if (coverScreen) {
-                coverScreen.addEventListener('click', () => {
-                    openPortfolio();
-                });
-            }
-
-            // Press Enter or Space to open immediately
-            window.addEventListener('keydown', (e) => {
-                if (!isCoverDismissed && (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape')) {
-                    openPortfolio();
-                }
-            });
-
-            // Auto-open countdown timer (3 seconds) so user never gets stuck!
-            let secondsLeft = 3;
-            const timerInterval = setInterval(() => {
-                if (isCoverDismissed) {
-                    clearInterval(timerInterval);
-                    return;
-                }
-                secondsLeft--;
-                if (countdownNum) countdownNum.textContent = secondsLeft;
-                if (secondsLeft <= 0) {
-                    clearInterval(timerInterval);
-                    openPortfolio();
-                }
-            }, 1000);
-
-            // Re-open cover screen if user wants to see it again
-            if (btnReopenCover) {
-                btnReopenCover.addEventListener('click', () => {
-                    isCoverDismissed = false;
-                    coverScreen.classList.remove('hidden', 'is-closed');
-                    coverScreen.style.display = 'flex';
-                    coverScreen.style.pointerEvents = 'auto';
-                    setTimeout(() => {
-                        coverScreen.style.opacity = '1';
-                        coverScreen.style.transform = 'translateY(0)';
-                    }, 30);
-                });
-            }
-
-
-            /* 2. TYPING ANIMATION (Mahasiswa Informatika & Roles) */
-            const typingTextElement = document.getElementById('typing-text');
-            const phrases = [
-                'Mahasiswa Teknik Informatika',
-                'Web & Mobile App Developer',
-                'UI/UX Design Explorer',
-                'Tech & Creative Problem Solver'
-            ];
-            let phraseIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-            const typingSpeed = 85;
-            const deletingSpeed = 45;
-            const delayBetweenWords = 1600;
-
-            function typeLoop() {
-                const currentPhrase = phrases[phraseIndex];
-
-                if (isDeleting) {
-                    typingTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    typingTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                    charIndex++;
-                }
-
-                if (!isDeleting && charIndex === currentPhrase.length) {
-                    setTimeout(() => isDeleting = true, delayBetweenWords);
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                }
-
-                const currentSpeed = isDeleting ? deletingSpeed : typingSpeed;
-                setTimeout(typeLoop, currentSpeed);
-            }
-            typeLoop();
-
-
-            /* 3. INTERACTIVE PHYSICS & GRAVITY CANVAS (Google Gravity Experiment) */
-            const canvas = document.getElementById('gravity-canvas');
-            const ctx = canvas.getContext('2d');
-            let gravityEnabled = true;
-
-            const btnToggleGravity = document.getElementById('btn-toggle-gravity');
-            const gravityLabel = document.getElementById('gravity-status-label');
-            const btnResetPhysics = document.getElementById('btn-reset-physics');
-
-            // Responsive Canvas Size
-            function resizeCanvas() {
-                const rect = canvas.parentElement.getBoundingClientRect();
-                canvas.width = rect.width;
-                canvas.height = rect.height;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            // Skill items that bounce around like physics objects
-            const skillTokens = [
-                { text: 'HTML5', color: '#06b6d4', r: 24 },
-                { text: 'CSS3', color: '#38bdf8', r: 22 },
-                { text: 'JS ES6', color: '#facc15', r: 26 },
-                { text: 'PHP', color: '#818cf8', r: 24 },
-                { text: 'MySQL', color: '#34d399', r: 25 },
-                { text: 'Figma', color: '#ec4899', r: 23 },
-                { text: 'Tailwind', color: '#22d3ee', r: 26 },
-                { text: 'Git', color: '#f97316', r: 22 },
-                { text: 'Karawang', color: '#a78bfa', r: 28 },
-                { text: 'Tama', color: '#10b981', r: 24 }
-            ];
-
-            let particles = [];
-
-            function initParticles() {
-                particles = skillTokens.map((item, i) => {
-                    return {
-                        text: item.text,
-                        color: item.color,
-                        radius: item.r,
-                        x: 50 + (i * 55) % (canvas.width - 100),
-                        y: 30 + Math.random() * 80,
-                        vx: (Math.random() - 0.5) * 4,
-                        vy: Math.random() * 2,
-                        mass: item.r * 0.1
-                    };
-                });
-            }
-            initParticles();
-
-            btnResetPhysics.addEventListener('click', initParticles);
-
-            btnToggleGravity.addEventListener('click', () => {
-                gravityEnabled = !gravityEnabled;
-                gravityLabel.textContent = gravityEnabled ? 'Gravity: Aktif' : 'Gravity: Nol (Floating)';
-                btnToggleGravity.classList.toggle('bg-cyan-500/20', gravityEnabled);
-                btnToggleGravity.classList.toggle('bg-amber-500/20', !gravityEnabled);
-                btnToggleGravity.classList.toggle('text-cyan-300', gravityEnabled);
-                btnToggleGravity.classList.toggle('text-amber-300', !gravityEnabled);
-            });
-
-            // Physics Animation Loop
-            function animatePhysics() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                const gravity = gravityEnabled ? 0.35 : 0;
-                const friction = 0.985;
-                const bounce = 0.72;
-
-                particles.forEach(p => {
-                    // Apply Gravity
-                    p.vy += gravity;
-
-                    // Apply Velocity
-                    p.x += p.vx;
-                    p.y += p.vy;
-
-                    // Apply air resistance
-                    p.vx *= friction;
-                    p.vy *= friction;
-
-                    // Floor collision
-                    if (p.y + p.radius > canvas.height) {
-                        p.y = canvas.height - p.radius;
-                        p.vy = -p.vy * bounce;
-                    }
-
-                    // Ceiling collision
-                    if (p.y - p.radius < 0) {
-                        p.y = p.radius;
-                        p.vy = -p.vy * bounce;
-                    }
-
-                    // Wall collisions
-                    if (p.x + p.radius > canvas.width) {
-                        p.x = canvas.width - p.radius;
-                        p.vx = -p.vx * bounce;
-                    }
-                    if (p.x - p.radius < 0) {
-                        p.x = p.radius;
-                        p.vx = -p.vx * bounce;
-                    }
-
-                    // Draw glowing particle circle
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-                    ctx.fill();
-                    ctx.lineWidth = 2;
-                    ctx.strokeStyle = p.color;
-                    ctx.stroke();
-
-                    // Text label inside particle
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 10px Plus Jakarta Sans, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(p.text, p.x, p.y);
-                });
-
-                requestAnimationFrame(animatePhysics);
-            }
-            animatePhysics();
-
-            // Canvas Mouse Interaction (Impulse Push)
-            function applyImpulse(clientX, clientY) {
-                const rect = canvas.getBoundingClientRect();
-                const mouseX = clientX - rect.x;
-                const mouseY = clientY - rect.y;
-
-                particles.forEach(p => {
-                    const dx = p.x - mouseX;
-                    const dy = p.y - mouseY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 120 && dist > 0) {
-                        const force = (120 - dist) / 120 * 12;
-                        p.vx += (dx / dist) * force;
-                        p.vy += (dy / dist) * force - 2;
-                    }
-                });
-            }
-
-            canvas.addEventListener('mousemove', (e) => {
-                applyImpulse(e.clientX, e.clientY);
-            });
-
-            canvas.addEventListener('click', (e) => {
-                applyImpulse(e.clientX, e.clientY);
-                // Also scatter random vertical impulse
-                particles.forEach(p => {
-                    p.vy -= Math.random() * 6;
-                });
-            });
-
-            // Touch support for mobile canvas
-            function handleCanvasTouch(e) {
-                if (e.touches && e.touches.length > 0) {
-                    const touch = e.touches[0];
-                    applyImpulse(touch.clientX, touch.clientY);
-                }
-            }
-            canvas.addEventListener('touchstart', (e) => {
-                handleCanvasTouch(e);
-                // Also give slight vertical impulse on tap
-                particles.forEach(p => {
-                    p.vy -= Math.random() * 4;
-                });
-            }, { passive: true });
-            canvas.addEventListener('touchmove', handleCanvasTouch, { passive: true });
-
-
-            /* 4. GUESTBOOK / RSVP-STYLE INTERACTION */
-            const guestbookForm = document.getElementById('guestbook-form');
-            const commentsContainer = document.getElementById('comments-container');
-            const commentCounter = document.getElementById('comment-counter');
-            let totalComments = 2;
-
-            function escapeHTML(str) {
-                const div = document.createElement('div');
-                div.textContent = str;
-                return div.innerHTML;
-            }
-
-            guestbookForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('guest-name').value.trim();
-                const role = document.getElementById('guest-role').value;
-                const message = document.getElementById('guest-message').value.trim();
-
-                if (!name || !message) return;
-
-                totalComments++;
-                commentCounter.textContent = `${totalComments} Pesan`;
-
-                // Create new comment element
-                const newCard = document.createElement('div');
-                newCard.className = 'p-3.5 rounded-xl bg-slate-900 border border-cyan-500/40 space-y-1.5 transition-all transform scale-95 opacity-0';
-                newCard.innerHTML = `
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="font-bold text-white flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-user text-cyan-400"></i> ${escapeHTML(name)}
-                        </span>
-                        <span class="text-[11px] text-cyan-300 font-semibold px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-800">${escapeHTML(role)}</span>
+            comments.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card-clean rounded-xl p-4 sm:p-5 space-y-2';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-slate-900 text-sm">${escapeHTML(item.name)}</span>
+                            <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">${escapeHTML(item.role)}</span>
+                        </div>
+                        <span class="text-[11px] text-slate-400 font-medium">${item.date || 'Baru saja'}</span>
                     </div>
-                    <p class="text-slate-200 text-xs leading-relaxed">
-                        "${escapeHTML(message)}"
-                    </p>
-                    <span class="text-[10px] text-emerald-400 block font-medium">Baru saja ditambahkan</span>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${escapeHTML(item.message)}</p>
                 `;
-
-                // Prepend to top of feed
-                commentsContainer.insertBefore(newCard, commentsContainer.firstChild);
-
-                // Smooth reveal
-                setTimeout(() => {
-                    newCard.classList.remove('scale-95', 'opacity-0');
-                    newCard.classList.add('scale-100', 'opacity-100');
-                }, 40);
-
-                // Mini celebration
-                if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 25,
-                        spread: 50,
-                        origin: { y: 0.8 }
-                    });
-                }
-
-                // Reset form
-                guestbookForm.reset();
+                feedContainer.appendChild(card);
             });
+        }
 
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
 
-            /* 5. MOBILE NAVIGATION MENU TOGGLE */
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileNavMenu = document.getElementById('mobile-nav-menu');
-            const mobileMenuIcon = document.getElementById('mobile-menu-icon');
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        document.getElementById('form-guestbook').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('input-name');
+            const roleInput = document.getElementById('select-role');
+            const msgInput = document.getElementById('input-message');
 
-            if (mobileMenuBtn && mobileNavMenu) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    const isClosed = mobileNavMenu.classList.contains('hidden');
-                    if (isClosed) {
-                        mobileNavMenu.classList.remove('hidden');
-                        mobileMenuIcon.classList.replace('fa-bars', 'fa-xmark');
-                    } else {
-                        mobileNavMenu.classList.add('hidden');
-                        mobileMenuIcon.classList.replace('fa-xmark', 'fa-bars');
-                    }
-                });
+            const newComment = {
+                name: nameInput.value.trim(),
+                role: roleInput.value,
+                message: msgInput.value.trim(),
+                date: 'Baru saja'
+            };
 
-                // Auto-close menu when link is tapped
-                mobileNavLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileNavMenu.classList.add('hidden');
-                        mobileMenuIcon.classList.replace('fa-xmark', 'fa-bars');
-                    });
-                });
-            }
+            let stored = localStorage.getItem('dewan_guestbook_comments');
+            let comments = stored ? JSON.parse(stored) : [...defaultComments];
+            comments.unshift(newComment);
+            localStorage.setItem('dewan_guestbook_comments', JSON.stringify(comments));
 
+            nameInput.value = '';
+            msgInput.value = '';
+
+            loadGuestbook();
+            alert('Terima kasih! Pesan Anda telah berhasil ditambahkan ke Buku Tamu Dewan.');
         });
+
+        // Initialize Guestbook on page load
+        document.addEventListener('DOMContentLoaded', loadGuestbook);
     </script>
 </body>
 </html>
