@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
+    "build": "echo 'Static portfolio ready for deployment'",
     "start": "node start.js start -c",
     "android": "node start.js start --android",
     "ios": "node start.js start --ios",
