@@ -7,18 +7,22 @@
     <meta name="description" content="Portofolio resmi Dewan Mochamad Pratama - Mahasiswa Teknik Informatika, Software Developer, dan Mobile App Enthusiast.">
     <meta name="author" content="Dewan Mochamad Pratama">
 
-    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Canvas Confetti CDN for Micro-Celebrations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -46,12 +50,31 @@
             background-color: #f8fafc;
             color: #0f172a;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Subtle modern grid background */
         .tech-grid-bg {
             background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
             background-size: 28px 28px;
+        }
+
+        /* Dark mode overrides */
+        html.dark body {
+            background-color: #090d16;
+            color: #f1f5f9;
+        }
+        html.dark .tech-grid-bg {
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+        }
+        html.dark .card-clean {
+            background: #111827;
+            border-color: #1f2937;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+        }
+        html.dark .card-clean:hover {
+            border-color: #374151;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
         /* Clean shadow for professional cards */
@@ -67,6 +90,16 @@
             transform: translateY(-2px);
         }
 
+        /* Laser scanning animation for Face Recognition Simulator */
+        @keyframes scanSweep {
+            0% { top: 4%; opacity: 0.9; }
+            50% { top: 92%; opacity: 1; }
+            100% { top: 4%; opacity: 0.9; }
+        }
+        .animate-laser {
+            animation: scanSweep 2s ease-in-out infinite;
+        }
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -74,19 +107,25 @@
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
+        html.dark ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
         ::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #334155;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
     </style>
 </head>
-<body class="tech-grid-bg min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900">
+<body class="tech-grid-bg min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-900 dark:selection:text-blue-100">
 
-    <!-- STICKY NAVBAR -->
-    <header class="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all duration-200">
+    <!-- STICKY NAVBAR WITH DARK/LIGHT TOGGLE -->
+    <header class="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-all duration-200">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             
             <!-- Brand / Logo -->
@@ -95,37 +134,44 @@
                     DP
                 </div>
                 <div>
-                    <span class="font-bold text-slate-900 text-sm sm:text-base tracking-tight block">Dewan M. Pratama</span>
-                    <span class="text-[11px] font-medium text-slate-500 block leading-none">Informatics Engineering</span>
+                    <span class="font-bold text-slate-900 dark:text-white text-sm sm:text-base tracking-tight block">Dewan M. Pratama</span>
+                    <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 block leading-none">Informatics Engineering</span>
                 </div>
             </a>
 
             <!-- Desktop Nav Links -->
-            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
-                <a href="#home" class="hover:text-blue-600 transition-colors">Tentang</a>
-                <a href="#projects" class="hover:text-blue-600 transition-colors">Proyek</a>
-                <a href="#skills" class="hover:text-blue-600 transition-colors">Keahlian</a>
-                <a href="#code-lab" class="hover:text-blue-600 transition-colors">Lab Kode</a>
-                <a href="#guestbook" class="hover:text-blue-600 transition-colors">Buku Tamu</a>
-                <a href="#contact" class="hover:text-blue-600 transition-colors">Kontak</a>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                <a href="#home" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Tentang</a>
+                <a href="#projects" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Proyek</a>
+                <a href="#terminal-section" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terminal CLI</a>
+                <a href="#skills" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Keahlian</a>
+                <a href="#guestbook" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Buku Tamu</a>
+                <a href="#contact" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Kontak</a>
             </nav>
 
-            <!-- Quick Action Buttons -->
-            <div class="flex items-center gap-2.5">
+            <!-- Quick Action Buttons + Dark Mode Switcher -->
+            <div class="flex items-center gap-2">
+                <!-- DARK / LIGHT MODE TOGGLE BUTTON -->
+                <button id="theme-toggle" onclick="toggleTheme()" 
+                        class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:border-slate-300 dark:hover:border-slate-600 flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                        title="Ganti Mode Gelap / Terang">
+                    <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+                </button>
+
                 <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
-                   class="w-9 h-9 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 flex items-center justify-center transition-all"
+                   class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center transition-all"
                    title="GitHub Profile">
                     <i class="fa-brands fa-github text-base"></i>
                 </a>
                 <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" rel="noopener noreferrer" 
-                   class="w-9 h-9 rounded-lg border border-slate-200 text-blue-600 hover:border-blue-300 hover:bg-blue-50 flex items-center justify-center transition-all"
+                   class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-blue-600 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-slate-800 flex items-center justify-center transition-all"
                    title="LinkedIn Profile">
                     <i class="fa-brands fa-linkedin-in text-base"></i>
                 </a>
-                <a href="https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20tertarik%20dengan%20portofolio%20Anda" target="_blank" rel="noopener noreferrer"
-                   class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 shadow-sm transition-all">
+                <a href="https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20tertarik%20dengan%20portofolio%20Anda" target="_blank" rel="noopener noreferrer" 
+                   class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-blue-700 shadow-sm transition-all">
                     <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
-                    <span>Hubungi Saya</span>
+                    <span>Hubungi</span>
                 </a>
             </div>
         </div>
@@ -134,39 +180,39 @@
     <!-- MAIN CONTAINER -->
     <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16">
 
-        <!-- 1. INTEGRATED WELCOMING HERO CARD (Apple/Stripe Professional Banner) -->
+        <!-- 1. INTEGRATED WELCOMING HERO CARD + SIMULASI SCANNER FACE RECOGNITION -->
         <section id="home" class="relative">
-            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10 lg:p-12">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm p-6 sm:p-10 lg:p-12 transition-colors">
                 
                 <!-- Status Badge & Academic Track -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-100 mb-8">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-xs font-semibold">
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-100 dark:border-slate-800 mb-8">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span>Terbuka untuk Tugas, Proyek & Kolaborasi Tech</span>
                     </div>
-                    <div class="text-xs font-medium text-slate-500 flex items-center gap-2">
-                        <i class="fa-solid fa-graduation-cap text-slate-400"></i>
+                    <div class="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-slate-400 dark:text-slate-500"></i>
                         <span>S1 Teknik Informatika &bull; Karawang, Jawa Barat</span>
                     </div>
                 </div>
 
-                <!-- Main Hero Grid: Bio & Real Portrait Photo -->
+                <!-- Main Hero Grid: Bio & Real Portrait Photo with Face Scanner -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                     
                     <!-- Left Column: Biography & Narrative -->
                     <div class="lg:col-span-8 space-y-5">
                         <div class="space-y-2">
-                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Portofolio & Rekam Jejak Rekayasa</span>
-                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Portofolio & Rekam Jejak Rekayasa</span>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
                                 Dewan Mochamad Pratama
                             </h1>
-                            <p class="text-sm sm:text-base font-semibold text-slate-600">
-                                Panggilan akrab: <span class="text-slate-900 font-bold">Dewan / Tama</span> &bull; 
-                                <span class="text-blue-600">Software & Mobile App Developer Enthusiast</span>
+                            <p class="text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-300">
+                                Panggilan akrab: <span class="text-slate-900 dark:text-white font-bold">Dewan / Tama</span> &bull; 
+                                <span class="text-blue-600 dark:text-blue-400">Software & Mobile App Developer Enthusiast</span>
                             </p>
                         </div>
 
-                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
                             Selamat datang di laman portofolio profesional saya. Saya merupakan mahasiswa Teknik Informatika yang berfokus pada 
                             <strong>rekayasa perangkat lunak</strong>, perancangan antarmuka aplikasi yang intuitif, dan implementasi teknologi nyata. 
                             Portofolio ini mendokumentasikan dua karya utama saya: sistem kecerdasan buatan <em>Face Recognition</em> berbasis Python 
@@ -180,28 +226,59 @@
                                 <span>Lihat Proyek Unggulan</span>
                             </a>
                             <a href="https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20ingin%20berdiskusi%20mengenai%20proyek%20Anda" target="_blank" rel="noopener noreferrer" 
-                               class="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/90 font-semibold text-sm hover:bg-emerald-100 transition-all">
+                               class="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/90 dark:border-emerald-800 font-semibold text-sm hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-all">
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                                 <span>WhatsApp (0831-3753-8544)</span>
                             </a>
                             <a href="mailto:dewan.mochpratama23@gmail.com" 
-                               class="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 text-slate-700 font-medium text-sm hover:bg-slate-50 transition-all">
+                               class="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                                 <i class="fa-regular fa-envelope text-slate-500"></i>
                                 <span>Kirim Email</span>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Right Column: Foto Asli Dewan (Collage Portrait) -->
+                    <!-- Right Column: Foto Asli Dewan with ANIMATED BIOMETRIC FACE SCANNER -->
                     <div class="lg:col-span-4 flex flex-col items-center">
-                        <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100 ring-1 ring-slate-200">
-                            <img src="dewan-foto.jpg" alt="Dewan Mochamad Pratama" class="w-full h-full object-cover object-center"
+                        <div id="scanner-box" class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 group">
+                            <!-- Foto Asli -->
+                            <img id="avatar-img" src="dewan-foto.jpg" alt="Dewan Mochamad Pratama" 
+                                 class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                                  onerror="this.src='https://placehold.co/400x400/e2e8f0/0f172a?text=Dewan+Pratama'">
+                            
+                            <!-- Biometric Scanner Overlay (Hidden until triggered) -->
+                            <div id="scanner-overlay" class="absolute inset-0 pointer-events-none transition-opacity duration-300 opacity-0 flex flex-col justify-between p-3 bg-blue-950/20 backdrop-blur-[1px]">
+                                <!-- Horizontal Moving Laser -->
+                                <div id="scanner-laser" class="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_#22d3ee] top-2 transition-all"></div>
+                                
+                                <!-- Detection Corners & Landmarks -->
+                                <div id="scanner-box-boundary" class="absolute inset-3 border-2 border-dashed border-cyan-400/90 rounded-xl flex flex-col justify-between p-2">
+                                    <div class="flex justify-between items-start text-[9px] font-mono text-cyan-300 font-bold">
+                                        <span class="bg-slate-900/80 px-1 py-0.5 rounded">[ID: #DEWAN-01]</span>
+                                        <span id="scan-accuracy-text" class="bg-slate-900/80 px-1 py-0.5 rounded">CV: 99.4%</span>
+                                    </div>
+                                    <div class="flex justify-between items-end text-[9px] font-mono text-emerald-400 font-bold">
+                                        <span id="scan-status-pill" class="bg-slate-900/80 px-1 py-0.5 rounded">SCANNING 68-PTS</span>
+                                        <span class="bg-slate-900/80 px-1 py-0.5 rounded">OPENCV 4.x</span>
+                                    </div>
+                                </div>
+
+                                <!-- Verified Floating Tag -->
+                                <div id="scan-verified-tag" class="mt-auto self-center bg-slate-950/90 border border-emerald-400 text-emerald-300 text-[10px] font-mono px-2.5 py-1 rounded-md shadow-lg font-bold">
+                                    VERIFIED: DEWAN M. PRATAMA
+                                </div>
+                            </div>
                         </div>
-                        <div class="mt-4 text-center">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                                <i class="fa-solid fa-circle-check text-blue-600 text-xs"></i>
-                                <span>Identitas Terverifikasi Mahasiswa</span>
+
+                        <!-- Scan Trigger Control Button -->
+                        <div class="mt-4 flex flex-col items-center gap-1.5 text-center">
+                            <button id="btn-trigger-scanner" onclick="triggerBiometricScan()" 
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-blue-50 dark:bg-blue-950/70 hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95">
+                                <i id="scan-btn-icon" class="fa-solid fa-expand text-blue-600 dark:text-blue-400"></i>
+                                <span id="btn-scan-label">⚡ Uji Face Scanner AI</span>
+                            </button>
+                            <span id="scan-desc-text" class="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                                Simulasi Proyek Python Computer Vision
                             </span>
                         </div>
                     </div>
@@ -209,22 +286,22 @@
                 </div>
 
                 <!-- Quick Highlights Metric Grid -->
-                <div class="mt-10 pt-8 border-t border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Fokus Bidang</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Software & Mobile</span>
+                <div class="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Fokus Bidang</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Software & Mobile</span>
                     </div>
-                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Proyek Utama</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Face Recog & App</span>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Proyek Utama</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Face Recog & App</span>
                     </div>
-                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Platform</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Desktop & Mobile</span>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Platform</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Desktop & Mobile</span>
                     </div>
-                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                        <span class="text-xs font-semibold text-slate-500 block uppercase tracking-wide">Version Control</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 mt-0.5 block">Git & GitHub Sync</span>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Version Control</span>
+                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Git & GitHub Sync</span>
                     </div>
                 </div>
 
@@ -236,12 +313,12 @@
         <section id="projects" class="space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Showcase Karya</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Proyek & Implementasi Rekayasa</h2>
-                    <p class="text-sm text-slate-500 mt-1">Dua proyek inti yang dibangun dengan pendekatan perangkat lunak modern dan siap diuji.</p>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Showcase Karya</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Proyek & Implementasi Rekayasa</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Dua proyek inti yang dibangun dengan pendekatan perangkat lunak modern dan siap diuji.</p>
                 </div>
                 <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
-                   class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 group">
+                   class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 group">
                     <span>Kunjungi Semua Repositori</span>
                     <i class="fa-solid fa-arrow-right text-[11px] group-hover:translate-x-1 transition-transform"></i>
                 </a>
@@ -253,48 +330,48 @@
                 <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
                                 Computer Vision & AI
                             </span>
                             <span class="text-xs font-medium text-slate-400">Desktop App</span>
                         </div>
 
                         <div>
-                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                                 Sistem Deteksi & Pengenalan Wajah (Face Recognition)
                             </h3>
-                            <p class="text-xs text-slate-500 mt-0.5 font-medium">Teknologi: Python, OpenCV, Tkinter GUI, NumPy</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">Teknologi: Python, OpenCV, Tkinter GUI, NumPy</p>
                         </div>
 
-                        <p class="text-sm text-slate-600 leading-relaxed">
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                             Aplikasi kecerdasan buatan berbasis desktop yang mampu mendeteksi wajah secara real-time melalui kamera komputer, 
                             mengekstrak fitur biometrik, melatih dataset secara mandiri, dan mengenali identitas individu dengan tingkat akurasi tinggi.
                         </p>
 
                         <!-- Key Features Checklist -->
-                        <ul class="text-xs text-slate-600 space-y-1.5 pt-2">
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 pt-2">
                             <li class="flex items-center gap-2">
-                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <i class="fa-solid fa-check text-blue-600 dark:text-blue-400"></i>
                                 <span>Deteksi wajah multi-frame real-time dengan algoritma Haar Cascade / Dlib</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <i class="fa-solid fa-check text-blue-600 dark:text-blue-400"></i>
                                 <span>Perekaman dataset mandiri dan pelatihan model pengenalan otomatis</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <i class="fa-solid fa-check text-blue-600 dark:text-blue-400"></i>
                                 <span>Antarmuka grafis ramah pengguna berbasis Tkinter desktop</span>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
-                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                            <i class="fa-brands fa-python text-blue-600 text-sm"></i>
+                    <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                            <i class="fa-brands fa-python text-blue-600 dark:text-blue-400 text-sm"></i>
                             <span>Python Environment</span>
                         </div>
                         <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
-                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors">
+                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors">
                             <i class="fa-brands fa-github"></i>
                             <span>Lihat di GitHub</span>
                         </a>
@@ -305,43 +382,43 @@
                 <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                                 Mobile Engineering
                             </span>
                             <span class="text-xs font-medium text-slate-400">Android & iOS</span>
                         </div>
 
                         <div>
-                            <h3 class="text-xl font-bold text-slate-900 tracking-tight">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                                 Interactive Mobile Portfolio & Identity App
                             </h3>
-                            <p class="text-xs text-slate-500 mt-0.5 font-medium">Teknologi: React Native, Expo SDK 57, JavaScript ES6+</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">Teknologi: React Native, Expo SDK 57, JavaScript ES6+</p>
                         </div>
 
-                        <p class="text-sm text-slate-600 leading-relaxed">
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                             Aplikasi mobile interaktif yang dirancang khusus untuk mempresentasikan karya, keahlian, dan identitas rekayasa 
                             secara native di perangkat Android dan iOS menggunakan Expo. Dilengkapi integrasi langsung WhatsApp, GitHub, LinkedIn, dan form interaktif.
                         </p>
 
                         <!-- Key Features Checklist -->
-                        <ul class="text-xs text-slate-600 space-y-1.5 pt-2">
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 pt-2">
                             <li class="flex items-center gap-2">
-                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <i class="fa-solid fa-check text-blue-600 dark:text-blue-400"></i>
                                 <span>Arsitektur React Native dengan dukungan Expo Go live debugging</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <i class="fa-solid fa-check text-blue-600"></i>
+                                <i class="fa-solid fa-check text-blue-600 dark:text-blue-400"></i>
                                 <span>Pemicu tautan deep-linking ke WhatsApp, Telepon, Email & LinkedIn</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <i class="fa-solid fa-check text-blue-600"></i>
-                                <span>Auto IP detection script (<code class="bg-slate-100 px-1 py-0.5 rounded text-[11px]">start.js</code>) untuk Wi-Fi kampus & rumah</span>
+                                <i class="fa-solid fa-check text-blue-600 dark:text-blue-400"></i>
+                                <span>Auto IP detection script (<code class="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-[11px]">start.js</code>) untuk Wi-Fi kampus & rumah</span>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
-                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                    <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
                             <i class="fa-brands fa-react text-cyan-500 text-sm"></i>
                             <span>React Native + Expo</span>
                         </div>
@@ -357,70 +434,124 @@
         </section>
 
 
-        <!-- 3. KEAHLIAN & TEKNOLOGI (TECH STACK & COMPETENCIES) -->
+        <!-- 3. INTERACTIVE MINI TERMINAL / CLI (KONSOL PERINTAH PENGEMBANG) -->
+        <section id="terminal-section" class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Konsol Pengembang Interaktif</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Mini Terminal / CLI Dewan</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Ketik perintah langsung di konsol atau klik tombol pintasan untuk menjelajahi portofolio.</p>
+                </div>
+
+                <!-- Clickable Shortcuts -->
+                <div class="flex flex-wrap items-center gap-1.5 text-xs font-mono">
+                    <span class="text-slate-400 text-[11px] font-sans">Pintasan:</span>
+                    <button onclick="runCommand('help')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">help</button>
+                    <button onclick="runCommand('projects')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">projects</button>
+                    <button onclick="runCommand('skills')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">skills</button>
+                    <button onclick="runCommand('scan')" class="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white transition-colors cursor-pointer font-bold">scan</button>
+                    <button onclick="runCommand('contact')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">contact</button>
+                    <button onclick="runCommand('clear')" class="px-2.5 py-1 rounded-md bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 hover:bg-rose-600 hover:text-white transition-colors cursor-pointer font-bold">clear</button>
+                </div>
+            </div>
+
+            <!-- Terminal Box Container -->
+            <div class="bg-slate-950 rounded-2xl shadow-xl border border-slate-800 overflow-hidden text-slate-200 font-mono text-xs sm:text-sm">
+                <!-- Mac-style Traffic Light Bar -->
+                <div class="px-4 py-2.5 bg-slate-900 border-b border-slate-800/80 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block cursor-pointer hover:opacity-80" onclick="runCommand('clear')" title="Clear Output"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span class="ml-2 text-xs text-slate-400">dewan@portfolio-cli:~ (zsh)</span>
+                    </div>
+                    <span class="text-[11px] text-slate-500 hidden sm:inline">Node v24 • Interactive Session</span>
+                </div>
+
+                <!-- Terminal Output Buffer -->
+                <div id="terminal-output" class="p-4 sm:p-5 max-h-72 overflow-y-auto space-y-2 leading-relaxed">
+                    <div class="text-slate-400">Selamat datang di Terminal Interaktif Dewan Mochamad Pratama! 👋</div>
+                    <div class="text-slate-400">Ketik <span class="text-cyan-400 font-bold">help</span> lalu tekan Enter, atau klik tombol pintasan di atas.</div>
+                </div>
+
+                <!-- Terminal Input Line -->
+                <form id="terminal-form" onsubmit="handleTerminalSubmit(event)" class="px-4 py-3 bg-slate-900/70 border-t border-slate-800/80 flex items-center gap-2">
+                    <span class="text-emerald-400 font-bold">dewan@portfolio:~$</span>
+                    <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" 
+                           class="flex-1 bg-transparent text-white font-mono text-xs sm:text-sm focus:outline-none placeholder-slate-600"
+                           placeholder="Ketik help, projects, skills, scan, contact...">
+                    <button type="submit" class="px-3 py-1 rounded bg-slate-800 hover:bg-blue-600 text-xs text-slate-300 hover:text-white transition-colors cursor-pointer">
+                        Run &crarr;
+                    </button>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- 4. KEAHLIAN & TEKNOLOGI (TECH STACK & COMPETENCIES) -->
         <section id="skills" class="space-y-6">
             <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Kompetensi Teknis</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Keahlian & Perkakas Pengembangan</h2>
-                <p class="text-sm text-slate-500 mt-1">Perangkat lunak, bahasa pemrograman, dan ekosistem yang digunakan secara rutin.</p>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Kompetensi Teknis</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Keahlian & Perkakas Pengembangan</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Perangkat lunak, bahasa pemrograman, dan ekosistem yang digunakan secara rutin.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <!-- Card 1: Frontend & Mobile -->
                 <div class="card-clean rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-mobile-screen-button"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Mobile & Frontend Dev</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Membangun antarmuka pengguna yang bersih dan adaptif.</p>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Mobile & Frontend Dev</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Membangun antarmuka pengguna yang bersih dan adaptif.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 pt-2">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">React Native</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Expo Framework</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">JavaScript (ES6+)</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">HTML5 Semantik</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">CSS3 & Tailwind</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Responsive UI</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">React Native</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Expo Framework</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">JavaScript (ES6+)</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">HTML5 Semantik</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS3 & Tailwind</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Responsive UI</span>
                     </div>
                 </div>
 
                 <!-- Card 2: AI & Python -->
                 <div class="card-clean rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-brain"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Python & Computer Vision</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Pemrosesan citra digital dan logika cerdas.</p>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Python & Computer Vision</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Pemrosesan citra digital dan logika cerdas.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 pt-2">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Python 3.x</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">OpenCV</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Face Recognition</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">NumPy Matrix</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Tkinter GUI</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Machine Learning Basics</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Python 3.x</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">OpenCV</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Face Recognition</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">NumPy Matrix</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Tkinter GUI</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Machine Learning Basics</span>
                     </div>
                 </div>
 
                 <!-- Card 3: Tools & Workflow -->
                 <div class="card-clean rounded-2xl p-6 space-y-4">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-code-branch"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Workflow & Environments</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Standar kolaborasi dan manajemen kode modern.</p>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Workflow & Environments</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Standar kolaborasi dan manajemen kode modern.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 pt-2">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Git Version Control</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">GitHub Cloud</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">VS Code</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Node.js & npm</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">PowerShell / CLI</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700">Laragon Local Stack</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Git Version Control</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">GitHub Cloud</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">VS Code</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Node.js & npm</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">PowerShell / CLI</span>
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Laragon Local Stack</span>
                     </div>
                 </div>
 
@@ -428,133 +559,29 @@
         </section>
 
 
-        <!-- 4. INTERACTIVE CODE LAB (DEMONSTRASI KODE NYATA) -->
-        <section id="code-lab" class="space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Arsitektur Kode Nyata</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Cuplikan Kode & Logika Teknis</h2>
-                    <p class="text-sm text-slate-500 mt-1">Intip implementasi logika yang ditulis pada proyek Face Recognition dan Mobile Portfolio.</p>
-                </div>
-            </div>
-
-            <div class="bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-800 text-slate-200">
-                <!-- Window Header / Tabs -->
-                <div class="flex items-center justify-between px-4 sm:px-6 py-3 bg-slate-950 border-b border-slate-800">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
-                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
-                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
-                        <span class="text-xs text-slate-400 font-mono ml-2 hidden sm:inline">dewan-workspace &mdash; bash</span>
-                    </div>
-
-                    <!-- Code Switcher Buttons -->
-                    <div class="flex items-center gap-2">
-                        <button id="tab-btn-python" onclick="switchCodeTab('python')" class="px-3 py-1 rounded-lg text-xs font-mono font-medium bg-blue-600 text-white transition-all">
-                            face_recognition.py
-                        </button>
-                        <button id="tab-btn-rn" onclick="switchCodeTab('rn')" class="px-3 py-1 rounded-lg text-xs font-mono font-medium bg-slate-800 text-slate-400 hover:text-white transition-all">
-                            App.js (React Native)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Code Content Body -->
-                <div class="p-4 sm:p-6 font-mono text-xs sm:text-sm overflow-x-auto leading-relaxed">
-                    <!-- Tab 1: Python -->
-                    <pre id="code-snippet-python" class="text-slate-300"><code><span class="text-slate-500"># ==============================================================</span>
-<span class="text-slate-500"># Dewan Mochamad Pratama - Face Recognition Core Pipeline</span>
-<span class="text-slate-500"># Mendeteksi wajah secara real-time dan mengekstrak matriks fitur</span>
-<span class="text-slate-500"># ==============================================================</span>
-
-<span class="text-blue-400">import</span> cv2
-<span class="text-blue-400">import</span> numpy <span class="text-blue-400">as</span> np
-
-<span class="text-blue-400">def</span> <span class="text-emerald-400">detect_and_recognize_face</span>(camera_index=<span class="text-amber-400">0</span>):
-    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + <span class="text-emerald-300">'haarcascade_frontalface_default.xml'</span>)
-    cap = cv2.VideoCapture(camera_index)
-    
-    <span class="text-blue-400">print</span>(<span class="text-emerald-300">"[INFO] Memulai streaming webcam untuk Dewan Mochamad Pratama..."</span>)
-    
-    <span class="text-blue-400">while</span> <span class="text-cyan-400">True</span>:
-        ret, frame = cap.read()
-        <span class="text-blue-400">if not</span> ret:
-            <span class="text-blue-400">break</span>
-            
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=<span class="text-amber-400">1.2</span>, minNeighbors=<span class="text-amber-400">5</span>)
-        
-        <span class="text-blue-400">for</span> (x, y, w, h) <span class="text-blue-400">in</span> faces:
-            <span class="text-slate-500"># Gambar bounding box presisi tinggi</span>
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (<span class="text-amber-400">0</span>, <span class="text-amber-400">255</span>, <span class="text-amber-400">128</span>), <span class="text-amber-400">2</span>)
-            cv2.putText(frame, <span class="text-emerald-300">"Verified: Dewan Pratama"</span>, (x, y - <span class="text-amber-400">10</span>), 
-                        cv2.FONT_HERSHEY_SIMPLEX, <span class="text-amber-400">0.65</span>, (<span class="text-amber-400">0</span>, <span class="text-amber-400">255</span>, <span class="text-amber-400">128</span>), <span class="text-amber-400">2</span>)
-                        
-        cv2.imshow(<span class="text-emerald-300">'Dewan M Pratama - Facial Recognition Monitor'</span>, frame)
-        <span class="text-blue-400">if</span> cv2.waitKey(<span class="text-amber-400">1</span>) & <span class="text-amber-400">0xFF</span> == <span class="text-blue-400">ord</span>(<span class="text-emerald-300">'q'</span>):
-            <span class="text-blue-400">break</span>
-            
-    cap.release()
-    cv2.destroyAllWindows()</code></pre>
-
-                    <!-- Tab 2: React Native -->
-                    <pre id="code-snippet-rn" class="hidden text-slate-300"><code><span class="text-slate-500">// ==============================================================</span>
-<span class="text-slate-500">// Dewan Mochamad Pratama - Cross-Platform Mobile Link Handler</span>
-<span class="text-slate-500">// Menghubungkan langsung ke WhatsApp, LinkedIn, GitHub & Telepon</span>
-<span class="text-slate-500">// ==============================================================</span>
-
-<span class="text-blue-400">import</span> React, { useState } <span class="text-blue-400">from</span> <span class="text-emerald-300">'react'</span>;
-<span class="text-blue-400">import</span> { View, Text, Linking, TouchableOpacity, StyleSheet } <span class="text-blue-400">from</span> <span class="text-emerald-300">'react-native'</span>;
-
-<span class="text-blue-400">export default function</span> <span class="text-emerald-400">PortfolioContactCard</span>() {
-  <span class="text-blue-400">const</span> handleOpenWhatsApp = <span class="text-blue-400">async</span> () => {
-    <span class="text-blue-400">const</span> phoneNumber = <span class="text-emerald-300">'6283137538544'</span>;
-    <span class="text-blue-400">const</span> message = <span class="text-emerald-300">'Halo Dewan Mochamad Pratama, saya tertarik berdiskusi!'</span>;
-    <span class="text-blue-400">const</span> url = <span class="text-emerald-300">`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`</span>;
-    
-    <span class="text-blue-400">const</span> supported = <span class="text-blue-400">await</span> Linking.canOpenURL(url);
-    <span class="text-blue-400">if</span> (supported) {
-      <span class="text-blue-400">await</span> Linking.openURL(url);
-    }
-  };
-
-  <span class="text-blue-400">return</span> (
-    &lt;<span class="text-cyan-400">View</span> style={styles.card}&gt;
-      &lt;<span class="text-cyan-400">Text</span> style={styles.title}&gt;Dewan Mochamad Pratama&lt;/<span class="text-cyan-400">Text</span>&gt;
-      &lt;<span class="text-cyan-400">TouchableOpacity</span> onPress={handleOpenWhatsApp} style={styles.btn}&gt;
-        &lt;<span class="text-cyan-400">Text</span> style={styles.btnText}&gt;Hubungi via WhatsApp&lt;/<span class="text-cyan-400">Text</span>&gt;
-      &lt;/<span class="text-cyan-400">TouchableOpacity</span>&gt;
-    &lt;/<span class="text-cyan-400">View</span>&gt;
-  );
-}</code></pre>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- 5. BUKU TAMU INTERAKTIF (CLEAN MODERN GUESTBOOK) -->
+        <!-- 5. BUKU TAMU INTERAKTIF WITH MICRO-CONFETTI CELEBRATION -->
         <section id="guestbook" class="space-y-6">
             <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Interaksi & Masukan</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Buku Tamu & Catatan Dosen</h2>
-                <p class="text-sm text-slate-500 mt-1">Silakan tinggalkan sapaan, ulasan tugas, atau pesan apresiasi.</p>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Interaksi & Masukan</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Buku Tamu & Catatan Dosen</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Silakan tinggalkan sapaan, ulasan tugas, atau pesan apresiasi.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 
                 <!-- Guestbook Form -->
                 <div class="lg:col-span-5 card-clean rounded-2xl p-6 sm:p-7 space-y-4">
-                    <h3 class="text-base font-bold text-slate-900">Tulis Catatan / Pesan</h3>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Tulis Catatan / Pesan</h3>
                     <form id="form-guestbook" class="space-y-4">
                         <div>
-                            <label for="input-name" class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap / Instansi</label>
+                            <label for="input-name" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Nama Lengkap / Instansi</label>
                             <input type="text" id="input-name" required placeholder="Contoh: Budi Santoso (Dosen / Rekan)" 
-                                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50">
+                                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
                         </div>
 
                         <div>
-                            <label for="select-role" class="block text-xs font-semibold text-slate-700 mb-1">Peran / Kategori</label>
-                            <select id="select-role" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50">
+                            <label for="select-role" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Peran / Kategori</label>
+                            <select id="select-role" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
                                 <option value="Dosen Pembimbing / Penguji">Dosen Pembimbing / Penguji</option>
                                 <option value="Rekan Mahasiswa">Rekan Mahasiswa</option>
                                 <option value="Tamu / Pengunjung Umum">Tamu / Pengunjung Umum</option>
@@ -563,14 +590,14 @@
                         </div>
 
                         <div>
-                            <label for="input-message" class="block text-xs font-semibold text-slate-700 mb-1">Pesan / Masukan</label>
+                            <label for="input-message" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Pesan / Masukan</label>
                             <textarea id="input-message" rows="3" required placeholder="Tuliskan ulasan atau sapaan untuk Dewan di sini..." 
-                                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50"></textarea>
+                                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition-colors shadow-sm flex items-center justify-center gap-2">
+                        <button type="submit" id="btn-submit-guestbook" class="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer hover:shadow-md active:scale-98">
                             <i class="fa-regular fa-paper-plane text-xs"></i>
-                            <span>Kirim ke Buku Tamu</span>
+                            <span>Kirim ke Buku Tamu 🎉</span>
                         </button>
                     </form>
                 </div>
@@ -578,8 +605,8 @@
                 <!-- Guestbook Feed -->
                 <div class="lg:col-span-7 space-y-3">
                     <div class="flex items-center justify-between pb-2">
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ulasan & Catatan Masuk</span>
-                        <span id="comment-counter" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">3 Pesan</span>
+                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ulasan & Catatan Masuk</span>
+                        <span id="comment-counter" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">3 Pesan</span>
                     </div>
 
                     <div id="guestbook-feed" class="space-y-3">
@@ -594,61 +621,61 @@
         <!-- 6. KONTAK & JARINGAN RESMI (DIRECT CONTACT CHANNELS) -->
         <section id="contact" class="space-y-6">
             <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Saluran Komunikasi</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Hubungi & Terhubung</h2>
-                <p class="text-sm text-slate-500 mt-1">Jangan ragu untuk berdiskusi, memberikan penawaran proyek, atau menjalin relasi profesional.</p>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Saluran Komunikasi</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Hubungi & Terhubung</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Jangan ragu untuk berdiskusi, memberikan penawaran proyek, atau menjalin relasi profesional.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
                 <!-- WhatsApp Card -->
                 <a href="https://wa.me/6283137538544?text=Halo%20Dewan%20Mochamad%20Pratama,%20saya%20melihat%20portofolio%20Anda." target="_blank" rel="noopener noreferrer" 
-                   class="card-clean rounded-2xl p-6 group hover:border-emerald-300">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                   class="card-clean rounded-2xl p-6 group hover:border-emerald-300 dark:hover:border-emerald-700">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
                         <i class="fa-brands fa-whatsapp"></i>
                     </div>
-                    <h3 class="text-base font-bold text-slate-900 mt-4">WhatsApp</h3>
-                    <p class="text-xs text-slate-500 mt-0.5 font-medium">0831-3753-8544</p>
-                    <span class="text-xs font-semibold text-emerald-600 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white mt-4">WhatsApp</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">0831-3753-8544</p>
+                    <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                         Chat Langsung &rarr;
                     </span>
                 </a>
 
                 <!-- Email Card -->
                 <a href="mailto:dewan.mochpratama23@gmail.com" 
-                   class="card-clean rounded-2xl p-6 group hover:border-blue-300">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+                   class="card-clean rounded-2xl p-6 group hover:border-blue-300 dark:hover:border-blue-700">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
                         <i class="fa-regular fa-envelope"></i>
                     </div>
-                    <h3 class="text-base font-bold text-slate-900 mt-4">Email</h3>
-                    <p class="text-xs text-slate-500 mt-0.5 font-medium truncate">dewan.mochpratama23@gmail.com</p>
-                    <span class="text-xs font-semibold text-blue-600 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white mt-4">Email</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium truncate">dewan.mochpratama23@gmail.com</p>
+                    <span class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                         Kirim Pesan &rarr;
                     </span>
                 </a>
 
                 <!-- LinkedIn Card -->
                 <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" rel="noopener noreferrer" 
-                   class="card-clean rounded-2xl p-6 group hover:border-indigo-300">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                   class="card-clean rounded-2xl p-6 group hover:border-indigo-300 dark:hover:border-indigo-700">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
                         <i class="fa-brands fa-linkedin-in"></i>
                     </div>
-                    <h3 class="text-base font-bold text-slate-900 mt-4">LinkedIn</h3>
-                    <p class="text-xs text-slate-500 mt-0.5 font-medium">Dewan Mochamad Pratama</p>
-                    <span class="text-xs font-semibold text-indigo-600 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white mt-4">LinkedIn</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">Dewan Mochamad Pratama</p>
+                    <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                         Koneksi Profesional &rarr;
                     </span>
                 </a>
 
                 <!-- GitHub Card -->
                 <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
-                   class="card-clean rounded-2xl p-6 group hover:border-slate-400">
-                    <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center text-2xl group-hover:bg-slate-900 group-hover:text-white transition-all">
+                   class="card-clean rounded-2xl p-6 group hover:border-slate-400 dark:hover:border-slate-600">
+                    <div class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center text-2xl group-hover:bg-slate-900 group-hover:text-white dark:group-hover:bg-slate-700 transition-all">
                         <i class="fa-brands fa-github"></i>
                     </div>
-                    <h3 class="text-base font-bold text-slate-900 mt-4">GitHub</h3>
-                    <p class="text-xs text-slate-500 mt-0.5 font-medium">dewanmochpratama23-sys</p>
-                    <span class="text-xs font-semibold text-slate-700 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white mt-4">GitHub</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">dewanmochpratama23-sys</p>
+                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-3 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                         Repositori & Commit &rarr;
                     </span>
                 </a>
@@ -659,14 +686,14 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-16 border-t border-slate-200 bg-white py-10">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+    <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-10 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <div class="flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                <span class="font-semibold text-slate-900">Dewan Mochamad Pratama</span> &copy; 2026. Karawang, Jawa Barat.
+                <span class="font-semibold text-slate-900 dark:text-white">Dewan Mochamad Pratama</span> &copy; 2026. Karawang, Jawa Barat.
             </div>
             <div class="flex items-center gap-4">
-                <a href="#home" class="hover:text-blue-600 transition-colors">Kembali ke Atas &uarr;</a>
+                <a href="#home" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Kembali ke Atas &uarr;</a>
                 <span>&bull;</span>
                 <span>Dokumentasi Tugas Portofolio Teknik Informatika</span>
             </div>
@@ -675,27 +702,206 @@
 
     <!-- INTERACTIVE JAVASCRIPT LOGIC -->
     <script>
-        // 1. Code Lab Switcher
-        function switchCodeTab(tab) {
-            const pySnippet = document.getElementById('code-snippet-python');
-            const rnSnippet = document.getElementById('code-snippet-rn');
-            const pyBtn = document.getElementById('tab-btn-python');
-            const rnBtn = document.getElementById('tab-btn-rn');
-
-            if (tab === 'python') {
-                pySnippet.classList.remove('hidden');
-                rnSnippet.classList.add('hidden');
-                pyBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-blue-600 text-white transition-all';
-                rnBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-slate-800 text-slate-400 hover:text-white transition-all';
+        /* -------------------------------------------------------------
+           1. DARK & LIGHT MODE THEME CONTROLLER
+           ------------------------------------------------------------- */
+        function initTheme() {
+            const savedTheme = localStorage.getItem('dewan_theme');
+            if (savedTheme === 'dark') {
+                enableDarkMode(true);
             } else {
-                pySnippet.classList.add('hidden');
-                rnSnippet.classList.remove('hidden');
-                pyBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-slate-800 text-slate-400 hover:text-white transition-all';
-                rnBtn.className = 'px-3 py-1 rounded-lg text-xs font-mono font-medium bg-blue-600 text-white transition-all';
+                enableDarkMode(false);
             }
         }
 
-        // 2. Interactive Guestbook with localStorage
+        function enableDarkMode(isDark) {
+            const root = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (isDark) {
+                root.classList.add('dark');
+                if (icon) icon.className = 'fa-solid fa-sun text-amber-400 text-sm';
+                localStorage.setItem('dewan_theme', 'dark');
+            } else {
+                root.classList.remove('dark');
+                if (icon) icon.className = 'fa-solid fa-moon text-slate-700 text-sm';
+                localStorage.setItem('dewan_theme', 'light');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            enableDarkMode(!isDark);
+        }
+
+        /* -------------------------------------------------------------
+           2. BIOMETRIC FACE RECOGNITION SCANNER SIMULATION
+           ------------------------------------------------------------- */
+        let isScanning = false;
+        function triggerBiometricScan() {
+            if (isScanning) return;
+            isScanning = true;
+
+            const overlay = document.getElementById('scanner-overlay');
+            const laser = document.getElementById('scanner-laser');
+            const btnLabel = document.getElementById('btn-scan-label');
+            const btnIcon = document.getElementById('scan-btn-icon');
+            const accuracyText = document.getElementById('scan-accuracy-text');
+            const statusPill = document.getElementById('scan-status-pill');
+            const descText = document.getElementById('scan-desc-text');
+            const boundary = document.getElementById('scanner-box-boundary');
+
+            // Show scanner overlay and start laser animation
+            overlay.classList.remove('opacity-0');
+            laser.classList.add('animate-laser');
+            btnLabel.textContent = 'Memindai Biometrik...';
+            btnIcon.className = 'fa-solid fa-spinner fa-spin text-cyan-400';
+            descText.textContent = 'Mendeteksi 68 titik landmark wajah (OpenCV pipeline)...';
+            boundary.className = 'absolute inset-3 border-2 border-dashed border-cyan-400 rounded-xl flex flex-col justify-between p-2';
+
+            // Simulate accuracy counting
+            let counter = 85;
+            const interval = setInterval(() => {
+                counter += Math.floor(Math.random() * 4) + 1;
+                if (counter > 99) counter = 99.4;
+                accuracyText.textContent = `CONF: ${counter}%`;
+                if (counter >= 99.4) clearInterval(interval);
+            }, 120);
+
+            // Finish scan after 2.4 seconds
+            setTimeout(() => {
+                clearInterval(interval);
+                laser.classList.remove('animate-laser');
+                laser.style.top = '50%';
+                laser.style.opacity = '0';
+                
+                boundary.className = 'absolute inset-3 border-2 border-solid border-emerald-400 rounded-xl flex flex-col justify-between p-2 shadow-[0_0_15px_rgba(16,185,129,0.5)]';
+                statusPill.textContent = 'FACE VERIFIED (100%)';
+                statusPill.className = 'bg-emerald-950/90 text-emerald-300 border border-emerald-500 px-1 py-0.5 rounded';
+                
+                btnLabel.textContent = '✅ Wajah Terverifikasi (Pindai Ulang)';
+                btnIcon.className = 'fa-solid fa-circle-check text-emerald-500';
+                descText.textContent = 'Identitas biometrik cocok: Dewan Mochamad Pratama (Teknik Informatika)';
+
+                // Trigger confetti burst celebration
+                triggerConfettiCelebration();
+
+                isScanning = false;
+            }, 2400);
+        }
+
+        /* -------------------------------------------------------------
+           3. INTERACTIVE MINI TERMINAL / CLI
+           ------------------------------------------------------------- */
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+
+        const terminalCommands = {
+            help: `Daftar perintah yang tersedia:
+  • <span class="text-cyan-400">help</span>     : Menampilkan bantuan perintah CLI
+  • <span class="text-cyan-400">projects</span> : Menampilkan 2 proyek inti (Face Recog & Mobile App)
+  • <span class="text-cyan-400">skills</span>   : Menampilkan daftar tech stack & keahlian
+  • <span class="text-cyan-400">scan</span>     : Menjalankan simulasi scanner Face Recognition AI
+  • <span class="text-cyan-400">contact</span>  : Informasi WhatsApp, Email, GitHub & LinkedIn
+  • <span class="text-cyan-400">bio</span>      : Menampilkan data diri singkat Dewan M. Pratama
+  • <span class="text-cyan-400">theme</span>    : Mengubah mode Gelap / Terang (Dark / Light)
+  • <span class="text-cyan-400">clear</span>    : Membersihkan layar terminal`,
+
+            projects: `<span class="text-amber-300 font-bold">📂 PROYEK UTAMA DEWAN MOCHAMAD PRATAMA:</span>
+1. <span class="text-white font-bold">Face Recognition System</span> (Python, OpenCV, Tkinter, NumPy)
+   &rarr; Deteksi wajah real-time, perekaman dataset, dan klasifikasi biometrik.
+2. <span class="text-white font-bold">Interactive Mobile Portfolio</span> (React Native, Expo SDK 57, JS)
+   &rarr; Aplikasi mobile lintas platform Android & iOS dengan deep-linking aktif.
+Repositori: <a href="https://github.com/dewanmochpratama23-sys/dewan-portofolio" target="_blank" class="text-blue-400 underline">github.com/dewanmochpratama23-sys/dewan-portofolio</a>`,
+
+            skills: `<span class="text-emerald-300 font-bold">⚡ KOMPETENSI TEKNIS:</span>
+• Mobile & Frontend : React Native, Expo, JavaScript (ES6+), HTML5, Tailwind CSS
+• Python & AI       : Python 3.x, OpenCV, Face Recognition, NumPy, Tkinter GUI
+• Tools & Workflow  : Git, GitHub, VS Code, Node.js, PowerShell, Laragon`,
+
+            contact: `<span class="text-cyan-300 font-bold">📬 SALURAN KONTAK RESMI:</span>
+• WhatsApp : <a href="https://wa.me/6283137538544" target="_blank" class="text-emerald-400 underline">0831-3753-8544</a>
+• Email    : <a href="mailto:dewan.mochpratama23@gmail.com" class="text-blue-400 underline">dewan.mochpratama23@gmail.com</a>
+• LinkedIn : <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" class="text-blue-400 underline">Dewan Mochamad Pratama</a>
+• GitHub   : <a href="https://github.com/dewanmochpratama23-sys" target="_blank" class="text-blue-400 underline">dewanmochpratama23-sys</a>`,
+
+            bio: `<span class="text-white font-bold">👤 BIODATA SINGKAT:</span>
+Nama       : Dewan Mochamad Pratama (Dewan / Tama)
+Status     : Mahasiswa S1 Teknik Informatika
+Lokasi     : Karawang, Jawa Barat, Indonesia
+Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
+
+            scan: `<span class="text-cyan-300 font-bold">⚡ Menjalankan simulasi Face Recognition Scanner...</span>`,
+
+            theme: `<span class="text-amber-300 font-bold">🌓 Mengubah mode tema tampilan...</span>`,
+
+            sudo: `<span class="text-rose-400">Permission granted! Selamat datang, Pengunjung Istimewa. Anda memiliki akses penuh ke seluruh portofolio Dewan! 🚀</span>`
+        };
+
+        function printToTerminal(htmlContent) {
+            const line = document.createElement('div');
+            line.className = 'mt-1 text-slate-300';
+            line.innerHTML = htmlContent;
+            terminalOutput.appendChild(line);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        function runCommand(cmd) {
+            const cleanCmd = cmd.trim().toLowerCase();
+            printToTerminal(`<span class="text-emerald-400 font-bold">dewan@portfolio:~$</span> <span class="text-white">${cleanCmd}</span>`);
+
+            if (cleanCmd === 'clear') {
+                terminalOutput.innerHTML = '';
+                printToTerminal('<span class="text-slate-500">Terminal dibersihkan. Ketik <span class="text-cyan-400">help</span> untuk daftar perintah.</span>');
+            } else if (cleanCmd === 'scan') {
+                printToTerminal(terminalCommands.scan);
+                triggerBiometricScan();
+            } else if (cleanCmd === 'theme') {
+                toggleTheme();
+                printToTerminal(terminalCommands.theme);
+            } else if (terminalCommands[cleanCmd]) {
+                printToTerminal(terminalCommands[cleanCmd]);
+            } else {
+                printToTerminal(`<span class="text-rose-400">Perintah tidak dikenali: '${cleanCmd}'. Ketik <span class="text-cyan-400 underline cursor-pointer" onclick="runCommand('help')">help</span> untuk bantuan.</span>`);
+            }
+        }
+
+        function handleTerminalSubmit(e) {
+            e.preventDefault();
+            const val = terminalInput.value.trim();
+            if (!val) return;
+            runCommand(val);
+            terminalInput.value = '';
+        }
+
+        /* -------------------------------------------------------------
+           4. MICRO-CONFETTI CELEBRATION & GUESTBOOK PERSISTENCE
+           ------------------------------------------------------------- */
+        function triggerConfettiCelebration() {
+            if (typeof confetti === 'function') {
+                try {
+                    confetti({
+                        particleCount: 75,
+                        spread: 70,
+                        origin: { y: 0.65 }
+                    });
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 40,
+                            angle: 60,
+                            spread: 50,
+                            origin: { x: 0.1, y: 0.7 }
+                        });
+                        confetti({
+                            particleCount: 40,
+                            angle: 120,
+                            spread: 50,
+                            origin: { x: 0.9, y: 0.7 }
+                        });
+                    }, 250);
+                } catch (e) {}
+            }
+        }
+
         const defaultComments = [
             {
                 name: 'Ir. Hendra Wijaya, M.Kom',
@@ -706,7 +912,7 @@
             {
                 name: 'Fauzan Ramadhan',
                 role: 'Rekan Mahasiswa',
-                message: 'Keren banget Mas Dewan! Tampilan bersih ala Apple/Stripe dan kodingan Python Face Recognition-nya sangat aplikatif.',
+                message: 'Keren banget Mas Dewan! Tampilan clean ala Apple/Stripe dan kodingan Python Face Recognition-nya sangat aplikatif.',
                 date: '2 hari lalu'
             },
             {
@@ -733,12 +939,12 @@
                 card.innerHTML = `
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <span class="font-bold text-slate-900 text-sm">${escapeHTML(item.name)}</span>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">${escapeHTML(item.role)}</span>
+                            <span class="font-bold text-slate-900 dark:text-white text-sm">${escapeHTML(item.name)}</span>
+                            <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900">${escapeHTML(item.role)}</span>
                         </div>
                         <span class="text-[11px] text-slate-400 font-medium">${item.date || 'Baru saja'}</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${escapeHTML(item.message)}</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${escapeHTML(item.message)}</p>
                 `;
                 feedContainer.appendChild(card);
             });
@@ -778,11 +984,16 @@
             msgInput.value = '';
 
             loadGuestbook();
-            alert('Terima kasih! Pesan Anda telah berhasil ditambahkan ke Buku Tamu Dewan.');
+            
+            // Trigger micro-confetti celebration!
+            triggerConfettiCelebration();
         });
 
-        // Initialize Guestbook on page load
-        document.addEventListener('DOMContentLoaded', loadGuestbook);
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            loadGuestbook();
+        });
     </script>
 </body>
 </html>

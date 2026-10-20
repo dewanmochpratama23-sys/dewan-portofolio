@@ -41,6 +41,13 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const PROFILE_IMAGE = require('./dewan-foto.jpg');
 
 export default function App() {
+  // Theme State (Dark & Light Mode)
+  const [isDark, setIsDark] = useState(false);
+
+  // Biometric Face Scanner Simulation State & Animation
+  const [isScanning, setIsScanning] = useState(false);
+  const laserAnim = useRef(new Animated.Value(0)).current;
+
   // Guestbook State
   const [guestName, setGuestName] = useState('');
   const [guestRole, setGuestRole] = useState('Tamu Umum');
@@ -59,7 +66,7 @@ export default function App() {
       name: 'Fauzan Ramadhan',
       role: 'Rekan Mahasiswa',
       message:
-        'Keren banget Mas Dewan! Tampilan clean ala Apple/Stripe sangat nyaman dibaca di HP, dan semua link WhatsApp serta GitHub langsung aktif.',
+        'Keren banget Mas Dewan! Tampilan clean ala Apple/Stripe sangat nyaman dibaca di HP, dan fitur simulasi pemindai wajahnya mantap.',
       time: '2 hari lalu',
     },
   ]);
@@ -90,6 +97,35 @@ export default function App() {
         useNativeDriver: true,
       }),
     ]).start();
+  };
+
+  // Trigger Face Scanner Simulation
+  const handleScanFace = () => {
+    if (isScanning) return;
+    setIsScanning(true);
+    laserAnim.setValue(0);
+
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(laserAnim, {
+          toValue: 66,
+          duration: 900,
+          useNativeDriver: true,
+        }),
+        Animated.timing(laserAnim, {
+          toValue: 0,
+          duration: 900,
+          useNativeDriver: true,
+        }),
+      ]),
+      { iterations: 2 }
+    ).start(() => {
+      setIsScanning(false);
+      Alert.alert(
+        '✅ Wajah Terverifikasi 100%',
+        'Algoritma OpenCV Python mengidentifikasi: Dewan Mochamad Pratama (Teknik Informatika).'
+      );
+    });
   };
 
   // Open External Links
@@ -124,32 +160,52 @@ export default function App() {
     setComments([newComment, ...comments]);
     setGuestName('');
     setGuestMessage('');
-    Alert.alert('Terima Kasih! 🎉', 'Pesan Anda telah berhasil ditambahkan ke Buku Tamu.');
+    Alert.alert('Terima Kasih! 🎉', 'Pesan Anda telah berhasil ditambahkan ke Buku Tamu Dewan.');
+  };
+
+  // Dynamic Theme Colors
+  const theme = {
+    bg: isDark ? '#090d16' : '#f8fafc',
+    headerBg: isDark ? '#0f172a' : '#ffffff',
+    cardBg: isDark ? '#111827' : '#ffffff',
+    border: isDark ? '#1f2937' : '#e2e8f0',
+    textMain: isDark ? '#f8fafc' : '#0f172a',
+    textMuted: isDark ? '#94a3b8' : '#64748b',
+    subtleBg: isDark ? '#1f2937' : '#f1f5f9',
   };
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+    <SafeAreaView style={[styles.safeContainer, { backgroundColor: theme.headerBg }]}>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} backgroundColor={theme.headerBg} />
 
-      {/* STICKY HEADER */}
-      <View style={styles.header}>
+      {/* STICKY HEADER WITH DARK MODE TOGGLE */}
+      <View style={[styles.header, { backgroundColor: theme.headerBg, borderBottomColor: theme.border }]}>
         <View style={styles.headerBrand}>
           <View style={styles.logoBadge}>
             <Text style={styles.logoBadgeText}>DP</Text>
           </View>
           <View>
-            <Text style={styles.headerTitle}>Dewan M. Pratama</Text>
-            <Text style={styles.headerSubtitle}>Informatics Engineering</Text>
+            <Text style={[styles.headerTitle, { color: theme.textMain }]}>Dewan M. Pratama</Text>
+            <Text style={[styles.headerSubtitle, { color: theme.textMuted }]}>Informatics Engineering</Text>
           </View>
         </View>
 
         <View style={styles.headerActions}>
+          {/* THEME TOGGLE BUTTON */}
           <TouchableOpacity
-            style={styles.headerIconBtn}
+            style={[styles.headerIconBtn, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}
+            onPress={() => setIsDark(!isDark)}
+            activeOpacity={0.7}
+          >
+            <SafeIcon name={isDark ? 'sun' : 'moon'} size={14} color={isDark ? '#fbbf24' : '#0f172a'} fallback="🌓" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.headerIconBtn, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}
             onPress={() => handleOpenLink('https://github.com/dewanmochpratama23-sys', 'GitHub')}
             activeOpacity={0.7}
           >
-            <SafeIcon name="github" size={15} color="#0f172a" fallback="GH" />
+            <SafeIcon name="github" size={15} color={theme.textMain} fallback="GH" />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -157,7 +213,7 @@ export default function App() {
             onPress={() => handleOpenLink('https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20melihat%20portofolio%20Anda', 'WhatsApp')}
             activeOpacity={0.7}
           >
-            <SafeIcon name="whatsapp" size={15} color="#10b981" fallback="WA" />
+            <SafeIcon name="whatsapp" size={14} color="#10b981" fallback="WA" />
             <Text style={styles.headerWhatsAppText}>Kontak</Text>
           </TouchableOpacity>
         </View>
@@ -165,40 +221,68 @@ export default function App() {
 
       {/* MAIN SCROLLABLE CONTENT */}
       <ScrollView
-        style={styles.scrollContainer}
+        style={[styles.scrollContainer, { backgroundColor: theme.bg }]}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* 1. WELCOMING HERO CARD (Clean Modern Light) */}
-        <View style={styles.heroCard}>
+        {/* 1. WELCOMING HERO CARD WITH BIOMETRIC SCANNER */}
+        <View style={[styles.heroCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
           {/* Status Badge */}
-          <View style={styles.statusRow}>
+          <View style={[styles.statusRow, { borderBottomColor: theme.subtleBg }]}>
             <View style={styles.statusBadge}>
               <View style={styles.statusDot} />
               <Text style={styles.statusBadgeText}>Terbuka untuk Kolaborasi Tech</Text>
             </View>
-            <Text style={styles.academicTrackText}>S1 Teknik Informatika</Text>
+            <Text style={[styles.academicTrackText, { color: theme.textMuted }]}>S1 Teknik Informatika</Text>
           </View>
 
-          {/* Portrait Photo & Name */}
+          {/* Portrait Photo with Interactive Biometric Scanner */}
           <View style={styles.profileHeader}>
-            <View style={styles.avatarBorder}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={handleScanFace}
+              style={[styles.avatarBorder, { borderColor: isScanning ? '#22d3ee' : theme.border }]}
+            >
               <Image source={PROFILE_IMAGE} style={styles.avatarImage} resizeMode="cover" />
-            </View>
+              {isScanning && (
+                <View style={styles.scannerOverlay}>
+                  <Animated.View
+                    style={[
+                      styles.scannerLaser,
+                      { transform: [{ translateY: laserAnim }] },
+                    ]}
+                  />
+                  <Text style={styles.scannerLiveText}>SCANNING CV</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+
             <View style={styles.profileHeaderTexts}>
               <Text style={styles.heroPretitle}>PORTOFOLIO REKAYASA PERANGKAT LUNAK</Text>
-              <Text style={styles.heroTitle}>Dewan Mochamad Pratama</Text>
-              <Text style={styles.heroSubtitle}>
-                Panggilan: <Text style={{ fontWeight: '700', color: '#0f172a' }}>Dewan / Tama</Text>
+              <Text style={[styles.heroTitle, { color: theme.textMain }]}>Dewan Mochamad Pratama</Text>
+              <Text style={[styles.heroSubtitle, { color: theme.textMuted }]}>
+                Panggilan: <Text style={{ fontWeight: '700', color: theme.textMain }}>Dewan / Tama</Text>
               </Text>
               <Text style={styles.roleHighlight}>Software & Mobile App Developer</Text>
             </View>
           </View>
 
+          {/* Biometric Scan Trigger Button */}
+          <TouchableOpacity
+            style={[styles.btnScanMini, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}
+            onPress={handleScanFace}
+            activeOpacity={0.8}
+          >
+            <SafeIcon name="expand" size={13} color="#2563eb" fallback="⚡" />
+            <Text style={styles.btnScanMiniText}>
+              {isScanning ? 'Sedang Memindai Biometrik 68-Pts...' : '⚡ Uji Simulasi Face Scanner AI'}
+            </Text>
+          </TouchableOpacity>
+
           {/* Narrative Bio */}
-          <Text style={styles.heroBio}>
+          <Text style={[styles.heroBio, { color: theme.textMuted }]}>
             Selamat datang di portofolio mobile resmi saya. Mahasiswa Teknik Informatika yang berfokus pada 
-            rekayasa perangkat lunak modern, pengembangan aplikasi mobile cross-platform, dan Computer Vision (Face Recognition) berbasis Python.
+            rekayasa perangkat lunak modern, aplikasi mobile cross-platform, dan Computer Vision (Face Recognition) berbasis Python.
           </Text>
 
           {/* Quick Action Button Row */}
@@ -214,51 +298,51 @@ export default function App() {
 
             <View style={styles.heroSecondaryBtns}>
               <TouchableOpacity
-                style={styles.btnSecondary}
+                style={[styles.btnSecondary, { backgroundColor: theme.cardBg, borderColor: theme.border }]}
                 activeOpacity={0.8}
                 onPress={() => handleOpenLink('mailto:dewan.mochpratama23@gmail.com', 'Email')}
               >
-                <SafeIcon name="envelope" size={14} color="#0f172a" fallback="✉" />
-                <Text style={styles.btnSecondaryText}>Email</Text>
+                <SafeIcon name="envelope" size={13} color={theme.textMain} fallback="✉" />
+                <Text style={[styles.btnSecondaryText, { color: theme.textMain }]}>Email</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.btnSecondary}
+                style={[styles.btnSecondary, { backgroundColor: theme.cardBg, borderColor: theme.border }]}
                 activeOpacity={0.8}
                 onPress={() => handleOpenLink('https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/', 'LinkedIn')}
               >
-                <SafeIcon name="linkedin" size={14} color="#2563eb" fallback="IN" />
-                <Text style={styles.btnSecondaryText}>LinkedIn</Text>
+                <SafeIcon name="linkedin" size={13} color="#2563eb" fallback="IN" />
+                <Text style={[styles.btnSecondaryText, { color: theme.textMain }]}>LinkedIn</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.btnSecondary}
+                style={[styles.btnSecondary, { backgroundColor: theme.cardBg, borderColor: theme.border }]}
                 activeOpacity={0.8}
                 onPress={() => handleOpenLink('https://github.com/dewanmochpratama23-sys', 'GitHub')}
               >
-                <SafeIcon name="github" size={14} color="#0f172a" fallback="GH" />
-                <Text style={styles.btnSecondaryText}>GitHub</Text>
+                <SafeIcon name="github" size={13} color={theme.textMain} fallback="GH" />
+                <Text style={[styles.btnSecondaryText, { color: theme.textMain }]}>GitHub</Text>
               </TouchableOpacity>
             </View>
           </View>
 
           {/* Highlights Metrics */}
-          <View style={styles.metricGrid}>
-            <View style={styles.metricItem}>
+          <View style={[styles.metricGrid, { borderTopColor: theme.subtleBg }]}>
+            <View style={[styles.metricItem, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
               <Text style={styles.metricLabel}>Fokus Bidang</Text>
-              <Text style={styles.metricValue}>Software & Mobile</Text>
+              <Text style={[styles.metricValue, { color: theme.textMain }]}>Software & Mobile</Text>
             </View>
-            <View style={styles.metricItem}>
+            <View style={[styles.metricItem, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
               <Text style={styles.metricLabel}>Proyek Utama</Text>
-              <Text style={styles.metricValue}>Face Recog & App</Text>
+              <Text style={[styles.metricValue, { color: theme.textMain }]}>Face Recog & App</Text>
             </View>
-            <View style={styles.metricItem}>
+            <View style={[styles.metricItem, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
               <Text style={styles.metricLabel}>Platform</Text>
-              <Text style={styles.metricValue}>Desktop & Mobile</Text>
+              <Text style={[styles.metricValue, { color: theme.textMain }]}>Desktop & Mobile</Text>
             </View>
-            <View style={styles.metricItem}>
+            <View style={[styles.metricItem, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
               <Text style={styles.metricLabel}>Version Control</Text>
-              <Text style={styles.metricValue}>Git & GitHub</Text>
+              <Text style={[styles.metricValue, { color: theme.textMain }]}>Git & GitHub</Text>
             </View>
           </View>
         </View>
@@ -266,12 +350,12 @@ export default function App() {
         {/* 2. PROYEK UNGGULAN (PORTFOLIO PROJECTS) */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionBadge}>SHOWCASE KARYA</Text>
-          <Text style={styles.sectionTitle}>Proyek & Implementasi Rekayasa</Text>
-          <Text style={styles.sectionSubtitle}>Dua proyek utama yang telah selesai dibangun dan tersimpan di GitHub.</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textMain }]}>Proyek & Implementasi Rekayasa</Text>
+          <Text style={[styles.sectionSubtitle, { color: theme.textMuted }]}>Dua proyek utama yang telah selesai dibangun dan tersimpan di GitHub.</Text>
         </View>
 
         {/* Proyek 1: Face Recognition */}
-        <View style={styles.projectCard}>
+        <View style={[styles.projectCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
           <View style={styles.projectCardTop}>
             <View style={styles.tagBadgeIndigo}>
               <Text style={styles.tagBadgeIndigoText}>Computer Vision & AI</Text>
@@ -279,18 +363,18 @@ export default function App() {
             <Text style={styles.platformLabel}>Desktop Application</Text>
           </View>
 
-          <Text style={styles.projectTitle}>Sistem Deteksi & Pengenalan Wajah (Face Recognition)</Text>
-          <Text style={styles.projectStack}>Python 3, OpenCV, Tkinter GUI, NumPy</Text>
+          <Text style={[styles.projectTitle, { color: theme.textMain }]}>Sistem Deteksi & Pengenalan Wajah (Face Recognition)</Text>
+          <Text style={[styles.projectStack, { color: theme.textMuted }]}>Python 3, OpenCV, Tkinter GUI, NumPy</Text>
 
-          <Text style={styles.projectDesc}>
+          <Text style={[styles.projectDesc, { color: theme.textMuted }]}>
             Aplikasi desktop berbasis Python dan OpenCV untuk mendeteksi wajah secara real-time melalui kamera komputer, 
             mengekstrak fitur biometrik, melatih dataset, dan mengenali identitas individu dengan akurasi tinggi.
           </Text>
 
           <View style={styles.featureList}>
-            <Text style={styles.featureItem}>✔ Deteksi wajah multi-frame real-time via OpenCV</Text>
-            <Text style={styles.featureItem}>✔ Pelatihan dataset mandiri & verifikasi identitas</Text>
-            <Text style={styles.featureItem}>✔ Antarmuka pengguna desktop berbasis Tkinter</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Deteksi wajah multi-frame real-time via OpenCV</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Pelatihan dataset mandiri & verifikasi identitas</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Antarmuka pengguna desktop berbasis Tkinter</Text>
           </View>
 
           <TouchableOpacity
@@ -304,7 +388,7 @@ export default function App() {
         </View>
 
         {/* Proyek 2: Cross-Platform Mobile Portfolio */}
-        <View style={styles.projectCard}>
+        <View style={[styles.projectCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
           <View style={styles.projectCardTop}>
             <View style={styles.tagBadgeBlue}>
               <Text style={styles.tagBadgeBlueText}>Mobile Engineering</Text>
@@ -312,18 +396,18 @@ export default function App() {
             <Text style={styles.platformLabel}>Android & iOS Native</Text>
           </View>
 
-          <Text style={styles.projectTitle}>Interactive Mobile Portfolio & Identity App</Text>
-          <Text style={styles.projectStack}>React Native, Expo SDK 57, JavaScript ES6+</Text>
+          <Text style={[styles.projectTitle, { color: theme.textMain }]}>Interactive Mobile Portfolio & Identity App</Text>
+          <Text style={[styles.projectStack, { color: theme.textMuted }]}>React Native, Expo SDK 57, JavaScript ES6+</Text>
 
-          <Text style={styles.projectDesc}>
+          <Text style={[styles.projectDesc, { color: theme.textMuted }]}>
             Aplikasi mobile interaktif berbasis React Native untuk mempresentasikan rekam jejak rekayasa secara native. 
             Mendukung integrasi langsung WhatsApp, Telepon, Email, LinkedIn, dan form masukan interaktif.
           </Text>
 
           <View style={styles.featureList}>
-            <Text style={styles.featureItem}>✔ Cross-platform murni dengan dukungan Expo Go live debugging</Text>
-            <Text style={styles.featureItem}>✔ Deep-linking otomatis ke WhatsApp, LinkedIn, GitHub & Email</Text>
-            <Text style={styles.featureItem}>✔ Auto IP detection script (start.js) untuk Wi-Fi kampus & rumah</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Cross-platform murni dengan dukungan Expo Go live debugging</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Deep-linking otomatis ke WhatsApp, LinkedIn, GitHub & Email</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Auto IP detection script (start.js) untuk Wi-Fi kampus & rumah</Text>
           </View>
 
           <TouchableOpacity
@@ -339,43 +423,43 @@ export default function App() {
         {/* 3. KEAHLIAN & TEKNOLOGI */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionBadge}>KOMPETENSI TEKNIS</Text>
-          <Text style={styles.sectionTitle}>Keahlian & Perkakas Pengembangan</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textMain }]}>Keahlian & Perkakas Pengembangan</Text>
         </View>
 
-        <View style={styles.skillsCard}>
-          <Text style={styles.skillsCardCategory}>📱 Mobile & Frontend Development</Text>
+        <View style={[styles.skillsCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
+          <Text style={[styles.skillsCardCategory, { color: theme.textMain }]}>📱 Mobile & Frontend Development</Text>
           <View style={styles.skillPillContainer}>
             {['React Native', 'Expo', 'JavaScript (ES6+)', 'HTML5', 'CSS3 & Tailwind', 'Responsive UI'].map((skill) => (
-              <View key={skill} style={styles.skillPill}>
-                <Text style={styles.skillPillText}>{skill}</Text>
+              <View key={skill} style={[styles.skillPill, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
+                <Text style={[styles.skillPillText, { color: theme.textMain }]}>{skill}</Text>
               </View>
             ))}
           </View>
 
-          <Text style={[styles.skillsCardCategory, { marginTop: 16 }]}>🧠 Python & Computer Vision</Text>
+          <Text style={[styles.skillsCardCategory, { color: theme.textMain, marginTop: 16 }]}>🧠 Python & Computer Vision</Text>
           <View style={styles.skillPillContainer}>
             {['Python 3.x', 'OpenCV', 'Face Recognition', 'NumPy Matrix', 'Tkinter GUI'].map((skill) => (
-              <View key={skill} style={styles.skillPill}>
-                <Text style={styles.skillPillText}>{skill}</Text>
+              <View key={skill} style={[styles.skillPill, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
+                <Text style={[styles.skillPillText, { color: theme.textMain }]}>{skill}</Text>
               </View>
             ))}
           </View>
 
-          <Text style={[styles.skillsCardCategory, { marginTop: 16 }]}>⚙️ Workflow & Tools</Text>
+          <Text style={[styles.skillsCardCategory, { color: theme.textMain, marginTop: 16 }]}>⚙️ Workflow & Tools</Text>
           <View style={styles.skillPillContainer}>
             {['Git Version Control', 'GitHub', 'VS Code', 'Node.js & npm', 'PowerShell / CLI'].map((skill) => (
-              <View key={skill} style={styles.skillPill}>
-                <Text style={styles.skillPillText}>{skill}</Text>
+              <View key={skill} style={[styles.skillPill, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
+                <Text style={[styles.skillPillText, { color: theme.textMain }]}>{skill}</Text>
               </View>
             ))}
           </View>
         </View>
 
         {/* 4. INTERACTIVE SKILL BOUNCE LAB */}
-        <View style={styles.labCard}>
+        <View style={[styles.labCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
           <View style={styles.labHeader}>
-            <Text style={styles.labTitle}>⚡ Lab Interaktif: Sentuh Token Keahlian</Text>
-            <Text style={styles.labSubtitle}>Ketuk token untuk memicu simulasi fisika pegas (spring physics):</Text>
+            <Text style={[styles.labTitle, { color: theme.textMain }]}>⚡ Lab Interaktif: Sentuh Token Keahlian</Text>
+            <Text style={[styles.labSubtitle, { color: theme.textMuted }]}>Ketuk token untuk memicu simulasi fisika pegas (spring physics):</Text>
           </View>
 
           <View style={styles.tokenWall}>
@@ -393,11 +477,11 @@ export default function App() {
                 ]}
               >
                 <TouchableOpacity
-                  style={styles.tokenButton}
+                  style={[styles.tokenButton, { backgroundColor: isDark ? '#1e3a8a' : '#eff6ff', borderColor: isDark ? '#3b82f6' : '#bfdbfe' }]}
                   onPress={() => bounceToken(index)}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.tokenButtonText}>{token}</Text>
+                  <Text style={[styles.tokenButtonText, { color: isDark ? '#93c5fd' : '#1d4ed8' }]}>{token}</Text>
                 </TouchableOpacity>
               </Animated.View>
             ))}
@@ -407,28 +491,29 @@ export default function App() {
         {/* 5. BUKU TAMU INTERAKTIF */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionBadge}>INTERAKSI & MASUKAN</Text>
-          <Text style={styles.sectionTitle}>Buku Tamu & Catatan Dosen</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textMain }]}>Buku Tamu & Catatan Dosen</Text>
         </View>
 
-        <View style={styles.guestbookCard}>
-          <Text style={styles.formTitle}>Tulis Pesan / Masukan</Text>
+        <View style={[styles.guestbookCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
+          <Text style={[styles.formTitle, { color: theme.textMain }]}>Tulis Pesan / Masukan</Text>
 
-          <Text style={styles.formLabel}>Nama Lengkap / Instansi</Text>
+          <Text style={[styles.formLabel, { color: theme.textMuted }]}>Nama Lengkap / Instansi</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { backgroundColor: theme.subtleBg, borderColor: theme.border, color: theme.textMain }]}
             placeholder="Contoh: Pak Budi (Dosen / Rekan)"
             placeholderTextColor="#94a3b8"
             value={guestName}
             onChangeText={setGuestName}
           />
 
-          <Text style={styles.formLabel}>Peran / Kategori</Text>
+          <Text style={[styles.formLabel, { color: theme.textMuted }]}>Peran / Kategori</Text>
           <View style={styles.rolePickerRow}>
             {['Dosen', 'Rekan Mahasiswa', 'Tamu Umum', 'Recruiter'].map((role) => (
               <TouchableOpacity
                 key={role}
                 style={[
                   styles.roleBadge,
+                  { backgroundColor: theme.subtleBg, borderColor: theme.border },
                   guestRole === role && styles.roleBadgeActive,
                 ]}
                 onPress={() => setGuestRole(role)}
@@ -436,6 +521,7 @@ export default function App() {
                 <Text
                   style={[
                     styles.roleBadgeText,
+                    { color: theme.textMuted },
                     guestRole === role && styles.roleBadgeTextActive,
                   ]}
                 >
@@ -445,9 +531,9 @@ export default function App() {
             ))}
           </View>
 
-          <Text style={styles.formLabel}>Pesan / Catatan</Text>
+          <Text style={[styles.formLabel, { color: theme.textMuted }]}>Pesan / Catatan</Text>
           <TextInput
-            style={[styles.input, styles.textArea]}
+            style={[styles.input, styles.textArea, { backgroundColor: theme.subtleBg, borderColor: theme.border, color: theme.textMain }]}
             placeholder="Tuliskan ulasan atau apresiasi untuk Dewan..."
             placeholderTextColor="#94a3b8"
             value={guestMessage}
@@ -462,25 +548,25 @@ export default function App() {
             onPress={handleSendComment}
           >
             <SafeIcon name="paper-plane" size={14} color="#ffffff" fallback="✈" />
-            <Text style={styles.btnSubmitCommentText}> Kirim ke Buku Tamu</Text>
+            <Text style={styles.btnSubmitCommentText}> Kirim ke Buku Tamu 🎉</Text>
           </TouchableOpacity>
 
           {/* Comment List Feed */}
-          <View style={styles.commentFeedHeader}>
-            <Text style={styles.commentFeedTitle}>Daftar Pesan Masuk</Text>
-            <Text style={styles.commentCounter}>{comments.length} Pesan</Text>
+          <View style={[styles.commentFeedHeader, { borderTopColor: theme.subtleBg }]}>
+            <Text style={[styles.commentFeedTitle, { color: theme.textMain }]}>Daftar Pesan Masuk</Text>
+            <Text style={[styles.commentCounter, { color: theme.textMuted }]}>{comments.length} Pesan</Text>
           </View>
 
           {comments.map((item) => (
-            <View key={item.id} style={styles.commentCard}>
+            <View key={item.id} style={[styles.commentCard, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
               <View style={styles.commentCardTop}>
-                <Text style={styles.commentAuthor}>{item.name}</Text>
+                <Text style={[styles.commentAuthor, { color: theme.textMain }]}>{item.name}</Text>
                 <Text style={styles.commentTime}>{item.time}</Text>
               </View>
               <View style={styles.commentRolePill}>
                 <Text style={styles.commentRolePillText}>{item.role}</Text>
               </View>
-              <Text style={styles.commentBody}>{item.message}</Text>
+              <Text style={[styles.commentBody, { color: theme.textMuted }]}>{item.message}</Text>
             </View>
           ))}
         </View>
@@ -488,70 +574,70 @@ export default function App() {
         {/* 6. KONTAK RESMI & SOSIAL MEDIA */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionBadge}>SALURAN KOMUNIKASI</Text>
-          <Text style={styles.sectionTitle}>Hubungi & Terhubung</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textMain }]}>Hubungi & Terhubung</Text>
         </View>
 
         <View style={styles.contactGrid}>
           {/* WhatsApp */}
           <TouchableOpacity
-            style={styles.contactCard}
+            style={[styles.contactCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}
             activeOpacity={0.8}
             onPress={() => handleOpenLink('https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20melihat%20portofolio%20Anda.', 'WhatsApp')}
           >
-            <View style={[styles.contactIconWrap, { backgroundColor: '#ecfdf5' }]}>
+            <View style={[styles.contactIconWrap, { backgroundColor: isDark ? '#064e3b' : '#ecfdf5' }]}>
               <SafeIcon name="whatsapp" size={24} color="#10b981" fallback="WA" />
             </View>
-            <Text style={styles.contactCardTitle}>WhatsApp</Text>
-            <Text style={styles.contactCardSubtitle}>0831-3753-8544</Text>
+            <Text style={[styles.contactCardTitle, { color: theme.textMain }]}>WhatsApp</Text>
+            <Text style={[styles.contactCardSubtitle, { color: theme.textMuted }]}>0831-3753-8544</Text>
             <Text style={[styles.contactCardAction, { color: '#10b981' }]}>Chat Langsung &rarr;</Text>
           </TouchableOpacity>
 
           {/* Email */}
           <TouchableOpacity
-            style={styles.contactCard}
+            style={[styles.contactCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}
             activeOpacity={0.8}
             onPress={() => handleOpenLink('mailto:dewan.mochpratama23@gmail.com', 'Email')}
           >
-            <View style={[styles.contactIconWrap, { backgroundColor: '#eff6ff' }]}>
+            <View style={[styles.contactIconWrap, { backgroundColor: isDark ? '#1e3a8a' : '#eff6ff' }]}>
               <SafeIcon name="envelope" size={20} color="#2563eb" fallback="✉" />
             </View>
-            <Text style={styles.contactCardTitle}>Email</Text>
-            <Text style={styles.contactCardSubtitle} numberOfLines={1}>dewan.mochpratama23@gmail.com</Text>
+            <Text style={[styles.contactCardTitle, { color: theme.textMain }]}>Email</Text>
+            <Text style={[styles.contactCardSubtitle, { color: theme.textMuted }]} numberOfLines={1}>dewan.mochpratama23@gmail.com</Text>
             <Text style={[styles.contactCardAction, { color: '#2563eb' }]}>Kirim Email &rarr;</Text>
           </TouchableOpacity>
 
           {/* LinkedIn */}
           <TouchableOpacity
-            style={styles.contactCard}
+            style={[styles.contactCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}
             activeOpacity={0.8}
             onPress={() => handleOpenLink('https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/', 'LinkedIn')}
           >
-            <View style={[styles.contactIconWrap, { backgroundColor: '#eef2ff' }]}>
+            <View style={[styles.contactIconWrap, { backgroundColor: isDark ? '#312e81' : '#eef2ff' }]}>
               <SafeIcon name="linkedin" size={22} color="#4f46e5" fallback="IN" />
             </View>
-            <Text style={styles.contactCardTitle}>LinkedIn</Text>
-            <Text style={styles.contactCardSubtitle}>Dewan Mochamad Pratama</Text>
+            <Text style={[styles.contactCardTitle, { color: theme.textMain }]}>LinkedIn</Text>
+            <Text style={[styles.contactCardSubtitle, { color: theme.textMuted }]}>Dewan Mochamad Pratama</Text>
             <Text style={[styles.contactCardAction, { color: '#4f46e5' }]}>Koneksi &rarr;</Text>
           </TouchableOpacity>
 
           {/* GitHub */}
           <TouchableOpacity
-            style={styles.contactCard}
+            style={[styles.contactCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}
             activeOpacity={0.8}
             onPress={() => handleOpenLink('https://github.com/dewanmochpratama23-sys', 'GitHub')}
           >
-            <View style={[styles.contactIconWrap, { backgroundColor: '#f1f5f9' }]}>
-              <SafeIcon name="github" size={22} color="#0f172a" fallback="GH" />
+            <View style={[styles.contactIconWrap, { backgroundColor: isDark ? '#1f2937' : '#f1f5f9' }]}>
+              <SafeIcon name="github" size={22} color={theme.textMain} fallback="GH" />
             </View>
-            <Text style={styles.contactCardTitle}>GitHub</Text>
-            <Text style={styles.contactCardSubtitle}>dewanmochpratama23-sys</Text>
-            <Text style={[styles.contactCardAction, { color: '#0f172a' }]}>Repositori &rarr;</Text>
+            <Text style={[styles.contactCardTitle, { color: theme.textMain }]}>GitHub</Text>
+            <Text style={[styles.contactCardSubtitle, { color: theme.textMuted }]}>dewanmochpratama23-sys</Text>
+            <Text style={[styles.contactCardAction, { color: theme.textMain }]}>Repositori &rarr;</Text>
           </TouchableOpacity>
         </View>
 
         {/* FOOTER */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
+        <View style={[styles.footer, { borderTopColor: theme.border }]}>
+          <Text style={[styles.footerText, { color: theme.textMain }]}>
             Dewan Mochamad Pratama &copy; 2026. Karawang, Jawa Barat.
           </Text>
           <Text style={styles.footerSubtext}>
@@ -566,13 +652,10 @@ export default function App() {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
   },
   header: {
     height: 60,
-    backgroundColor: '#ffffff',
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -597,12 +680,10 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   headerTitle: {
-    color: '#0f172a',
     fontSize: 14,
     fontWeight: '700',
   },
   headerSubtitle: {
-    color: '#64748b',
     fontSize: 10,
     fontWeight: '500',
   },
@@ -616,10 +697,8 @@ const styles = StyleSheet.create({
     height: 34,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f8fafc',
   },
   headerIconBtnWhatsApp: {
     flexDirection: 'row',
@@ -639,7 +718,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    backgroundColor: '#f8fafc',
   },
   scrollContent: {
     padding: 16,
@@ -649,11 +727,9 @@ const styles = StyleSheet.create({
 
   // Hero Card
   heroCard: {
-    backgroundColor: '#ffffff',
     borderRadius: 24,
     padding: 20,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
     shadowColor: '#0f172a',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
@@ -666,7 +742,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
     marginBottom: 16,
   },
   statusBadge: {
@@ -692,7 +767,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   academicTrackText: {
-    color: '#64748b',
     fontSize: 10,
     fontWeight: '600',
   },
@@ -700,20 +774,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 14,
-    marginBottom: 14,
+    marginBottom: 10,
   },
   avatarBorder: {
     width: 76,
     height: 76,
     borderRadius: 18,
     borderWidth: 2,
-    borderColor: '#e2e8f0',
     overflow: 'hidden',
-    backgroundColor: '#f1f5f9',
+    position: 'relative',
   },
   avatarImage: {
     width: '100%',
     height: '100%',
+  },
+  scannerOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(2, 6, 23, 0.4)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scannerLaser: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: 3,
+    backgroundColor: '#22d3ee',
+    shadowColor: '#22d3ee',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.9,
+    shadowRadius: 6,
+  },
+  scannerLiveText: {
+    color: '#22d3ee',
+    fontSize: 8,
+    fontWeight: '800',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    borderRadius: 3,
+    marginTop: 24,
   },
   profileHeaderTexts: {
     flex: 1,
@@ -725,13 +825,11 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   heroTitle: {
-    color: '#0f172a',
     fontSize: 18,
     fontWeight: '800',
     marginTop: 2,
   },
   heroSubtitle: {
-    color: '#64748b',
     fontSize: 11,
     marginTop: 2,
   },
@@ -741,8 +839,22 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 2,
   },
+  btnScanMini: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 7,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginVertical: 10,
+  },
+  btnScanMiniText: {
+    color: '#2563eb',
+    fontSize: 11,
+    fontWeight: '700',
+  },
   heroBio: {
-    color: '#475569',
     fontSize: 12,
     lineHeight: 18,
     marginBottom: 16,
@@ -778,11 +890,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
-    backgroundColor: '#ffffff',
   },
   btnSecondaryText: {
-    color: '#0f172a',
     fontSize: 11,
     fontWeight: '600',
   },
@@ -792,16 +901,13 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingTop: 14,
     borderTopWidth: 1,
-    borderTopColor: '#f1f5f9',
   },
   metricItem: {
     flex: 1,
     minWidth: '45%',
-    backgroundColor: '#f8fafc',
     padding: 10,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#f1f5f9',
   },
   metricLabel: {
     color: '#64748b',
@@ -810,7 +916,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   metricValue: {
-    color: '#0f172a',
     fontSize: 12,
     fontWeight: '700',
     marginTop: 2,
@@ -828,24 +933,20 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   sectionTitle: {
-    color: '#0f172a',
     fontSize: 18,
     fontWeight: '800',
     marginTop: 2,
   },
   sectionSubtitle: {
-    color: '#64748b',
     fontSize: 11,
     marginTop: 2,
   },
 
   // Project Cards
   projectCard: {
-    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
     shadowColor: '#0f172a',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
@@ -890,19 +991,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   projectTitle: {
-    color: '#0f172a',
     fontSize: 15,
     fontWeight: '800',
   },
   projectStack: {
-    color: '#64748b',
     fontSize: 11,
     fontWeight: '600',
     marginTop: 2,
     marginBottom: 8,
   },
   projectDesc: {
-    color: '#475569',
     fontSize: 12,
     lineHeight: 18,
     marginBottom: 10,
@@ -912,7 +1010,6 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   featureItem: {
-    color: '#334155',
     fontSize: 11,
   },
   btnProjectGithub: {
@@ -941,14 +1038,11 @@ const styles = StyleSheet.create({
 
   // Skills
   skillsCard: {
-    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   skillsCardCategory: {
-    color: '#0f172a',
     fontSize: 13,
     fontWeight: '700',
     marginBottom: 8,
@@ -959,37 +1053,30 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   skillPill: {
-    backgroundColor: '#f1f5f9',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   skillPillText: {
-    color: '#334155',
     fontSize: 11,
     fontWeight: '600',
   },
 
   // Lab
   labCard: {
-    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   labHeader: {
     marginBottom: 12,
   },
   labTitle: {
-    color: '#0f172a',
     fontSize: 13,
     fontWeight: '700',
   },
   labSubtitle: {
-    color: '#64748b',
     fontSize: 11,
     marginTop: 2,
   },
@@ -1000,48 +1087,38 @@ const styles = StyleSheet.create({
   },
   animatedToken: {},
   tokenButton: {
-    backgroundColor: '#eff6ff',
     paddingHorizontal: 12,
     paddingVertical: 7,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#bfdbfe',
   },
   tokenButtonText: {
-    color: '#1d4ed8',
     fontSize: 11,
     fontWeight: '700',
   },
 
   // Guestbook
   guestbookCard: {
-    backgroundColor: '#ffffff',
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   formTitle: {
-    color: '#0f172a',
     fontSize: 14,
     fontWeight: '700',
     marginBottom: 12,
   },
   formLabel: {
-    color: '#475569',
     fontSize: 11,
     fontWeight: '600',
     marginBottom: 4,
   },
   input: {
-    backgroundColor: '#f8fafc',
     borderWidth: 1,
-    borderColor: '#e2e8f0',
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
     fontSize: 12,
-    color: '#0f172a',
     marginBottom: 12,
   },
   textArea: {
@@ -1055,19 +1132,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   roleBadge: {
-    backgroundColor: '#f1f5f9',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   roleBadgeActive: {
     backgroundColor: '#2563eb',
     borderColor: '#2563eb',
   },
   roleBadgeText: {
-    color: '#64748b',
     fontSize: 10,
     fontWeight: '600',
   },
@@ -1094,25 +1168,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#f1f5f9',
     marginBottom: 10,
   },
   commentFeedTitle: {
-    color: '#0f172a',
     fontSize: 12,
     fontWeight: '700',
   },
   commentCounter: {
-    color: '#64748b',
     fontSize: 10,
     fontWeight: '600',
   },
   commentCard: {
-    backgroundColor: '#f8fafc',
     borderRadius: 12,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#f1f5f9',
     marginBottom: 8,
   },
   commentCardTop: {
@@ -1121,7 +1190,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   commentAuthor: {
-    color: '#0f172a',
     fontSize: 12,
     fontWeight: '700',
   },
@@ -1143,7 +1211,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   commentBody: {
-    color: '#475569',
     fontSize: 11,
     lineHeight: 16,
   },
@@ -1157,11 +1224,9 @@ const styles = StyleSheet.create({
   contactCard: {
     flex: 1,
     minWidth: '45%',
-    backgroundColor: '#ffffff',
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
   },
   contactIconWrap: {
     width: 40,
@@ -1172,12 +1237,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   contactCardTitle: {
-    color: '#0f172a',
     fontSize: 13,
     fontWeight: '700',
   },
   contactCardSubtitle: {
-    color: '#64748b',
     fontSize: 10,
     marginTop: 2,
   },
@@ -1192,11 +1255,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 16,
     borderTopWidth: 1,
-    borderTopColor: '#e2e8f0',
     marginTop: 8,
   },
   footerText: {
-    color: '#0f172a',
     fontSize: 11,
     fontWeight: '600',
   },
