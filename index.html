@@ -15,7 +15,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Canvas Confetti CDN for Micro-Celebrations -->
+    <!-- Canvas Confetti CDN -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <!-- Tailwind CSS CDN -->
@@ -74,20 +74,32 @@
         }
         html.dark .card-clean:hover {
             border-color: #374151;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6);
         }
 
-        /* Clean shadow for professional cards */
+        /* Clean 3D Tilt Card Base */
         .card-clean {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.15s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
         }
         .card-clean:hover {
             border-color: #cbd5e1;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
-            transform: translateY(-2px);
+            box-shadow: 0 14px 30px -6px rgba(15, 23, 42, 0.1), 0 10px 12px -6px rgba(15, 23, 42, 0.04);
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Laser scanning animation for Face Recognition Simulator */
@@ -98,6 +110,19 @@
         }
         .animate-laser {
             animation: scanSweep 2s ease-in-out infinite;
+        }
+
+        /* Interactive Skill Token Spring Bounce */
+        .token-interactive {
+            display: inline-block;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+        .token-interactive:hover {
+            transform: scale(1.08) translateY(-3px);
+        }
+        .token-interactive:active {
+            transform: scale(0.92);
         }
 
         /* Custom scrollbar */
@@ -122,7 +147,19 @@
         }
     </style>
 </head>
-<body class="tech-grid-bg min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-900 dark:selection:text-blue-100">
+<body class="tech-grid-bg min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900 dark:selection:bg-blue-900 dark:selection:text-blue-100 relative overflow-x-hidden">
+
+    <!-- 1. TOP SCROLL READING PROGRESS BAR (INTERACTIVE ANIMATION) -->
+    <div id="scroll-progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-600 via-cyan-400 to-emerald-400 z-50 transition-all duration-75" style="width: 0%;"></div>
+
+    <!-- 2. AMBIENT CURSOR GLOW SPOTLIGHT (INTERACTIVE MOUSE FOLLOWER) -->
+    <div id="cursor-spotlight" class="pointer-events-none fixed w-[28rem] h-[28rem] rounded-full bg-blue-500/10 dark:bg-cyan-500/10 blur-3xl transition-transform duration-75 -translate-x-1/2 -translate-y-1/2 z-0 hidden lg:block"></div>
+
+    <!-- 3. FLOATING COPY TOAST NOTIFICATION -->
+    <div id="toast-notify" class="fixed bottom-6 right-6 z-50 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-2xl border border-slate-700 dark:border-slate-200 text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+        <span id="toast-text">Tersalin ke clipboard!</span>
+    </div>
 
     <!-- STICKY NAVBAR WITH DARK/LIGHT TOGGLE -->
     <header class="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-all duration-200">
@@ -130,7 +167,7 @@
             
             <!-- Brand / Logo -->
             <a href="#home" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-sm group-hover:bg-blue-700 transition-colors">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-sm group-hover:scale-105 group-hover:bg-blue-700 transition-all">
                     DP
                 </div>
                 <div>
@@ -153,23 +190,23 @@
             <div class="flex items-center gap-2">
                 <!-- DARK / LIGHT MODE TOGGLE BUTTON -->
                 <button id="theme-toggle" onclick="toggleTheme()" 
-                        class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:border-slate-300 dark:hover:border-slate-600 flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                        class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:border-slate-300 dark:hover:border-slate-600 flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105"
                         title="Ganti Mode Gelap / Terang">
                     <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
                 </button>
 
                 <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
-                   class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center transition-all"
+                   class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center transition-all hover:scale-105"
                    title="GitHub Profile">
                     <i class="fa-brands fa-github text-base"></i>
                 </a>
                 <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" rel="noopener noreferrer" 
-                   class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-blue-600 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-slate-800 flex items-center justify-center transition-all"
+                   class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-blue-600 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-slate-800 flex items-center justify-center transition-all hover:scale-105"
                    title="LinkedIn Profile">
                     <i class="fa-brands fa-linkedin-in text-base"></i>
                 </a>
                 <a href="https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20tertarik%20dengan%20portofolio%20Anda" target="_blank" rel="noopener noreferrer" 
-                   class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-blue-700 shadow-sm transition-all">
+                   class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-blue-700 shadow-sm transition-all hover:scale-105 active:scale-95">
                     <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
                     <span>Hubungi</span>
                 </a>
@@ -178,10 +215,10 @@
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16">
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-16 relative z-10">
 
         <!-- 1. INTEGRATED WELCOMING HERO CARD + SIMULASI SCANNER FACE RECOGNITION -->
-        <section id="home" class="relative">
+        <section id="home" class="relative reveal-item">
             <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm p-6 sm:p-10 lg:p-12 transition-colors">
                 
                 <!-- Status Badge & Academic Track -->
@@ -199,17 +236,20 @@
                 <!-- Main Hero Grid: Bio & Real Portrait Photo with Face Scanner -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                     
-                    <!-- Left Column: Biography & Narrative -->
+                    <!-- Left Column: Biography & DYNAMIC TYPEWRITER TEXT -->
                     <div class="lg:col-span-8 space-y-5">
                         <div class="space-y-2">
                             <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Portofolio & Rekam Jejak Rekayasa</span>
                             <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
                                 Dewan Mochamad Pratama
                             </h1>
-                            <p class="text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-300">
-                                Panggilan akrab: <span class="text-slate-900 dark:text-white font-bold">Dewan / Tama</span> &bull; 
-                                <span class="text-blue-600 dark:text-blue-400">Software & Mobile App Developer Enthusiast</span>
-                            </p>
+                            
+                            <!-- DYNAMIC TYPEWRITER ANIMATION -->
+                            <div class="min-h-[30px] flex items-center text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-300">
+                                <span>Panggilan: <strong class="text-slate-900 dark:text-white">Dewan / Tama</strong> &bull;&nbsp;</span>
+                                <span id="typewriter-text" class="text-blue-600 dark:text-cyan-400 font-bold"></span>
+                                <span class="w-0.5 h-4 bg-blue-600 dark:bg-cyan-400 inline-block ml-0.5 animate-pulse"></span>
+                            </div>
                         </div>
 
                         <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
@@ -221,26 +261,27 @@
 
                         <!-- Action Buttons -->
                         <div class="pt-2 flex flex-wrap items-center gap-3">
-                            <a href="#projects" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 shadow-sm transition-all hover:shadow-md">
+                            <a href="#projects" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95">
                                 <i class="fa-solid fa-folder-open text-xs"></i>
                                 <span>Lihat Proyek Unggulan</span>
                             </a>
                             <a href="https://wa.me/6283137538544?text=Halo%20Dewan,%20saya%20ingin%20berdiskusi%20mengenai%20proyek%20Anda" target="_blank" rel="noopener noreferrer" 
-                               class="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/90 dark:border-emerald-800 font-semibold text-sm hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-all">
+                               class="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/90 dark:border-emerald-800 font-semibold text-sm hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-all hover:scale-105 active:scale-95">
                                 <i class="fa-brands fa-whatsapp text-base"></i>
                                 <span>WhatsApp (0831-3753-8544)</span>
                             </a>
-                            <a href="mailto:dewan.mochpratama23@gmail.com" 
-                               class="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-                                <i class="fa-regular fa-envelope text-slate-500"></i>
-                                <span>Kirim Email</span>
-                            </a>
+                            <button onclick="copyToClipboard('dewan.mochpratama23@gmail.com', 'Alamat email Dewan tersalin!')" 
+                                    class="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 cursor-pointer">
+                                <i class="fa-regular fa-copy text-slate-400"></i>
+                                <span>Salin Email</span>
+                            </button>
                         </div>
                     </div>
 
                     <!-- Right Column: Foto Asli Dewan with ANIMATED BIOMETRIC FACE SCANNER -->
                     <div class="lg:col-span-4 flex flex-col items-center">
-                        <div id="scanner-box" class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 group">
+                        <div id="scanner-box" onclick="triggerBiometricScan()" title="Klik untuk memicu simulasi Face Scanner!" 
+                             class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl bg-slate-100 dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700 group cursor-pointer">
                             <!-- Foto Asli -->
                             <img id="avatar-img" src="dewan-foto.jpg" alt="Dewan Mochamad Pratama" 
                                  class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
@@ -278,30 +319,34 @@
                                 <span id="btn-scan-label">⚡ Uji Face Scanner AI</span>
                             </button>
                             <span id="scan-desc-text" class="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                                Simulasi Proyek Python Computer Vision
+                                Simulasi Proyek Python Computer Vision (Klik Foto atau Tombol)
                             </span>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- Quick Highlights Metric Grid -->
+                <!-- ANIMATED COUNTERS METRIC GRID -->
                 <div class="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Fokus Bidang</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Software & Mobile</span>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 transition-all">
                         <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Proyek Utama</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Face Recog & App</span>
+                        <span class="text-xl sm:text-2xl font-extrabold text-blue-600 dark:text-cyan-400 mt-0.5 block counter-num" data-target="2" data-suffix="+">0</span>
+                        <span class="text-[11px] text-slate-400">Face Recog & App</span>
                     </div>
-                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Platform</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Desktop & Mobile</span>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Platform Support</span>
+                        <span class="text-xl sm:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5 block counter-num" data-target="100" data-suffix="%">0</span>
+                        <span class="text-[11px] text-slate-400">Desktop & Mobile</span>
                     </div>
-                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Version Control</span>
-                        <span class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5 block">Git & GitHub Sync</span>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Landmark Biometrik</span>
+                        <span class="text-xl sm:text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-0.5 block counter-num" data-target="68" data-suffix=" Pts">0</span>
+                        <span class="text-[11px] text-slate-400">OpenCV Haar Cascade</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-700 transition-all">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block uppercase tracking-wide">Tech Stack Teruji</span>
+                        <span class="text-xl sm:text-2xl font-extrabold text-amber-500 dark:text-amber-400 mt-0.5 block counter-num" data-target="15" data-suffix="+">0</span>
+                        <span class="text-[11px] text-slate-400">Frameworks & Tools</span>
                     </div>
                 </div>
 
@@ -309,8 +354,8 @@
         </section>
 
 
-        <!-- 2. PROYEK UNGGULAN (PORTFOLIO PROJECTS) -->
-        <section id="projects" class="space-y-6">
+        <!-- 2. PROYEK UNGGULAN (PORTFOLIO PROJECTS WITH 3D TILT EFFECT) -->
+        <section id="projects" class="space-y-6 reveal-item">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Showcase Karya</span>
@@ -326,8 +371,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <!-- Proyek 1: Face Recognition -->
-                <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+                <!-- Proyek 1: Face Recognition (Tilt Card) -->
+                <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between tilt-card">
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
@@ -371,15 +416,15 @@
                             <span>Python Environment</span>
                         </div>
                         <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
-                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors">
+                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors hover:scale-105 active:scale-95">
                             <i class="fa-brands fa-github"></i>
                             <span>Lihat di GitHub</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Proyek 2: Cross-Platform Mobile Portfolio -->
-                <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+                <!-- Proyek 2: Cross-Platform Mobile Portfolio (Tilt Card) -->
+                <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between tilt-card">
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
@@ -423,7 +468,7 @@
                             <span>React Native + Expo</span>
                         </div>
                         <a href="https://github.com/dewanmochpratama23-sys/dewan-portofolio" target="_blank" rel="noopener noreferrer" 
-                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors">
+                           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors hover:scale-105 active:scale-95">
                             <i class="fa-brands fa-github"></i>
                             <span>Repositori Proyek</span>
                         </a>
@@ -435,7 +480,7 @@
 
 
         <!-- 3. INTERACTIVE MINI TERMINAL / CLI (KONSOL PERINTAH PENGEMBANG) -->
-        <section id="terminal-section" class="space-y-4">
+        <section id="terminal-section" class="space-y-4 reveal-item">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Konsol Pengembang Interaktif</span>
@@ -446,12 +491,12 @@
                 <!-- Clickable Shortcuts -->
                 <div class="flex flex-wrap items-center gap-1.5 text-xs font-mono">
                     <span class="text-slate-400 text-[11px] font-sans">Pintasan:</span>
-                    <button onclick="runCommand('help')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">help</button>
-                    <button onclick="runCommand('projects')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">projects</button>
-                    <button onclick="runCommand('skills')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">skills</button>
-                    <button onclick="runCommand('scan')" class="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white transition-colors cursor-pointer font-bold">scan</button>
-                    <button onclick="runCommand('contact')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-colors cursor-pointer font-bold">contact</button>
-                    <button onclick="runCommand('clear')" class="px-2.5 py-1 rounded-md bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 hover:bg-rose-600 hover:text-white transition-colors cursor-pointer font-bold">clear</button>
+                    <button onclick="runCommand('help')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">help</button>
+                    <button onclick="runCommand('projects')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">projects</button>
+                    <button onclick="runCommand('skills')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">skills</button>
+                    <button onclick="runCommand('scan')" class="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">scan</button>
+                    <button onclick="runCommand('contact')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">contact</button>
+                    <button onclick="runCommand('clear')" class="px-2.5 py-1 rounded-md bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 hover:bg-rose-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">clear</button>
                 </div>
             </div>
 
@@ -488,18 +533,18 @@
         </section>
 
 
-        <!-- 4. KEAHLIAN & TEKNOLOGI (TECH STACK & COMPETENCIES) -->
-        <section id="skills" class="space-y-6">
+        <!-- 4. KEAHLIAN & TEKNOLOGI (INTERACTIVE SPRING BOUNCE TOKENS) -->
+        <section id="skills" class="space-y-6 reveal-item">
             <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Kompetensi Teknis</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Keahlian & Perkakas Pengembangan</h2>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Perangkat lunak, bahasa pemrograman, dan ekosistem yang digunakan secara rutin.</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Klik atau arahkan kursor ke token keahlian untuk berinteraksi.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                 <!-- Card 1: Frontend & Mobile -->
-                <div class="card-clean rounded-2xl p-6 space-y-4">
+                <div class="card-clean rounded-2xl p-6 space-y-4 tilt-card">
                     <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-mobile-screen-button"></i>
                     </div>
@@ -508,17 +553,17 @@
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Membangun antarmuka pengguna yang bersih dan adaptif.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 pt-2">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">React Native</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Expo Framework</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">JavaScript (ES6+)</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">HTML5 Semantik</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">CSS3 & Tailwind</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Responsive UI</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-100 dark:hover:bg-blue-900">React Native</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-100 dark:hover:bg-blue-900">Expo Framework</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-100 dark:hover:bg-blue-900">JavaScript (ES6+)</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-100 dark:hover:bg-blue-900">HTML5 Semantik</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-100 dark:hover:bg-blue-900">CSS3 & Tailwind</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-100 dark:hover:bg-blue-900">Responsive UI</span>
                     </div>
                 </div>
 
                 <!-- Card 2: AI & Python -->
-                <div class="card-clean rounded-2xl p-6 space-y-4">
+                <div class="card-clean rounded-2xl p-6 space-y-4 tilt-card">
                     <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-brain"></i>
                     </div>
@@ -527,17 +572,17 @@
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Pemrosesan citra digital dan logika cerdas.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 pt-2">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Python 3.x</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">OpenCV</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Face Recognition</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">NumPy Matrix</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Tkinter GUI</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Machine Learning Basics</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-900">Python 3.x</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-900">OpenCV</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-900">Face Recognition</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-900">NumPy Matrix</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-900">Tkinter GUI</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-100 dark:hover:bg-indigo-900">Image Classification</span>
                     </div>
                 </div>
 
                 <!-- Card 3: Tools & Workflow -->
-                <div class="card-clean rounded-2xl p-6 space-y-4">
+                <div class="card-clean rounded-2xl p-6 space-y-4 tilt-card">
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl">
                         <i class="fa-solid fa-code-branch"></i>
                     </div>
@@ -546,12 +591,12 @@
                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Standar kolaborasi dan manajemen kode modern.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 pt-2">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Git Version Control</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">GitHub Cloud</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">VS Code</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Node.js & npm</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">PowerShell / CLI</span>
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Laragon Local Stack</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-900">Git Version Control</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-900">GitHub Cloud</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-900">VS Code</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-900">Node.js & npm</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-900">PowerShell / CLI</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-900">Laragon Local Stack</span>
                     </div>
                 </div>
 
@@ -560,7 +605,7 @@
 
 
         <!-- 5. BUKU TAMU INTERAKTIF WITH MICRO-CONFETTI CELEBRATION -->
-        <section id="guestbook" class="space-y-6">
+        <section id="guestbook" class="space-y-6 reveal-item">
             <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Interaksi & Masukan</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Buku Tamu & Catatan Dosen</h2>
@@ -570,7 +615,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 
                 <!-- Guestbook Form -->
-                <div class="lg:col-span-5 card-clean rounded-2xl p-6 sm:p-7 space-y-4">
+                <div class="lg:col-span-5 card-clean rounded-2xl p-6 sm:p-7 space-y-4 tilt-card">
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">Tulis Catatan / Pesan</h3>
                     <form id="form-guestbook" class="space-y-4">
                         <div>
@@ -595,7 +640,7 @@
                                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"></textarea>
                         </div>
 
-                        <button type="submit" id="btn-submit-guestbook" class="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer hover:shadow-md active:scale-98">
+                        <button type="submit" id="btn-submit-guestbook" class="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-98">
                             <i class="fa-regular fa-paper-plane text-xs"></i>
                             <span>Kirim ke Buku Tamu 🎉</span>
                         </button>
@@ -618,19 +663,19 @@
         </section>
 
 
-        <!-- 6. KONTAK & JARINGAN RESMI (DIRECT CONTACT CHANNELS) -->
-        <section id="contact" class="space-y-6">
+        <!-- 6. KONTAK & JARINGAN RESMI (DIRECT CONTACT CHANNELS WITH ONE-CLICK COPY) -->
+        <section id="contact" class="space-y-6 reveal-item">
             <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Saluran Komunikasi</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Hubungi & Terhubung</h2>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Jangan ragu untuk berdiskusi, memberikan penawaran proyek, atau menjalin relasi profesional.</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Klik pada kartu kontak untuk langsung chat, kirim email, atau menyalin kontak.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
                 <!-- WhatsApp Card -->
                 <a href="https://wa.me/6283137538544?text=Halo%20Dewan%20Mochamad%20Pratama,%20saya%20melihat%20portofolio%20Anda." target="_blank" rel="noopener noreferrer" 
-                   class="card-clean rounded-2xl p-6 group hover:border-emerald-300 dark:hover:border-emerald-700">
+                   class="card-clean rounded-2xl p-6 group hover:border-emerald-300 dark:hover:border-emerald-700 tilt-card cursor-pointer">
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
                         <i class="fa-brands fa-whatsapp"></i>
                     </div>
@@ -643,7 +688,7 @@
 
                 <!-- Email Card -->
                 <a href="mailto:dewan.mochpratama23@gmail.com" 
-                   class="card-clean rounded-2xl p-6 group hover:border-blue-300 dark:hover:border-blue-700">
+                   class="card-clean rounded-2xl p-6 group hover:border-blue-300 dark:hover:border-blue-700 tilt-card cursor-pointer">
                     <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
                         <i class="fa-regular fa-envelope"></i>
                     </div>
@@ -656,7 +701,7 @@
 
                 <!-- LinkedIn Card -->
                 <a href="https://www.linkedin.com/in/dewan-mochamad-pratama-8947452a6/" target="_blank" rel="noopener noreferrer" 
-                   class="card-clean rounded-2xl p-6 group hover:border-indigo-300 dark:hover:border-indigo-700">
+                   class="card-clean rounded-2xl p-6 group hover:border-indigo-300 dark:hover:border-indigo-700 tilt-card cursor-pointer">
                     <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
                         <i class="fa-brands fa-linkedin-in"></i>
                     </div>
@@ -669,7 +714,7 @@
 
                 <!-- GitHub Card -->
                 <a href="https://github.com/dewanmochpratama23-sys" target="_blank" rel="noopener noreferrer" 
-                   class="card-clean rounded-2xl p-6 group hover:border-slate-400 dark:hover:border-slate-600">
+                   class="card-clean rounded-2xl p-6 group hover:border-slate-400 dark:hover:border-slate-600 tilt-card cursor-pointer">
                     <div class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center text-2xl group-hover:bg-slate-900 group-hover:text-white dark:group-hover:bg-slate-700 transition-all">
                         <i class="fa-brands fa-github"></i>
                     </div>
@@ -686,7 +731,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-10 transition-colors">
+    <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-10 transition-colors relative z-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
             <div class="flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-blue-600"></span>
@@ -700,10 +745,179 @@
         </div>
     </footer>
 
-    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <!-- INTERACTIVE JAVASCRIPT MASTER SUITE -->
     <script>
         /* -------------------------------------------------------------
-           1. DARK & LIGHT MODE THEME CONTROLLER
+           1. TOP SCROLL READING PROGRESS BAR
+           ------------------------------------------------------------- */
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            const bar = document.getElementById('scroll-progress-bar');
+            if (bar) bar.style.width = `${progress}%`;
+        });
+
+        /* -------------------------------------------------------------
+           2. AMBIENT CURSOR GLOW SPOTLIGHT
+           ------------------------------------------------------------- */
+        const spotlight = document.getElementById('cursor-spotlight');
+        window.addEventListener('mousemove', (e) => {
+            if (spotlight) {
+                spotlight.style.left = `${e.clientX}px`;
+                spotlight.style.top = `${e.clientY}px`;
+            }
+        });
+
+        /* -------------------------------------------------------------
+           3. DYNAMIC TYPEWRITER ANIMATION (HERO SECTION)
+           ------------------------------------------------------------- */
+        const typewriterPhrases = [
+            'Software & Mobile App Developer',
+            'Mahasiswa S1 Teknik Informatika',
+            'Python Computer Vision Explorer',
+            'React Native & Expo Engineer',
+            'UI/UX & Web Developer'
+        ];
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+
+        function typeLoop() {
+            const current = typewriterPhrases[phraseIdx];
+            const el = document.getElementById('typewriter-text');
+            if (!el) return;
+
+            if (!isDeleting) {
+                el.textContent = current.substring(0, charIdx + 1);
+                charIdx++;
+                if (charIdx === current.length) {
+                    isDeleting = true;
+                    setTimeout(typeLoop, 2000); // Tunggu 2 detik setelah selesai mengetik
+                    return;
+                }
+            } else {
+                el.textContent = current.substring(0, charIdx - 1);
+                charIdx--;
+                if (charIdx === 0) {
+                    isDeleting = false;
+                    phraseIdx = (phraseIdx + 1) % typewriterPhrases.length;
+                }
+            }
+            setTimeout(typeLoop, isDeleting ? 35 : 75);
+        }
+
+        /* -------------------------------------------------------------
+           4. 3D TILT EFFECT ON CARDS
+           ------------------------------------------------------------- */
+        function init3DTilt() {
+            const tiltCards = document.querySelectorAll('.tilt-card, .card-clean');
+            tiltCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -5;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+                });
+            });
+        }
+
+        /* -------------------------------------------------------------
+           5. SCROLL-TRIGGERED ANIMATED METRIC COUNTERS
+           ------------------------------------------------------------- */
+        let countersRan = false;
+        function runCounters() {
+            if (countersRan) return;
+            countersRan = true;
+
+            const counters = document.querySelectorAll('.counter-num');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const suffix = counter.getAttribute('data-suffix') || '';
+                let count = 0;
+                const step = target > 50 ? 2 : 1;
+                const intervalTime = target > 50 ? 25 : 120;
+
+                const timer = setInterval(() => {
+                    count += step;
+                    if (count >= target) {
+                        counter.textContent = target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = count + suffix;
+                    }
+                }, intervalTime);
+            });
+        }
+
+        /* -------------------------------------------------------------
+           6. SCROLL REVEAL ANIMATIONS (INTERSECTION OBSERVER)
+           ------------------------------------------------------------- */
+        function initScrollReveal() {
+            const items = document.querySelectorAll('.reveal-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        if (entry.target.querySelector('.counter-num')) {
+                            runCounters();
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            items.forEach(el => observer.observe(el));
+        }
+
+        /* -------------------------------------------------------------
+           7. INTERACTIVE SKILL PILL BOUNCE & PARTICLES
+           ------------------------------------------------------------- */
+        function bouncePill(el) {
+            el.style.transform = 'scale(1.25) translateY(-6px)';
+            el.style.transition = 'transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            setTimeout(() => {
+                el.style.transform = 'scale(1)';
+            }, 250);
+            showToast(`Skill: ${el.textContent} (Telah Teruji & Diimplementasikan)`);
+        }
+
+        /* -------------------------------------------------------------
+           8. COPY TO CLIPBOARD WITH FLOATING TOAST
+           ------------------------------------------------------------- */
+        function showToast(text) {
+            const toast = document.getElementById('toast-notify');
+            const toastText = document.getElementById('toast-text');
+            if (!toast || !toastText) return;
+            toastText.textContent = text;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2800);
+        }
+
+        function copyToClipboard(text, customMessage) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(customMessage || 'Tersalin ke clipboard!');
+                }).catch(() => {
+                    showToast('Tersalin: ' + text);
+                });
+            } else {
+                showToast('Tersalin: ' + text);
+            }
+        }
+
+        /* -------------------------------------------------------------
+           9. DARK & LIGHT MODE THEME CONTROLLER
            ------------------------------------------------------------- */
         function initTheme() {
             const savedTheme = localStorage.getItem('dewan_theme');
@@ -734,7 +948,7 @@
         }
 
         /* -------------------------------------------------------------
-           2. BIOMETRIC FACE RECOGNITION SCANNER SIMULATION
+           10. BIOMETRIC FACE RECOGNITION SCANNER SIMULATION
            ------------------------------------------------------------- */
         let isScanning = false;
         function triggerBiometricScan() {
@@ -750,7 +964,6 @@
             const descText = document.getElementById('scan-desc-text');
             const boundary = document.getElementById('scanner-box-boundary');
 
-            // Show scanner overlay and start laser animation
             overlay.classList.remove('opacity-0');
             laser.classList.add('animate-laser');
             btnLabel.textContent = 'Memindai Biometrik...';
@@ -758,7 +971,6 @@
             descText.textContent = 'Mendeteksi 68 titik landmark wajah (OpenCV pipeline)...';
             boundary.className = 'absolute inset-3 border-2 border-dashed border-cyan-400 rounded-xl flex flex-col justify-between p-2';
 
-            // Simulate accuracy counting
             let counter = 85;
             const interval = setInterval(() => {
                 counter += Math.floor(Math.random() * 4) + 1;
@@ -767,7 +979,6 @@
                 if (counter >= 99.4) clearInterval(interval);
             }, 120);
 
-            // Finish scan after 2.4 seconds
             setTimeout(() => {
                 clearInterval(interval);
                 laser.classList.remove('animate-laser');
@@ -782,15 +993,14 @@
                 btnIcon.className = 'fa-solid fa-circle-check text-emerald-500';
                 descText.textContent = 'Identitas biometrik cocok: Dewan Mochamad Pratama (Teknik Informatika)';
 
-                // Trigger confetti burst celebration
                 triggerConfettiCelebration();
-
+                showToast('✅ Identitas Wajah Dewan Terverifikasi!');
                 isScanning = false;
             }, 2400);
         }
 
         /* -------------------------------------------------------------
-           3. INTERACTIVE MINI TERMINAL / CLI
+           11. INTERACTIVE MINI TERMINAL / CLI
            ------------------------------------------------------------- */
         const terminalOutput = document.getElementById('terminal-output');
         const terminalInput = document.getElementById('terminal-input');
@@ -874,7 +1084,7 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
         }
 
         /* -------------------------------------------------------------
-           4. MICRO-CONFETTI CELEBRATION & GUESTBOOK PERSISTENCE
+           12. MICRO-CONFETTI CELEBRATION & GUESTBOOK PERSISTENCE
            ------------------------------------------------------------- */
         function triggerConfettiCelebration() {
             if (typeof confetti === 'function') {
@@ -935,7 +1145,7 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
 
             comments.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'card-clean rounded-xl p-4 sm:p-5 space-y-2';
+                card.className = 'card-clean rounded-xl p-4 sm:p-5 space-y-2 tilt-card';
                 card.innerHTML = `
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -948,6 +1158,7 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
                 `;
                 feedContainer.appendChild(card);
             });
+            init3DTilt();
         }
 
         function escapeHTML(str) {
@@ -984,14 +1195,16 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
             msgInput.value = '';
 
             loadGuestbook();
-            
-            // Trigger micro-confetti celebration!
             triggerConfettiCelebration();
+            showToast('🎉 Ulasan berhasil dikirim ke Buku Tamu!');
         });
 
-        // Initialize on load
+        // Initialize on DOM load
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
+            typeLoop();
+            init3DTilt();
+            initScrollReveal();
             loadGuestbook();
         });
     </script>
