@@ -333,8 +333,8 @@ export default function App() {
               <Text style={[styles.metricValue, { color: theme.textMain }]}>Software & Mobile</Text>
             </View>
             <View style={[styles.metricItem, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
-              <Text style={styles.metricLabel}>Proyek Utama</Text>
-              <Text style={[styles.metricValue, { color: theme.textMain }]}>Face Recog & App</Text>
+              <Text style={styles.metricLabel}>Proyek & Bisnis</Text>
+              <Text style={[styles.metricValue, { color: theme.textMain }]}>3+ Unit & App</Text>
             </View>
             <View style={[styles.metricItem, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
               <Text style={styles.metricLabel}>Platform</Text>
@@ -347,14 +347,57 @@ export default function App() {
           </View>
         </View>
 
-        {/* 2. PROYEK UNGGULAN (PORTFOLIO PROJECTS) */}
+        {/* 2. PROYEK UNGGULAN & BISNIS OPERASIONAL */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionBadge}>SHOWCASE KARYA</Text>
-          <Text style={[styles.sectionTitle, { color: theme.textMain }]}>Proyek & Implementasi Rekayasa</Text>
-          <Text style={[styles.sectionSubtitle, { color: theme.textMuted }]}>Dua proyek utama yang telah selesai dibangun dan tersimpan di GitHub.</Text>
+          <Text style={styles.sectionBadge}>SHOWCASE KARYA & BISNIS</Text>
+          <Text style={[styles.sectionTitle, { color: theme.textMain }]}>Proyek Rekayasa & Platform Bisnis</Text>
+          <Text style={[styles.sectionSubtitle, { color: theme.textMuted }]}>Tiga implementasi nyata perangkat lunak, sistem AI, dan platform bisnis operasional.</Text>
         </View>
 
-        {/* Proyek 1: Face Recognition */}
+        {/* Proyek 1: Kosan Murah PT MIM (Live Production Web) */}
+        <View style={[styles.projectCard, { backgroundColor: theme.cardBg, borderColor: '#10b981', borderWidth: 1.5 }]}>
+          <View style={styles.projectCardTop}>
+            <View style={[styles.tagBadgeBlue, { backgroundColor: '#ecfdf5', borderColor: '#a7f3d0' }]}>
+              <Text style={[styles.tagBadgeBlueText, { color: '#065f46' }]}>● Live Production Web & Bisnis</Text>
+            </View>
+            <Text style={styles.platformLabel}>Vercel & Maps</Text>
+          </View>
+
+          <Text style={[styles.projectTitle, { color: theme.textMain }]}>Kosan Murah PT MIM</Text>
+          <Text style={[styles.projectStack, { color: '#10b981', fontWeight: '700' }]}>Platform Web Properti & Sewa Kontrakan</Text>
+
+          <Text style={[styles.projectDesc, { color: theme.textMuted }]}>
+            Platform web komersial resmi untuk unit bisnis sewa kontrakan 'Kosan Murah PT MIM' di Karawang. Dideploy di Vercel dan terintegrasi resmi dengan Google Maps.
+          </Text>
+
+          <View style={styles.featureList}>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Website aktif di Vercel: kosan-mim.vercel.app</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Terverifikasi resmi di Google Profil Bisnis & Maps</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Katalog kamar dan pemesanan via WhatsApp</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <TouchableOpacity
+              style={[styles.btnProjectBlue, { flex: 1, backgroundColor: '#10b981' }]}
+              activeOpacity={0.85}
+              onPress={() => handleOpenLink('https://kosan-mim.vercel.app/', 'Web Kosan Murah')}
+            >
+              <SafeIcon name="globe" size={14} color="#ffffff" fallback="🌐" />
+              <Text style={styles.btnProjectGithubText}>Buka Web Live</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.btnProjectGithub, { flex: 1, backgroundColor: theme.subtleBg, borderWidth: 1, borderColor: theme.border }]}
+              activeOpacity={0.85}
+              onPress={() => handleOpenLink('https://share.google/Nkv9zsm7dAbXj1pvy', 'Google Maps Kosan Murah')}
+            >
+              <SafeIcon name="map-marker-alt" size={14} color="#ef4444" fallback="📍" />
+              <Text style={[styles.btnProjectGithubText, { color: theme.textMain }]}>Google Maps</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Proyek 2: Face Recognition */}
         <View style={[styles.projectCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
           <View style={styles.projectCardTop}>
             <View style={styles.tagBadgeIndigo}>
