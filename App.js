@@ -684,7 +684,7 @@ export default function App() {
             Dewan Mochamad Pratama &copy; 2026. Karawang, Jawa Barat.
           </Text>
           <Text style={styles.footerSubtext}>
-            Dokumentasi Tugas Portofolio Mandiri S1 Teknik Informatika
+            Portofolio & Rekam Jejak Rekayasa S1 Teknik Informatika
           </Text>
         </View>
       </ScrollView>
