@@ -25,4 +25,25 @@ filesToDeploy.forEach(file => {
     }
 });
 
+// Also sync CV_dan_Resume folder into public/CV_dan_Resume
+const srcDocs = path.join(__dirname, 'CV_dan_Resume');
+const destDocs = path.join(publicDir, 'CV_dan_Resume');
+if (fs.existsSync(srcDocs)) {
+    function copyFolderRecursiveSync(source, target) {
+        if (!fs.existsSync(target)) fs.mkdirSync(target, { recursive: true });
+        const files = fs.readdirSync(source);
+        files.forEach(file => {
+            const curSource = path.join(source, file);
+            const curTarget = path.join(target, file);
+            if (fs.lstatSync(curSource).isDirectory()) {
+                copyFolderRecursiveSync(curSource, curTarget);
+            } else {
+                fs.copyFileSync(curSource, curTarget);
+            }
+        });
+    }
+    copyFolderRecursiveSync(srcDocs, destDocs);
+    console.log('✓ Synced: CV_dan_Resume folder -> public/CV_dan_Resume');
+}
+
 console.log('Static web portfolio build completed successfully! Output: public/');
