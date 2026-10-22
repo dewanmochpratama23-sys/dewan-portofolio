@@ -27,15 +27,15 @@
             overflow: hidden;
             margin: 0 auto;
             background: #ffffff;
-            padding: 9.5mm 14mm 8mm 14mm;
+            padding: 7.5mm 13mm 5mm 13mm;
             box-sizing: border-box;
         }
 
         .header {
-            margin-bottom: 7px;
+            margin-bottom: 5px;
         }
         .name {
-            font-size: 14pt;
+            font-size: 13.5pt;
             font-weight: bold;
             color: #000000;
             text-transform: uppercase;
@@ -44,15 +44,15 @@
             margin-bottom: 2px;
         }
         .title {
-            font-size: 9.6pt;
+            font-size: 9.2pt;
             font-weight: bold;
             color: #111827;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
         .contact-line {
-            font-size: 8.5pt;
+            font-size: 8.3pt;
             color: #374151;
-            line-height: 1.35;
+            line-height: 1.3;
         }
         .contact-line a {
             color: #0044cc;
@@ -60,23 +60,23 @@
         }
 
         .section-title {
-            font-size: 9.5pt;
+            font-size: 9.2pt;
             font-weight: bold;
             color: #000000;
             text-transform: uppercase;
             border-bottom: 1px solid #4b5563;
-            padding-bottom: 2px;
-            margin-top: 6.5px;
-            margin-bottom: 4px;
+            padding-bottom: 1.5px;
+            margin-top: 5px;
+            margin-bottom: 3px;
             letter-spacing: 0.2px;
         }
 
         .summary-p {
-            font-size: 8.4pt;
+            font-size: 8.1pt;
             color: #1f2937;
             text-align: justify;
-            line-height: 1.3;
-            margin-bottom: 3px;
+            line-height: 1.26;
+            margin-bottom: 2.5px;
         }
         .summary-p strong {
             color: #000000;
@@ -85,38 +85,38 @@
         .competency-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2.5px;
-            margin-top: 2px;
+            gap: 2px;
+            margin-top: 1.5px;
         }
         .comp-item {
-            font-size: 8.3pt;
+            font-size: 8.0pt;
             color: #1f2937;
-            line-height: 1.28;
+            line-height: 1.25;
         }
         .comp-item strong {
             color: #000000;
         }
 
         .job-item {
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         .job-heading {
-            font-size: 8.8pt;
+            font-size: 8.5pt;
             font-weight: bold;
             color: #000000;
             text-transform: uppercase;
-            line-height: 1.25;
+            line-height: 1.22;
         }
         .bullet-list {
             list-style-type: disc;
-            margin-left: 17px;
-            margin-top: 1.5px;
+            margin-left: 15px;
+            margin-top: 1px;
         }
         .bullet-list li {
-            font-size: 8.2pt;
+            font-size: 7.9pt;
             color: #1f2937;
-            line-height: 1.27;
-            margin-bottom: 1.5px;
+            line-height: 1.23;
+            margin-bottom: 1px;
             text-align: justify;
         }
         .bullet-list li strong {
@@ -137,7 +137,7 @@
                 height: 100% !important;
                 max-height: none !important;
                 margin: 0 !important;
-                padding: 8mm 14mm 6mm 14mm !important;
+                padding: 7.5mm 13mm 5mm 13mm !important;
                 box-shadow: none !important;
                 page-break-after: avoid !important;
                 page-break-inside: avoid !important;
@@ -179,10 +179,10 @@
         <section>
             <h2 class="section-title">KOMPETENSI INTI & KEAHLIAN TEKNIS</h2>
             <div class="competency-grid">
-                <div class="comp-item"><strong>• Sistem Logistik & Industri :</strong> SAP ERP (Materials Management & Logistics), Outbound Logistics, Warehouse Management (WMS), Stock Opname, Material Handling (Forklift), K3 Pergudangan.</div>
-                <div class="comp-item"><strong>• Bahasa & Framework Koding :</strong> Python, JavaScript (ES6+), React Native, Expo Framework, HTML5, CSS3, Tailwind CSS, SQL.</div>
-                <div class="comp-item"><strong>• Computer Vision & Tools   :</strong> OpenCV (Ekstraksi 68 Facial Landmarks), Git, GitHub, Vercel, RESTful API, Figma.</div>
-                <div class="comp-item"><strong>• Karakteristik Kerja       :</strong> Problem Solving, Analisis Data Operasional, Disiplin Industri Tinggi, Kolaborasi Tim.</div>
+                <div class="comp-item"><strong>• Sistem Logistik & Industri :</strong> SAP ERP (Logistics & WM), Outbound Logistics, Warehouse Operations, Stock Opname, Forklift, K3 Pergudangan.</div>
+                <div class="comp-item"><strong>• Software & Embedded IoT   :</strong> Python, React Native, Expo, JavaScript, ESP32, C++/Arduino, Sensor Ultrasonik, LCD 16x2, HTML/Tailwind, SQL.</div>
+                <div class="comp-item"><strong>• Computer Vision & Tools   :</strong> OpenCV (68 Facial Landmarks Extraction), Git, GitHub, Vercel, RESTful API, CLI & Terminal.</div>
+                <div class="comp-item"><strong>• Karakteristik Profesional :</strong> Problem Solving, Analisis Data Akurat, Disiplin Industri Tinggi, Manajemen Waktu & Kolaborasi.</div>
             </div>
         </section>
 
@@ -224,12 +224,21 @@
         <section>
             <h2 class="section-title">PROYEK TEKNOLOGI & INOVASI SISTEM</h2>
 
+            <!-- IoT ESP32 Car Reverse Sensor -->
+            <div class="job-item">
+                <div class="job-heading">SISTEM SENSOR MUNDUR MOBIL BERBASIS IOT ESP32 | Mikrokontroler, C++ & Sensor Ultrasonik | 2026</div>
+                <ul class="bullet-list">
+                    <li>Merancang modul sensor parkir cerdas berbasis ESP32 dan sensor HC-SR04 untuk estimasi jarak halangan waktu-nyata (deviasi &lt; 1 cm, rentang 2 cm &ndash; 400 cm).</li>
+                    <li>Mengintegrasikan modulasi frekuensi audio buzzer PWM adaptif, display teks LCD 16x2, dan indikator visual LED 3-tahap (Aman, Waspada, Bahaya) guna mencegah benturan kendaraan.</li>
+                </ul>
+            </div>
+
             <!-- Face Recognition -->
             <div class="job-item">
                 <div class="job-heading">SISTEM ABSENSI BIOMETRIK FACE RECOGNITION | Python & OpenCV | 2026</div>
                 <ul class="bullet-list">
                     <li>Membangun sistem verifikasi identitas biometrik otomatis berbasis Computer Vision dengan algoritma deteksi wajah real-time.</li>
-                    <li>Mengintegrasikan pemetaan <strong>68 titik facial landmarks</strong>, mencapai tingkat akurasi pencocokan <strong>99.4%</strong> pada beragam intensitas cahaya.</li>
+                    <li>Mengintegrasikan ekstraksi <strong>68 titik facial landmarks</strong>, mencapai akurasi pencocokan <strong>99.4%</strong> pada beragam intensitas cahaya.</li>
                 </ul>
             </div>
 
@@ -237,16 +246,7 @@
             <div class="job-item">
                 <div class="job-heading">APLIKASI MOBILE PORTOFOLIO NATIVE | React Native & Expo | 2026</div>
                 <ul class="bullet-list">
-                    <li>Mengembangkan aplikasi mobile native cross-platform modular dengan manajemen state reaktif dan tema dinamis Dark/Light mode.</li>
-                    <li>Menyematkan simulasi pemindai biometrik laser dan animasi fisika pegas (*spring physics*) dengan performa render mulus 60 FPS.</li>
-                </ul>
-            </div>
-
-            <!-- Web Portfolio -->
-            <div class="job-item">
-                <div class="job-heading">PLATFORM WEB PORTOFOLIO PRODUKSI | HTML5, Tailwind CSS, Vercel | 2026</div>
-                <ul class="bullet-list">
-                    <li>Merancang dan mendeploy web portofolio profesional (<a href="https://dewan-portofolio-delta.vercel.app/" target="_blank">dewan-portofolio-delta.vercel.app</a>) aktif 24 jam dengan integrasi terminal CLI, metrik langsung, dan buku tamu.</li>
+                    <li>Mengembangkan aplikasi mobile native cross-platform modular dengan manajemen state reaktif, tema dinamis Dark/Light mode, dan animasi pegas stabil 60 FPS.</li>
                 </ul>
             </div>
         </section>

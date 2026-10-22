@@ -11,7 +11,8 @@ const filesToDeploy = [
     'index.html',
     'cv.html',
     'dewan-foto.jpg',
-    'Dewan_Mochamad_Pratama_CV.pdf'
+    'Dewan_Mochamad_Pratama_CV.pdf',
+    'Dewan_Mochamad_Pratama_Resume.pdf'
 ];
 
 filesToDeploy.forEach(file => {
