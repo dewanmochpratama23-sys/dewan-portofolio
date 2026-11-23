@@ -10,9 +10,11 @@ if (!fs.existsSync(publicDir)) {
 const filesToDeploy = [
     'index.html',
     'cv.html',
+    'portfolio_document.html',
     'dewan-foto.jpg',
     'Dewan_Mochamad_Pratama_CV.pdf',
-    'Dewan_Mochamad_Pratama_Resume.pdf'
+    'Dewan_Mochamad_Pratama_Resume.pdf',
+    'Portofolio_Dewan_Mochamad_Pratama.pdf'
 ];
 
 filesToDeploy.forEach(file => {
