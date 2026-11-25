@@ -2049,9 +2049,12 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
         function toggleEnvDemoModal() {
             const modal = document.getElementById('env-simulator-modal');
             if (!modal) return;
-            modal.classList.toggle('hidden');
-            if (!modal.classList.contains('hidden')) {
+            const isHidden = modal.classList.toggle('hidden');
+            if (!isHidden) {
+                document.body.classList.add('overflow-hidden');
                 updateEnvSim();
+            } else {
+                document.body.classList.remove('overflow-hidden');
             }
         }
 
@@ -2190,7 +2193,12 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
         function toggleIotDemoModal() {
             const modal = document.getElementById('iot-simulator-modal');
             if (!modal) return;
-            modal.classList.toggle('hidden');
+            const isHidden = modal.classList.toggle('hidden');
+            if (!isHidden) {
+                document.body.classList.add('overflow-hidden');
+            } else {
+                document.body.classList.remove('overflow-hidden');
+            }
         }
 
         function playIotBuzzerTone(freq, durationMs) {
@@ -2273,6 +2281,16 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
             }
         }
 
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const envModal = document.getElementById('env-simulator-modal');
+                if (envModal && !envModal.classList.contains('hidden')) toggleEnvDemoModal();
+                const iotModal = document.getElementById('iot-simulator-modal');
+                if (iotModal && !iotModal.classList.contains('hidden')) toggleIotDemoModal();
+            }
+        });
+
         // Initialize on DOM load
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
@@ -2287,219 +2305,227 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
     </script>
 
     <!-- 8. INTERACTIVE VIRTUAL ENVIRONMENT & 4-STAGE TRAFFIC LIGHT SIMULATOR MODAL (ESP32) -->
-    <div id="env-simulator-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl space-y-5 relative">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+    <div id="env-simulator-modal" onclick="if(event.target === this) toggleEnvDemoModal()" class="fixed inset-0 z-50 overflow-y-auto p-3 sm:p-6 bg-slate-950/85 backdrop-blur-sm hidden flex items-start sm:items-center justify-center transition-opacity">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl relative my-auto overflow-hidden">
+            <!-- Sticky Modal Header (Always Visible at Top) -->
+            <div class="sticky top-0 z-30 px-5 sm:px-6 py-3.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 shadow-xs">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center text-base">
+                    <div class="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center text-sm shadow-xs">
                         <i class="fa-solid fa-traffic-light"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Simulasi Telemetri Suhu & Traffic Light</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">ESP32 &bull; DHT Suhu/Kelembapan &bull; LDR Cahaya &bull; LCD 16x2 I2C &bull; Traffic Light 4-Warna</p>
+                        <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight">Simulasi Telemetri Suhu & Traffic Light</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">ESP32 &bull; DHT &bull; LDR &bull; LCD 16x2 I2C &bull; Traffic Light 4-Warna</p>
                     </div>
                 </div>
-                <button onclick="toggleEnvDemoModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer">
-                    <i class="fa-solid fa-xmark"></i>
+                <button onclick="toggleEnvDemoModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95" title="Tutup Modal (Esc)">
+                    <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
 
-            <!-- Virtual LCD 16x2 Display Box (I2C Bus) -->
-            <div class="bg-emerald-950/95 border-2 border-emerald-500/50 rounded-xl p-3.5 font-mono text-emerald-400 text-center shadow-inner space-y-1">
-                <div class="text-[10px] uppercase tracking-widest text-emerald-500/80 font-bold flex items-center justify-between px-2">
-                    <span>ESP32 I2C DISPLAY (0x27)</span>
-                    <span class="text-[9px] text-emerald-400/70">● 16x2 DOT MATRIX</span>
+            <!-- Scrollable Modal Body -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-4 flex-1">
+                <!-- Virtual LCD 16x2 Display Box (I2C Bus) -->
+                <div class="bg-emerald-950/95 border-2 border-emerald-500/50 rounded-xl p-3 font-mono text-emerald-400 text-center shadow-inner space-y-0.5">
+                    <div class="text-[10px] uppercase tracking-widest text-emerald-500/80 font-bold flex items-center justify-between px-2">
+                        <span>ESP32 I2C DISPLAY (0x27)</span>
+                        <span class="text-[9px] text-emerald-400/70">● 16x2 DOT MATRIX</span>
+                    </div>
+                    <div class="text-base sm:text-lg font-black tracking-widest" id="sim-env-lcd-line1">T: 28.0C  H: 66%</div>
+                    <div class="text-xs font-bold tracking-wider text-rose-400" id="sim-env-lcd-line2">PANAS/ALERT! | CAHAYA:ON</div>
                 </div>
-                <div class="text-lg font-black tracking-widest" id="sim-env-lcd-line1">T: 28.0C  H: 66%</div>
-                <div class="text-xs font-bold tracking-wider text-rose-400" id="sim-env-lcd-line2">PANAS/ALERT! | CAHAYA:ON</div>
-            </div>
 
-            <!-- 4-Stage Traffic Light Visual Module Bar -->
-            <div class="bg-slate-900 dark:bg-slate-950 border border-slate-800 rounded-2xl p-4 shadow-md">
-                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center mb-3">
-                    Modul Traffic Light 4-Warna (Andon Signal)
-                </div>
-                <div class="grid grid-cols-4 gap-3 text-center">
-                    <!-- Red (>25°C) -->
-                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                        <div id="sim-tl-red" class="w-6 h-6 rounded-full bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,1)] border-2 border-rose-300 transition-all mx-auto animate-pulse"></div>
-                        <div class="text-[10px] font-extrabold text-rose-400 uppercase">Merah</div>
-                        <div class="text-[9px] text-slate-400 font-mono">&gt; 25 °C</div>
+                <!-- 4-Stage Traffic Light Visual Module Bar -->
+                <div class="bg-slate-900 dark:bg-slate-950 border border-slate-800 rounded-2xl p-3 shadow-md">
+                    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center mb-2.5">
+                        Modul Traffic Light 4-Warna (Andon Signal)
                     </div>
-                    <!-- Yellow (20-25°C) -->
-                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                        <div id="sim-tl-yellow" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
-                        <div class="text-[10px] font-extrabold text-amber-400 uppercase">Kuning</div>
-                        <div class="text-[9px] text-slate-400 font-mono">20 - 25 °C</div>
-                    </div>
-                    <!-- Green (15-20°C) -->
-                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                        <div id="sim-tl-green" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
-                        <div class="text-[10px] font-extrabold text-emerald-400 uppercase">Hijau</div>
-                        <div class="text-[9px] text-slate-400 font-mono">15 - 20 °C</div>
-                    </div>
-                    <!-- Blue (0-15°C) -->
-                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
-                        <div id="sim-tl-blue" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
-                        <div class="text-[10px] font-extrabold text-blue-400 uppercase">Biru</div>
-                        <div class="text-[9px] text-slate-400 font-mono">0 - 15 °C</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Temperature Slider Control -->
-            <div class="space-y-1.5">
-                <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
-                    <span class="flex items-center gap-1.5">
-                        <i class="fa-solid fa-temperature-half text-rose-500"></i>
-                        <span>Uji Suhu Lingkungan (DHT):</span>
-                    </span>
-                    <span id="sim-temp-val" class="px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-mono font-bold">28.0 °C</span>
-                </div>
-                <input type="range" id="sim-env-temp-slider" min="0" max="40" step="0.5" value="28" oninput="updateEnvTemp(this.value)" 
-                       class="w-full accent-rose-500 cursor-pointer h-2 bg-slate-200 dark:bg-slate-800 rounded-lg">
-                <div class="flex justify-between text-[10px] font-mono text-slate-400">
-                    <span class="text-blue-500 font-bold">0°C (Biru)</span>
-                    <span class="text-emerald-500 font-bold">15°C (Hijau)</span>
-                    <span class="text-amber-500 font-bold">20°C (Kuning)</span>
-                    <span class="text-rose-500 font-bold">25°C+ (Merah)</span>
-                </div>
-            </div>
-
-            <!-- Light Sensor (LDR) Controls -->
-            <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-2.5">
-                <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
-                    <div class="flex items-center gap-2">
-                        <div id="sim-light-indicator" class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-500 border border-amber-300 flex items-center justify-center text-sm shadow-[0_0_12px_rgba(245,158,11,0.6)]">
-                            <i class="fa-solid fa-sun"></i>
+                    <div class="grid grid-cols-4 gap-2 sm:gap-3 text-center">
+                        <!-- Red (>25°C) -->
+                        <div class="space-y-1 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                            <div id="sim-tl-red" class="w-6 h-6 rounded-full bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,1)] border-2 border-rose-300 transition-all mx-auto animate-pulse"></div>
+                            <div class="text-[10px] font-extrabold text-rose-400 uppercase">Merah</div>
+                            <div class="text-[9px] text-slate-400 font-mono">&gt; 25 °C</div>
                         </div>
-                        <div>
-                            <div class="font-bold text-slate-800 dark:text-white">Sensor Cahaya LDR (Photodiode)</div>
-                            <div class="text-[10px] text-slate-400">Deteksi foton ambien &bull; ADC ESP32</div>
+                        <!-- Yellow (20-25°C) -->
+                        <div class="space-y-1 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                            <div id="sim-tl-yellow" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
+                            <div class="text-[10px] font-extrabold text-amber-400 uppercase">Kuning</div>
+                            <div class="text-[9px] text-slate-400 font-mono">20 - 25 °C</div>
+                        </div>
+                        <!-- Green (15-20°C) -->
+                        <div class="space-y-1 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                            <div id="sim-tl-green" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
+                            <div class="text-[10px] font-extrabold text-emerald-400 uppercase">Hijau</div>
+                            <div class="text-[9px] text-slate-400 font-mono">15 - 20 °C</div>
+                        </div>
+                        <!-- Blue (0-15°C) -->
+                        <div class="space-y-1 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                            <div id="sim-tl-blue" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
+                            <div class="text-[10px] font-extrabold text-blue-400 uppercase">Biru</div>
+                            <div class="text-[9px] text-slate-400 font-mono">0 - 15 °C</div>
                         </div>
                     </div>
-                    <button onclick="toggleEnvLight()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition-all shadow-xs cursor-pointer hover:scale-105 active:scale-95">
-                        <i class="fa-solid fa-lightbulb mr-1"></i> Saklar Senter
-                    </button>
                 </div>
 
-                <div class="space-y-1">
-                    <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                        <span>Intensitas Cahaya Ambien:</span>
-                        <span id="sim-lux-val" class="font-mono font-bold text-amber-600 dark:text-amber-400">80% (Aktif / Terang)</span>
+                <!-- Temperature Slider Control -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-temperature-half text-rose-500"></i>
+                            <span>Uji Suhu Lingkungan (DHT):</span>
+                        </span>
+                        <span id="sim-temp-val" class="px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-mono font-bold">28.0 °C</span>
                     </div>
-                    <input type="range" id="sim-env-lux-slider" min="0" max="100" value="80" oninput="updateEnvLightLux(this.value)"
-                           class="w-full accent-amber-500 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg">
+                    <input type="range" id="sim-env-temp-slider" min="0" max="40" step="0.5" value="28" oninput="updateEnvTemp(this.value)" 
+                           class="w-full accent-rose-500 cursor-pointer h-2 bg-slate-200 dark:bg-slate-800 rounded-lg">
+                    <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                        <span class="text-blue-500 font-bold">0°C (Biru)</span>
+                        <span class="text-emerald-500 font-bold">15°C (Hijau)</span>
+                        <span class="text-amber-500 font-bold">20°C (Kuning)</span>
+                        <span class="text-rose-500 font-bold">25°C+ (Merah)</span>
+                    </div>
+                </div>
+
+                <!-- Light Sensor (LDR) Controls -->
+                <div class="p-3 rounded-2xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-2">
+                    <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
+                        <div class="flex items-center gap-2">
+                            <div id="sim-light-indicator" class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-500 border border-amber-300 flex items-center justify-center text-sm shadow-[0_0_12px_rgba(245,158,11,0.6)]">
+                                <i class="fa-solid fa-sun"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-slate-800 dark:text-white">Sensor Cahaya LDR (Photodiode)</div>
+                                <div class="text-[10px] text-slate-400">Deteksi foton ambien &bull; ADC ESP32</div>
+                            </div>
+                        </div>
+                        <button onclick="toggleEnvLight()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition-all shadow-xs cursor-pointer hover:scale-105 active:scale-95">
+                            <i class="fa-solid fa-lightbulb mr-1"></i> Saklar Senter
+                        </button>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                            <span>Intensitas Cahaya Ambien:</span>
+                            <span id="sim-lux-val" class="font-mono font-bold text-amber-600 dark:text-amber-400">80% (Aktif / Terang)</span>
+                        </div>
+                        <input type="range" id="sim-env-lux-slider" min="0" max="100" value="80" oninput="updateEnvLightLux(this.value)"
+                               class="w-full accent-amber-500 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg">
+                    </div>
+                </div>
+
+                <!-- Live Action & Industrial Status Box -->
+                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                    <div class="font-bold text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">Respons Otomasi Industri / Andon:</div>
+                    <div id="sim-env-action-desc" class="font-medium text-xs leading-relaxed">
+                        🚨 Peringatan Suhu Tinggi (>25°C). Lampu MERAH solid aktif! Pemicu sistem exhaust / cooling otomatis.
+                    </div>
                 </div>
             </div>
 
-            <!-- Live Action & Industrial Status Box -->
-            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
-                <div class="font-bold text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Respons Otomasi Industri / Andon:</div>
-                <div id="sim-env-action-desc" class="font-medium leading-relaxed">
-                    🚨 Peringatan Suhu Tinggi (>25°C). Lampu MERAH solid aktif! Pemicu sistem exhaust / cooling otomatis.
-                </div>
-            </div>
-
-            <!-- Audio Buzzer Test Button -->
-            <div class="pt-1 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <button onclick="testEnvAlertTone()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer hover:scale-105 active:scale-95">
+            <!-- Sticky Modal Footer (Always Visible at Bottom) -->
+            <div class="sticky bottom-0 z-30 px-5 sm:px-6 py-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0">
+                <button onclick="testEnvAlertTone()" class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer hover:scale-105 active:scale-95">
                     <i class="fa-solid fa-volume-high"></i>
-                    <span>Uji Buzzer Frekuensi Alarm</span>
+                    <span>Uji Buzzer Alarm</span>
                 </button>
-                <div class="text-[11px] text-slate-500 dark:text-slate-400 font-mono text-center sm:text-right">
-                    Arsitektur ESP32 Non-Blocking
-                </div>
+                <button onclick="toggleEnvDemoModal()" class="px-5 py-2 rounded-xl bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-extrabold transition-all shadow-sm cursor-pointer hover:scale-105 active:scale-95 flex items-center gap-1.5">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Tutup Modal</span>
+                </button>
             </div>
         </div>
     </div>
 
     <!-- 9. INTERACTIVE VIRTUAL RADAR SIMULATOR MODAL (ESP32 REVERSE PARKING SENSOR) -->
-    <div id="iot-simulator-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl space-y-5 relative">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+    <div id="iot-simulator-modal" onclick="if(event.target === this) toggleIotDemoModal()" class="fixed inset-0 z-50 overflow-y-auto p-3 sm:p-6 bg-slate-950/85 backdrop-blur-sm hidden flex items-start sm:items-center justify-center transition-opacity">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl sm:rounded-3xl max-w-xl w-full max-h-[92vh] flex flex-col shadow-2xl relative my-auto overflow-hidden">
+            <!-- Sticky Modal Header -->
+            <div class="sticky top-0 z-30 px-5 sm:px-6 py-3.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 shadow-xs">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center text-base">
+                    <div class="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm shadow-xs">
                         <i class="fa-solid fa-satellite-dish"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Simulasi Virtual Sensor Mundur Mobil</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">ESP32 &bull; Ultrasonik HC-SR04 &bull; LCD 16x2 &bull; LED 3-Warna &bull; Buzzer</p>
+                        <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight">Simulasi Sensor Parkir & Mundur Mobil</h3>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">ESP32 &bull; Ultrasonik HC-SR04 &bull; LCD 16x2 &bull; LED 3-Warna &bull; Buzzer</p>
                     </div>
                 </div>
-                <button onclick="toggleIotDemoModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer">
-                    <i class="fa-solid fa-xmark"></i>
+                <button onclick="toggleIotDemoModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95" title="Tutup Modal (Esc)">
+                    <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
 
-            <!-- Virtual LCD 16x2 Display Box -->
-            <div class="bg-emerald-950/90 border-2 border-emerald-500/40 rounded-xl p-3.5 font-mono text-emerald-400 text-center shadow-inner space-y-1">
-                <div class="text-[11px] uppercase tracking-widest text-emerald-500/80 font-bold">Layar LCD 16x2 (I2C Bus)</div>
-                <div class="text-lg font-black tracking-widest" id="sim-lcd-line1">JARAK: 120 CM</div>
-                <div class="text-xs font-bold tracking-wider text-emerald-300" id="sim-lcd-line2">STATUS: ZONA AMAN</div>
-            </div>
+            <!-- Scrollable Modal Body -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-4 flex-1">
+                <!-- Virtual LCD 16x2 Display Box -->
+                <div class="bg-emerald-950/90 border-2 border-emerald-500/40 rounded-xl p-3 font-mono text-emerald-400 text-center shadow-inner space-y-0.5">
+                    <div class="text-[10px] uppercase tracking-widest text-emerald-500/80 font-bold">Layar LCD 16x2 (I2C Bus)</div>
+                    <div class="text-base sm:text-lg font-black tracking-widest" id="sim-lcd-line1">JARAK: 120 CM</div>
+                    <div class="text-xs font-bold tracking-wider text-emerald-300" id="sim-lcd-line2">STATUS: ZONA AMAN</div>
+                </div>
 
-            <!-- 3 LED Indicator Lights -->
-            <div class="flex items-center justify-center gap-6 py-1">
-                <div class="text-center space-y-1">
-                    <div id="sim-led-green" class="w-5 h-5 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.9)] transition-all mx-auto"></div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase">Hijau (Aman)</span>
-                </div>
-                <div class="text-center space-y-1">
-                    <div id="sim-led-yellow" class="w-5 h-5 rounded-full bg-slate-300 dark:bg-slate-700 transition-all mx-auto"></div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase">Kuning (Waspada)</span>
-                </div>
-                <div class="text-center space-y-1">
-                    <div id="sim-led-red" class="w-5 h-5 rounded-full bg-slate-300 dark:bg-slate-700 transition-all mx-auto"></div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase">Merah (Bahaya)</span>
-                </div>
-            </div>
-
-            <!-- Distance Slider Control -->
-            <div class="space-y-2 pt-1">
-                <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
-                    <span>Uji Jarak Rintangan:</span>
-                    <span id="sim-distance-val" class="px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-mono font-bold">120 cm</span>
-                </div>
-                <input type="range" id="sim-slider" min="5" max="200" value="120" oninput="updateIotSim(this.value)" 
-                       class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 dark:bg-slate-800 rounded-lg">
-                <div class="flex justify-between text-[11px] font-mono text-slate-400">
-                    <span>5 cm (Stop Bahaya)</span>
-                    <span>Rentang Deteksi HC-SR04</span>
-                    <span>200 cm (Jauh)</span>
-                </div>
-            </div>
-
-            <!-- Visual Sonar Animation -->
-            <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between px-6">
-                <div class="text-center">
-                    <div class="text-2xl">🚗</div>
-                    <div class="text-[11px] font-mono text-slate-400">Bumper Mobil</div>
-                </div>
-                <div class="flex-1 flex items-center justify-center px-4">
-                    <div id="sim-wave-box" class="flex gap-1.5 items-center">
-                        <span class="w-1.5 h-6 rounded-full bg-blue-500 animate-pulse"></span>
-                        <span class="w-1.5 h-10 rounded-full bg-blue-500/70"></span>
-                        <span class="w-1.5 h-12 rounded-full bg-blue-500/40"></span>
+                <!-- 3 LED Indicator Lights -->
+                <div class="flex items-center justify-center gap-6 py-1">
+                    <div class="text-center space-y-1">
+                        <div id="sim-led-green" class="w-5 h-5 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.9)] transition-all mx-auto"></div>
+                        <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Hijau (Aman)</span>
+                    </div>
+                    <div class="text-center space-y-1">
+                        <div id="sim-led-yellow" class="w-5 h-5 rounded-full bg-slate-300 dark:bg-slate-700 transition-all mx-auto"></div>
+                        <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Kuning (Waspada)</span>
+                    </div>
+                    <div class="text-center space-y-1">
+                        <div id="sim-led-red" class="w-5 h-5 rounded-full bg-slate-300 dark:bg-slate-700 transition-all mx-auto"></div>
+                        <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Merah (Bahaya)</span>
                     </div>
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl">🧱</div>
-                    <div class="text-[11px] font-mono text-slate-400">Tembok Halangan</div>
+
+                <!-- Distance Slider Control -->
+                <div class="space-y-1.5 pt-1">
+                    <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
+                        <span>Uji Jarak Rintangan:</span>
+                        <span id="sim-distance-val" class="px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-mono font-bold">120 cm</span>
+                    </div>
+                    <input type="range" id="sim-slider" min="5" max="200" value="120" oninput="updateIotSim(this.value)" 
+                           class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 dark:bg-slate-800 rounded-lg">
+                    <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                        <span>5 cm (Stop Bahaya)</span>
+                        <span>Rentang Deteksi HC-SR04</span>
+                        <span>200 cm (Jauh)</span>
+                    </div>
+                </div>
+
+                <!-- Visual Sonar Animation -->
+                <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between px-6">
+                    <div class="text-center">
+                        <div class="text-2xl">🚗</div>
+                        <div class="text-[10px] font-mono text-slate-400">Bumper Mobil</div>
+                    </div>
+                    <div class="flex-1 flex items-center justify-center px-4">
+                        <div id="sim-wave-box" class="flex gap-1.5 items-center">
+                            <span class="w-1.5 h-6 rounded-full bg-blue-500 animate-pulse"></span>
+                            <span class="w-1.5 h-10 rounded-full bg-blue-500/70"></span>
+                            <span class="w-1.5 h-12 rounded-full bg-blue-500/40"></span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl">🧱</div>
+                        <div class="text-[10px] font-mono text-slate-400">Tembok Halangan</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Audio Buzzer Test Button -->
-            <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <button onclick="testSimBeep()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer hover:scale-105 active:scale-95">
+            <!-- Sticky Modal Footer -->
+            <div class="sticky bottom-0 z-30 px-5 sm:px-6 py-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0">
+                <button onclick="testSimBeep()" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer hover:scale-105 active:scale-95">
                     <i class="fa-solid fa-volume-high"></i>
-                    <span>Uji Frekuensi Beep Buzzer</span>
+                    <span>Uji Beep Buzzer</span>
                 </button>
-                <div id="sim-buzzer-desc" class="text-xs text-slate-500 dark:text-slate-400 font-mono text-center sm:text-right">
-                    Interval Beep: 1000 ms (Santai)
-                </div>
+                <button onclick="toggleIotDemoModal()" class="px-5 py-2 rounded-xl bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-extrabold transition-all shadow-sm cursor-pointer hover:scale-105 active:scale-95 flex items-center gap-1.5">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Tutup Modal</span>
+                </button>
             </div>
         </div>
     </div>
