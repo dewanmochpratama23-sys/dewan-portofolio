@@ -803,9 +803,9 @@ const htmlContent = `<!DOCTYPE html>
                         <div style="font-size:7.8pt; font-weight:700; color:#2563eb;">Full-Stack Web Engineering: Next.js 16, TypeScript, Tailwind CSS, Vercel &amp; Google AdSense</div>
                     </div>
                     <div style="text-align:right;">
-                        <span class="badge badge-blue">Online di Vercel</span>
+                        <span class="badge badge-blue">Domain Resmi Live</span>
                         <div style="font-size:7.2pt; color:#64748b; margin-top:2px;">
-                            <a href="https://kosan-mim.vercel.app/" target="_blank" style="color:#2563eb; font-weight:700;">kosan-mim.vercel.app</a>
+                            <a href="https://kosan.portalmediakita.com/" target="_blank" style="color:#2563eb; font-weight:700;">kosan.portalmediakita.com</a>
                         </div>
                     </div>
                 </div>

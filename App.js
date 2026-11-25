@@ -371,7 +371,7 @@ export default function App() {
           </Text>
 
           <View style={styles.featureList}>
-            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Website aktif di Vercel: kosan-mim.vercel.app</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Website resmi: kosan.portalmediakita.com</Text>
             <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Terverifikasi resmi di Google Profil Bisnis & Maps</Text>
             <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Katalog kamar dan pemesanan via WhatsApp</Text>
           </View>
@@ -380,7 +380,7 @@ export default function App() {
             <TouchableOpacity
               style={[styles.btnProjectBlue, { flex: 1, backgroundColor: '#10b981' }]}
               activeOpacity={0.85}
-              onPress={() => handleOpenLink('https://kosan-mim.vercel.app/', 'Web Kosan Murah')}
+              onPress={() => handleOpenLink('https://kosan.portalmediakita.com/', 'Web Kosan Murah')}
             >
               <SafeIcon name="globe" size={14} color="#ffffff" fallback="🌐" />
               <Text style={styles.btnProjectGithubText}>Buka Web Live</Text>

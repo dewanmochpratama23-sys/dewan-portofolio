@@ -24,6 +24,7 @@ function renderHtmlToPdf(htmlFile, outputFile) {
 
     const args = [
         '--headless=new',
+        '--no-sandbox',
         '--disable-gpu',
         '--no-pdf-header-footer',
         `--print-to-pdf=${pdfPath}`,
