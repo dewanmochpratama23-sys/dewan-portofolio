@@ -27,7 +27,7 @@ function countPdfPages(pdfPath) {
     return matches ? matches.length : 0;
 }
 
-// SVG Icons (Inline for 100% offline & sharp vector print)
+// SVG Icons
 const icons = {
     check: `<svg style="width:13px;height:13px;fill:#10b981;flex-shrink:0;" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>`,
     star: `<svg style="width:13px;height:13px;fill:#f59e0b;flex-shrink:0;" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`,
@@ -38,7 +38,8 @@ const icons = {
     location: `<svg style="width:13px;height:13px;fill:#ef4444;flex-shrink:0;" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>`,
     chip: `<svg style="width:14px;height:14px;fill:#2563eb;flex-shrink:0;" viewBox="0 0 24 24"><path d="M6 4h12v2h2v2h2v2h-2v4h2v2h-2v2h-2v2H6v-2H4v-2H2v-2h2v-4H2V8h2V6h2V4zm2 4v8h8V8H8zm2 2h4v4h-4v-4z"/></svg>`,
     box: `<svg style="width:14px;height:14px;fill:#059669;flex-shrink:0;" viewBox="0 0 24 24"><path d="M12 1l10 5v12l-10 5L2 18V6l10-5zm0 2.236L4.472 7 12 10.764 19.528 7 12 3.236zM4 8.847v7.533l7 3.5v-7.533l-7-3.5zm9 11.033l7-3.5V8.847l-7 3.5v7.533z"/></svg>`,
-    code: `<svg style="width:14px;height:14px;fill:#7c3aed;flex-shrink:0;" viewBox="0 0 24 24"><path d="M8.59 16.59L4 12l4.59-4.59L10 8.82 6.83 12 10 15.18l-1.41 1.41zm6.82 0L20 12l-4.59-4.59L14 8.82 17.17 12 14 15.18l1.41 1.41z"/></svg>`
+    code: `<svg style="width:14px;height:14px;fill:#7c3aed;flex-shrink:0;" viewBox="0 0 24 24"><path d="M8.59 16.59L4 12l4.59-4.59L10 8.82 6.83 12 10 15.18l-1.41 1.41zm6.82 0L20 12l-4.59-4.59L14 8.82 17.17 12 14 15.18l1.41 1.41z"/></svg>`,
+    sun: `<svg style="width:13px;height:13px;fill:#f59e0b;flex-shrink:0;" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>`
 };
 
 // 3. Generate HTML Template
@@ -63,8 +64,8 @@ const htmlContent = `<!DOCTYPE html>
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: #e2e8f0;
             color: #1e293b;
-            font-size: 8.7pt;
-            line-height: 1.35;
+            font-size: 8.6pt;
+            line-height: 1.34;
         }
         .page {
             width: 210mm;
@@ -74,7 +75,7 @@ const htmlContent = `<!DOCTYPE html>
             margin: 0 auto;
             background: #ffffff;
             box-sizing: border-box;
-            padding: 11mm 13mm 9mm 13mm;
+            padding: 10mm 13mm 9mm 13mm;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -90,7 +91,7 @@ const htmlContent = `<!DOCTYPE html>
             align-items: center;
             border-bottom: 1.5px solid #0f172a;
             padding-bottom: 4px;
-            margin-bottom: 7px;
+            margin-bottom: 6px;
         }
         .header-brand {
             font-size: 7.8pt;
@@ -121,7 +122,7 @@ const htmlContent = `<!DOCTYPE html>
         .page-footer {
             border-top: 1px solid #cbd5e1;
             padding-top: 4px;
-            margin-top: 6px;
+            margin-top: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -140,7 +141,7 @@ const htmlContent = `<!DOCTYPE html>
             font-weight: 800;
         }
         .section-heading {
-            font-size: 10pt;
+            font-size: 9.8pt;
             font-weight: 800;
             color: #0f172a;
             text-transform: uppercase;
@@ -151,10 +152,7 @@ const htmlContent = `<!DOCTYPE html>
             border-bottom: 1.2px solid #cbd5e1;
             padding-bottom: 3px;
             margin-bottom: 5px;
-            margin-top: 5px;
-        }
-        .section-heading-accent {
-            color: #2563eb;
+            margin-top: 4px;
         }
 
         /* Badges */
@@ -173,6 +171,7 @@ const htmlContent = `<!DOCTYPE html>
         .badge-emerald { background: #ecfdf5; color: #047857; border: 0.8px solid #a7f3d0; }
         .badge-indigo { background: #eef2ff; color: #4338ca; border: 0.8px solid #c7d2fe; }
         .badge-amber { background: #fffbeb; color: #b45309; border: 0.8px solid #fde68a; }
+        .badge-rose { background: #fff1f2; color: #be123c; border: 0.8px solid #fecdd3; }
         .badge-slate { background: #f1f5f9; color: #334155; border: 0.8px solid #cbd5e1; }
 
         /* Cards */
@@ -180,7 +179,7 @@ const htmlContent = `<!DOCTYPE html>
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            padding: 7px 9px;
+            padding: 6px 9px;
             box-sizing: border-box;
         }
         .card-highlight {
@@ -189,20 +188,20 @@ const htmlContent = `<!DOCTYPE html>
         }
 
         /* Grid utilities */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
         .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
 
         /* Tables */
         .spec-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 7.5pt;
+            font-size: 7.4pt;
             margin: 3px 0;
         }
         .spec-table th, .spec-table td {
             border: 0.8px solid #cbd5e1;
-            padding: 3.5px 6px;
+            padding: 3px 5px;
             text-align: left;
         }
         .spec-table th {
@@ -220,10 +219,10 @@ const htmlContent = `<!DOCTYPE html>
             display: flex;
             align-items: flex-start;
             gap: 5px;
-            font-size: 8pt;
+            font-size: 7.9pt;
             color: #334155;
             margin-bottom: 2.5px;
-            line-height: 1.28;
+            line-height: 1.27;
         }
         .checklist li strong {
             color: #0f172a;
@@ -233,16 +232,16 @@ const htmlContent = `<!DOCTYPE html>
         .hero-banner {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 13px;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #ffffff;
-            padding: 10px 14px;
+            padding: 9px 13px;
             border-radius: 8px;
-            margin-bottom: 7px;
+            margin-bottom: 6px;
         }
         .hero-avatar {
-            width: 65px;
-            height: 65px;
+            width: 63px;
+            height: 63px;
             border-radius: 8px;
             object-fit: cover;
             border: 2px solid #3b82f6;
@@ -257,7 +256,7 @@ const htmlContent = `<!DOCTYPE html>
         }
         .hero-title {
             color: #60a5fa;
-            font-size: 8.5pt;
+            font-size: 8.3pt;
             font-weight: 700;
             margin-bottom: 3px;
         }
@@ -265,7 +264,7 @@ const htmlContent = `<!DOCTYPE html>
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            font-size: 7.4pt;
+            font-size: 7.3pt;
             color: #cbd5e1;
         }
         .hero-contact a {
@@ -273,7 +272,6 @@ const htmlContent = `<!DOCTYPE html>
             text-decoration: underline;
         }
 
-        /* Tech Tag Chips */
         .tech-chip {
             display: inline-block;
             background: #f1f5f9;
@@ -301,7 +299,7 @@ const htmlContent = `<!DOCTYPE html>
                     <span class="dot"></span>
                     <span>Dewan Mochamad Pratama &bull; Dokumen Portofolio Resmi</span>
                 </div>
-                <div class="header-tag">Halaman 1 dari 4 &bull; Profil &amp; Kompetensi</div>
+                <div class="header-tag">Halaman 1 dari 5 &bull; Profil &amp; Kompetensi</div>
             </div>
 
             <!-- Hero Banner -->
@@ -330,7 +328,7 @@ const htmlContent = `<!DOCTYPE html>
                 ${icons.star} <span>Ringkasan Eksekutif &amp; Nilai Tambah</span>
             </div>
             <div class="card card-highlight" style="font-size:8.1pt; line-height:1.32; text-align:justify; margin-bottom:6px;">
-                Praktisi rekayasa teknologi dan operasional industri dengan kombinasi langka antara <strong>keahlian pengembangan perangkat lunak modern (Full-Stack Web, Mobile App, AI Computer Vision, &amp; Embedded IoT)</strong> serta <strong>pengalaman nyata lebih dari 4 tahun di industri logistik manufaktur berskala besar (PT Multi Indomandiri / Wings Group)</strong>. Terbukti mampu merekayasa solusi teknologi dari tahap perancangan firmware hardware mikrokontroler, deployment web komersial aktif yang menghasilkan pendapatan riil, hingga pengelolaan sistem pergudangan (WMS), kontrol inventaris presisi, dan implementasi budaya kerja 5S/5R dengan integritas tinggi.
+                Praktisi rekayasa teknologi dan operasional industri dengan kombinasi langka antara <strong>keahlian pengembangan perangkat lunak modern (Full-Stack Web, Mobile App, AI Computer Vision, &amp; Embedded IoT)</strong> serta <strong>pengalaman nyata lebih dari 4 tahun di industri logistik manufaktur berskala besar (PT Multi Indomandiri / Wings Group)</strong>. Terbukti mampu merekayasa solusi teknologi dari tahap perancangan firmware hardware mikrokontroler (ESP32, sensor telemetri suhu &amp; cahaya), deployment web komersial aktif yang menghasilkan pendapatan riil, hingga pengelolaan sistem pergudangan (WMS), kontrol inventaris presisi, dan implementasi budaya kerja 5S/5R dengan integritas tinggi.
             </div>
 
             <!-- Matriks Keahlian Terpadu -->
@@ -340,10 +338,29 @@ const htmlContent = `<!DOCTYPE html>
             <div class="grid-2" style="margin-bottom:6px;">
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
-                        <strong style="font-size:8.2pt; color:#1e40af;">1. Full-Stack Web &amp; Cloud Architecture</strong>
+                        <strong style="font-size:8.2pt; color:#047857;">1. Embedded Systems &amp; IoT Hardware</strong>
+                        <span class="badge badge-emerald">Hardware &amp; IoT</span>
+                    </div>
+                    <p style="font-size:7.5pt; color:#475569; margin-bottom:4px;">Desain sirkuit mikrokontroler, interfacing sensor real-time, dan modulasi sinyal frekuensi.</p>
+                    <div>
+                        <span class="tech-chip">ESP32 32-bit</span>
+                        <span class="tech-chip">Arduino C++</span>
+                        <span class="tech-chip">DHT Temperature/Humidity</span>
+                        <span class="tech-chip">LDR Light Sensor</span>
+                        <span class="tech-chip">4-Color Traffic Light</span>
+                        <span class="tech-chip">I2C LCD 16x2</span>
+                        <span class="tech-chip">HC-SR04 Ultrasonic</span>
+                        <span class="tech-chip">PWM Modulator</span>
+                        <span class="tech-chip">ADC Calibration</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
+                        <strong style="font-size:8.2pt; color:#1e40af;">2. Full-Stack Web &amp; Cloud Architecture</strong>
                         <span class="badge badge-blue">Web Platform</span>
                     </div>
-                    <p style="font-size:7.6pt; color:#475569; margin-bottom:4px;">Rekayasa aplikasi web modern, performa tinggi, SEO teroptimasi, dan siap skala bisnis.</p>
+                    <p style="font-size:7.5pt; color:#475569; margin-bottom:4px;">Rekayasa aplikasi web modern, performa tinggi, SEO teroptimasi, dan siap skala bisnis.</p>
                     <div>
                         <span class="tech-chip">Next.js 16</span>
                         <span class="tech-chip">React.js</span>
@@ -352,27 +369,8 @@ const htmlContent = `<!DOCTYPE html>
                         <span class="tech-chip">Node.js</span>
                         <span class="tech-chip">Vercel CI/CD</span>
                         <span class="tech-chip">REST API</span>
-                        <span class="tech-chip">HTML5 / CSS3</span>
-                        <span class="tech-chip">Google Business API</span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
-                        <strong style="font-size:8.2pt; color:#047857;">2. Embedded Systems &amp; IoT Hardware</strong>
-                        <span class="badge badge-emerald">Hardware &amp; IoT</span>
-                    </div>
-                    <p style="font-size:7.6pt; color:#475569; margin-bottom:4px;">Desain sirkuit mikrokontroler, interfacing sensor real-time, dan modulasi sinyal frekuensi.</p>
-                    <div>
-                        <span class="tech-chip">ESP32 32-bit</span>
-                        <span class="tech-chip">Arduino IDE</span>
-                        <span class="tech-chip">C / C++ Embedded</span>
-                        <span class="tech-chip">HC-SR04 Ultrasonic</span>
-                        <span class="tech-chip">I2C Protocol</span>
-                        <span class="tech-chip">LCD 16x2</span>
-                        <span class="tech-chip">PWM Modulator</span>
-                        <span class="tech-chip">Wokwi Simulator</span>
-                        <span class="tech-chip">Sensor Interfacing</span>
+                        <span class="tech-chip">Native PHP</span>
+                        <span class="tech-chip">Figma UI/UX</span>
                     </div>
                 </div>
 
@@ -381,7 +379,7 @@ const htmlContent = `<!DOCTYPE html>
                         <strong style="font-size:8.2pt; color:#6d28d9;">3. AI Computer Vision &amp; Mobile App</strong>
                         <span class="badge badge-indigo">AI &amp; Mobile</span>
                     </div>
-                    <p style="font-size:7.6pt; color:#475569; margin-bottom:4px;">Pengolahan citra digital biometrik serta aplikasi mobile native Android dan iOS.</p>
+                    <p style="font-size:7.5pt; color:#475569; margin-bottom:4px;">Pengolahan citra digital biometrik serta aplikasi mobile native Android dan iOS.</p>
                     <div>
                         <span class="tech-chip">Python 3</span>
                         <span class="tech-chip">OpenCV</span>
@@ -399,7 +397,7 @@ const htmlContent = `<!DOCTYPE html>
                         <strong style="font-size:8.2pt; color:#b45309;">4. Logistics Operations &amp; Supply Chain</strong>
                         <span class="badge badge-amber">Manufaktur FMCG</span>
                     </div>
-                    <p style="font-size:7.6pt; color:#475569; margin-bottom:4px;">Manajemen alur pergudangan skala pabrik industri, akurasi stok, dan standar K3/5S.</p>
+                    <p style="font-size:7.5pt; color:#475569; margin-bottom:4px;">Manajemen alur pergudangan skala pabrik industri, akurasi stok, dan standar K3/5S.</p>
                     <div>
                         <span class="tech-chip">WMS Inventory</span>
                         <span class="tech-chip">Stock Opname</span>
@@ -407,7 +405,7 @@ const htmlContent = `<!DOCTYPE html>
                         <span class="tech-chip">Material Handling</span>
                         <span class="tech-chip">5S / 5R Methodology</span>
                         <span class="tech-chip">K3 Pabrik</span>
-                        <span class="tech-chip">Standard Operating Procedure</span>
+                        <span class="tech-chip">SOP Operasional</span>
                     </div>
                 </div>
             </div>
@@ -445,12 +443,13 @@ const htmlContent = `<!DOCTYPE html>
         <div class="page-footer">
             <span>Dokumen Portofolio Resmi &bull; Dewan Mochamad Pratama</span>
             <span>Live Portfolio: <a href="https://dewan-portofolio-delta.vercel.app/" target="_blank">dewan-portofolio-delta.vercel.app</a></span>
-            <span>Halaman 1 dari 4</span>
+            <span>Halaman 1 dari 5</span>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- HALAMAN 2: PROYEK 1 - SISTEM SENSOR IOT    -->
+    <!-- HALAMAN 2: PROYEK 1 - IOT MULTI-SENSOR     -->
+    <!-- (PROYEK BARU: SUHU, CAHAYA, TRAFFIC LIGHT) -->
     <!-- ========================================== -->
     <div class="page">
         <div>
@@ -460,7 +459,180 @@ const htmlContent = `<!DOCTYPE html>
                     <span class="dot"></span>
                     <span>Dewan Mochamad Pratama &bull; Dokumen Portofolio Resmi</span>
                 </div>
-                <div class="header-tag">Halaman 2 dari 4 &bull; Showcase Proyek Unggulan I</div>
+                <div class="header-tag">Halaman 2 dari 5 &bull; Showcase Proyek Unggulan I</div>
+            </div>
+
+            <!-- Proyek Banner -->
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:5px;">
+                <div>
+                    <span class="badge badge-emerald" style="margin-bottom:2px;">Proyek Rekayasa Perangkat Keras &bull; IoT &amp; Embedded Systems (2026)</span>
+                    <h2 style="font-size:12pt; color:#0f172a; line-height:1.2;">IoT Multi-Sensor Smart Environment &amp; 4-Stage Traffic Light Alert System</h2>
+                    <div style="font-size:8pt; font-weight:700; color:#2563eb;">Sistem Telemetri Suhu, Kelembapan, dan Deteksi Cahaya Terintegrasi dengan LCD 16x2 I2C &amp; Visual Andon Alert</div>
+                </div>
+                <div style="text-align:right;">
+                    <span class="badge badge-blue">Hardware Assembly Aktif</span>
+                    <div style="font-size:7.2pt; color:#64748b; margin-top:2px;">Platform: ESP32 / Arduino C++</div>
+                </div>
+            </div>
+
+            <!-- Overview Box -->
+            <div class="card card-highlight" style="margin-bottom:6px; font-size:7.9pt; line-height:1.32; text-align:justify;">
+                <strong>Ikhtisar Rekayasa:</strong> Sistem stasiun telemetri lingkungan dan keselamatan kerja cerdas yang dirancang untuk memantau suhu, kelembapan udara, serta intensitas cahaya ambien secara simultan. Menggunakan mikrokontroler <strong>ESP32 32-bit Xtensa Dual-Core</strong> berkecepatan tinggi, sistem mengolah data sensor suhu/kelembapan <strong>DHT</strong> dan sensor cahaya <strong>LDR (Light Dependent Resistor)</strong>, menampilkan metrik pengukuran real-time pada layar <strong>LCD 16x2 dengan antarmuka I2C</strong>, serta memicu <strong>modul lampu Traffic Light 4-Warna (Merah, Kuning, Hijau, Biru)</strong> secara otomatis berdasarkan ambang batas termal bertingkat (*multi-stage thermal logic*).
+            </div>
+
+            <!-- Matriks Logika Traffic Light 4 Level -->
+            <div class="section-heading">
+                ${icons.chip} <span>Matriks Logika Kontrol Suhu &amp; Sinyal Indikator Traffic Light 4-Warna</span>
+            </div>
+            <table class="spec-table" style="margin-bottom:6px;">
+                <thead>
+                    <tr>
+                        <th style="width:16%;">Rentang Suhu (°C)</th>
+                        <th style="width:16%;">Klasifikasi Kondisi</th>
+                        <th style="width:22%;">Status Lampu Traffic Light</th>
+                        <th style="width:23%;">Tampilan Layar LCD 16x2</th>
+                        <th style="width:23%;">Respons Otomasi &amp; Industri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background:#fef2f2;">
+                        <td><strong>&gt; 25 °C</strong></td>
+                        <td><span class="badge badge-rose" style="font-size:6.8pt;">Suhu Tinggi (Hot Alert)</span></td>
+                        <td><span style="color:#dc2626; font-weight:800;">🔴 LAMPU MERAH</span> (Solid)</td>
+                        <td><code>T: [XX]°C  H: [XX]%<br/>STATUS: PANAS/ALERT!</code></td>
+                        <td>Peringatan bahaya *overheat*; rekomendasi pemicu kipas/exhaust darurat.</td>
+                    </tr>
+                    <tr style="background:#fffbeb;">
+                        <td><strong>20 °C &ndash; 25 °C</strong></td>
+                        <td><span class="badge badge-amber" style="font-size:6.8pt;">Hangat (Moderate/Normal)</span></td>
+                        <td><span style="color:#d97706; font-weight:800;">🟡 LAMPU KUNING</span> (Solid)</td>
+                        <td><code>T: [XX]°C  H: [XX]%<br/>STATUS: HANGAT/NORMAL</code></td>
+                        <td>Kondisi suhu ruang kerja reguler; pemantauan fluktuasi secara berkala.</td>
+                    </tr>
+                    <tr style="background:#ecfdf5;">
+                        <td><strong>15 °C &ndash; 20 °C</strong></td>
+                        <td><span class="badge badge-emerald" style="font-size:6.8pt;">Sejuk (Comfort / Optimal)</span></td>
+                        <td><span style="color:#059669; font-weight:800;">🟢 LAMPU HIJAU</span> (Solid)</td>
+                        <td><code>T: [XX]°C  H: [XX]%<br/>STATUS: SUHU OPTIMAL</code></td>
+                        <td>Rentang suhu paling ideal untuk kenyamanan kerja dan operasional mesin.</td>
+                    </tr>
+                    <tr style="background:#eff6ff;">
+                        <td><strong>0 °C &ndash; 15 °C</strong></td>
+                        <td><span class="badge badge-blue" style="font-size:6.8pt;">Dingin (Cool / Low Temp)</span></td>
+                        <td><span style="color:#2563eb; font-weight:800;">🔵 LAMPU BIRU</span> (Solid)</td>
+                        <td><code>T: [XX]°C  H: [XX]%<br/>STATUS: SUHU DINGIN</code></td>
+                        <td>Peringatan suhu dingin; mitigasi kondensasi uap air pada komponen kelistrikan.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Sub-Sistem Sensor Cahaya LDR & LCD Display -->
+            <div class="section-heading">
+                ${icons.sun} <span>Sub-Sistem Deteksi Cahaya Ambien (LDR) &amp; Display LCD 16x2 I2C</span>
+            </div>
+            <div class="grid-2" style="margin-bottom:6px;">
+                <div class="card" style="font-size:7.8pt;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                        <strong style="color:#0f172a;">1. Logika Sensor Cahaya LDR (Photodiode):</strong>
+                        <span class="badge badge-amber">Analog to Digital</span>
+                    </div>
+                    <ul class="checklist">
+                        <li>
+                            ${icons.check}
+                            <span><strong>Pendeteksian Foton Real-Time:</strong> Menggunakan sirkuit pembagi tegangan (*voltage divider*) LDR yang dihubungkan ke pin ADC ESP32.</span>
+                        </li>
+                        <li>
+                            ${icons.check}
+                            <span><strong>Status Deteksi Cahaya Aktif:</strong> Saat cahaya menyinari sensor di atas nilai kalibrasi ambang (*threshold*), sistem mengonfirmasi status bahwa sumber cahaya aktif.</span>
+                        </li>
+                        <li>
+                            ${icons.check}
+                            <span><strong>Feedback Visual LCD:</strong> Baris kedua LCD 16x2 secara otomatis menampilkan: <code>Cahaya: AKTIF (ON)</code> ketika terang, dan <code>Cahaya: GELAP (OFF)</code> ketika redup.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card" style="font-size:7.8pt;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                        <strong style="color:#0f172a;">2. Layar LCD 16x2 dengan Komunikasi I2C:</strong>
+                        <span class="badge badge-indigo">Bus 2-Kawat</span>
+                    </div>
+                    <ul class="checklist">
+                        <li>
+                            ${icons.check}
+                            <span><strong>Efisiensi Pin Mikrokontroler:</strong> Modul PCF8574 I2C adapter memungkinkan layar beroperasi hanya dengan 2 jalur data (SDA D21 &amp; SCL D22), menghemat GPIO ESP32.</span>
+                        </li>
+                        <li>
+                            ${icons.check}
+                            <span><strong>Tampilan Informasi Terpadu:</strong> Menampilkan pembacaan suhu (°C), kelembapan (%RH), dan status sensor cahaya secara bergantian atau simultan tanpa *flicker*.</span>
+                        </li>
+                        <li>
+                            ${icons.check}
+                            <span><strong>Potensiometer Kontras:</strong> Kalibrasi kejelasan teks di lingkungan pencahayaan pabrik yang bervariasi.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Arsitektur Hardware & Relevansi Industri (Honda / Manufaktur) -->
+            <div class="section-heading">
+                ${icons.box} <span>Spesifikasi Pinout Hardware &amp; Relevansi Manufaktur Otomotif</span>
+            </div>
+            <div class="grid-2">
+                <div class="card" style="font-size:7.7pt;">
+                    <strong style="color:#0f172a; display:block; margin-bottom:2px;">Pemetaan Pinout Sirkuit (Wiring Map):</strong>
+                    <table class="spec-table" style="font-size:7.1pt;">
+                        <tr><th style="width:35%;">Komponen</th><th style="width:25%;">Pin ESP32</th><th>Deskripsi Fungsi</th></tr>
+                        <tr><td><strong>Sensor Suhu DHT</strong></td><td>GPIO D4</td><td>Data digital suhu (°C) &amp; kelembapan (%RH)</td></tr>
+                        <tr><td><strong>Sensor Cahaya LDR</strong></td><td>GPIO D34 (ADC1)</td><td>Input analog intensitas cahaya ambien</td></tr>
+                        <tr><td><strong>Display LCD 16x2 I2C</strong></td><td>GPIO D21 (SDA), D22 (SCL)</td><td>Komunikasi data 2-kawat display metrik</td></tr>
+                        <tr><td><strong>LED Merah (>25°C)</strong></td><td>GPIO D19</td><td>Sinyal peringatan panas (Hot Warning)</td></tr>
+                        <tr><td><strong>LED Kuning (20-25°C)</strong></td><td>GPIO D18</td><td>Sinyal kondisi hangat/moderat (Moderate)</td></tr>
+                        <tr><td><strong>LED Hijau (15-20°C)</strong></td><td>GPIO D5</td><td>Sinyal kondisi suhu optimal (Comfort)</td></tr>
+                        <tr><td><strong>LED Biru (0-15°C)</strong></td><td>GPIO D17</td><td>Sinyal peringatan dingin (Cold Warning)</td></tr>
+                    </table>
+                </div>
+
+                <div class="card" style="font-size:7.7pt; line-height:1.27;">
+                    <strong style="color:#0f172a; display:block; margin-bottom:2px;">Relevansi Industri Manufaktur &amp; Pabrik Otomotif:</strong>
+                    <ul class="checklist">
+                        <li>
+                            ${icons.check}
+                            <span><strong>Visual Andon Management:</strong> Lampu traffic light berfungsi sebagai indikator visual 360° yang memudahkan operator lini perakitan pabrik mengetahui status lingkungan dari jarak jauh.</span>
+                        </li>
+                        <li>
+                            ${icons.check}
+                            <span><strong>Quality Control Ruang Material Sensitif:</strong> Pengawasan suhu ketat untuk area penyimpanan cat bodi mobil, ruang server TI pabrik, dan gudang bahan kimia agar tidak rusak.</span>
+                        </li>
+                        <li>
+                            ${icons.check}
+                            <span><strong>Otomasi Efisiensi Energi:</strong> Sensor LDR dapat diekspansi untuk mematikan lampu penerangan lorong gudang secara otomatis saat cahaya matahari memadai.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <span>Dokumen Portofolio Resmi &bull; Dewan Mochamad Pratama</span>
+            <span>Live Portfolio: <a href="https://dewan-portofolio-delta.vercel.app/" target="_blank">dewan-portofolio-delta.vercel.app</a></span>
+            <span>Halaman 2 dari 5</span>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 3: PROYEK 2 - IOT SMART PARKING    -->
+    <!-- ========================================== -->
+    <div class="page">
+        <div>
+            <!-- Header -->
+            <div class="page-header">
+                <div class="header-brand">
+                    <span class="dot"></span>
+                    <span>Dewan Mochamad Pratama &bull; Dokumen Portofolio Resmi</span>
+                </div>
+                <div class="header-tag">Halaman 3 dari 5 &bull; Showcase Proyek Unggulan II</div>
             </div>
 
             <!-- Proyek Banner -->
@@ -604,12 +776,12 @@ const htmlContent = `<!DOCTYPE html>
         <div class="page-footer">
             <span>Dokumen Portofolio Resmi &bull; Dewan Mochamad Pratama</span>
             <span>Simulasi Proyek: <a href="https://dewan-portofolio-delta.vercel.app/" target="_blank">dewan-portofolio-delta.vercel.app</a></span>
-            <span>Halaman 2 dari 4</span>
+            <span>Halaman 3 dari 5</span>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- HALAMAN 3: PROYEK 2 & 3 (WEB & AI VISION)  -->
+    <!-- HALAMAN 4: PROYEK 3 & 4 (WEB & AI VISION)  -->
     <!-- ========================================== -->
     <div class="page">
         <div>
@@ -619,10 +791,10 @@ const htmlContent = `<!DOCTYPE html>
                     <span class="dot"></span>
                     <span>Dewan Mochamad Pratama &bull; Dokumen Portofolio Resmi</span>
                 </div>
-                <div class="header-tag">Halaman 3 dari 4 &bull; Showcase Proyek Unggulan II &amp; III</div>
+                <div class="header-tag">Halaman 4 dari 5 &bull; Showcase Proyek Unggulan III &amp; IV</div>
             </div>
 
-            <!-- PROYEK 2: KOSAN MURAH PT MIM -->
+            <!-- PROYEK 3: KOSAN MURAH PT MIM -->
             <div style="margin-bottom:8px;">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:3px;">
                     <div>
@@ -681,7 +853,7 @@ const htmlContent = `<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- PROYEK 3: FACE RECOGNITION AI -->
+            <!-- PROYEK 4: FACE RECOGNITION AI -->
             <div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:3px;">
                     <div>
@@ -749,12 +921,12 @@ const htmlContent = `<!DOCTYPE html>
         <div class="page-footer">
             <span>Dokumen Portofolio Resmi &bull; Dewan Mochamad Pratama</span>
             <span>Repositori Kode: <a href="https://github.com/dewanmochpratama23-sys" target="_blank">github.com/dewanmochpratama23-sys</a></span>
-            <span>Halaman 3 dari 4</span>
+            <span>Halaman 4 dari 5</span>
         </div>
     </div>
 
     <!-- ========================================== -->
-    <!-- HALAMAN 4: PROYEK 4, OPERASIONAL & PENUTUP -->
+    <!-- HALAMAN 5: PROYEK 5, OPERASIONAL & PENUTUP -->
     <!-- ========================================== -->
     <div class="page">
         <div>
@@ -764,10 +936,10 @@ const htmlContent = `<!DOCTYPE html>
                     <span class="dot"></span>
                     <span>Dewan Mochamad Pratama &bull; Dokumen Portofolio Resmi</span>
                 </div>
-                <div class="header-tag">Halaman 4 dari 4 &bull; Mobile Engineering &amp; Operational Excellence</div>
+                <div class="header-tag">Halaman 5 dari 5 &bull; Mobile Engineering &amp; Operational Excellence</div>
             </div>
 
-            <!-- PROYEK 4: MOBILE PORTFOLIO APP -->
+            <!-- PROYEK 5: MOBILE PORTFOLIO APP -->
             <div style="margin-bottom:8px;">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:3px;">
                     <div>
@@ -867,7 +1039,7 @@ const htmlContent = `<!DOCTYPE html>
         <div class="page-footer">
             <span>Dokumen Portofolio Resmi &bull; Dewan Mochamad Pratama</span>
             <span>Karawang, Jawa Barat &bull; Indonesia</span>
-            <span>Halaman 4 dari 4</span>
+            <span>Halaman 5 dari 5</span>
         </div>
     </div>
 
@@ -877,46 +1049,51 @@ const htmlContent = `<!DOCTYPE html>
 // 4. Write HTML to Disk
 const htmlPath = path.join(__dirname, 'portfolio_document.html');
 fs.writeFileSync(htmlPath, htmlContent, 'utf8');
-console.log('✓ Successfully wrote portfolio_document.html');
+console.log('✓ Successfully wrote portfolio_document.html (5 Pages)');
 
-// 5. Render HTML to PDF using Headless Edge
+// 5. Render HTML to PDF using Headless Edge (with --no-sandbox)
 const outputPdf = path.join(__dirname, 'Portofolio_Dewan_Mochamad_Pratama.pdf');
 const fileUrl = 'file:///' + htmlPath.replace(/\\/g, '/');
 
-console.log('Generating PDF using Microsoft Edge Headless...');
+console.log('Generating 5-Page PDF using Microsoft Edge Headless...');
 const args = [
     '--headless=new',
+    '--no-sandbox',
     '--disable-gpu',
     '--no-pdf-header-footer',
     `--print-to-pdf=${outputPdf}`,
     fileUrl
 ];
 
-const res = cp.spawnSync(edgePath, args, { encoding: 'utf8', timeout: 45000 });
-if (res.error) {
-    console.error('Error spawning Edge:', res.error);
-    process.exit(1);
+try {
+    const res = cp.spawnSync(edgePath, args, { encoding: 'utf8', timeout: 30000 });
+    if (res.error) {
+        console.warn('Edge spawn warning:', res.error.message);
+    }
+} catch (e) {
+    console.warn('Caught Edge spawn error:', e.message);
 }
 
-if (!fs.existsSync(outputPdf)) {
-    console.error('Failed to create PDF output:', outputPdf);
-    process.exit(1);
-}
+// Check output
+setTimeout(() => {
+    if (fs.existsSync(outputPdf)) {
+        const stats = fs.statSync(outputPdf);
+        const pages = countPdfPages(outputPdf);
+        console.log(`===============================================`);
+        console.log(`✓ SUKSES! PDF Portofolio 5-Halaman Berhasil Dibuat:`);
+        console.log(`  File: ${outputPdf}`);
+        console.log(`  Ukuran: ${(stats.size / 1024).toFixed(1)} KB`);
+        console.log(`  Jumlah Halaman: ${pages} Halaman`);
+        console.log(`===============================================`);
 
-const stats = fs.statSync(outputPdf);
-const pages = countPdfPages(outputPdf);
-
-console.log(`===============================================`);
-console.log(`✓ SUKSES! PDF Portofolio Berhasil Dibuat:`);
-console.log(`  File: ${outputPdf}`);
-console.log(`  Ukuran: ${(stats.size / 1024).toFixed(1)} KB`);
-console.log(`  Jumlah Halaman: ${pages} Halaman`);
-console.log(`===============================================`);
-
-// 6. Copy to CV_dan_Resume folder as well
-const destFolder = path.join(__dirname, 'CV_dan_Resume');
-if (fs.existsSync(destFolder)) {
-    const destPdf = path.join(destFolder, 'Portofolio_Dewan_Mochamad_Pratama.pdf');
-    fs.copyFileSync(outputPdf, destPdf);
-    console.log(`✓ Salinan disimpan ke: ${destPdf}`);
-}
+        // Copy to CV_dan_Resume folder as well
+        const destFolder = path.join(__dirname, 'CV_dan_Resume');
+        if (fs.existsSync(destFolder)) {
+            const destPdf = path.join(destFolder, 'Portofolio_Dewan_Mochamad_Pratama.pdf');
+            fs.copyFileSync(outputPdf, destPdf);
+            console.log(`✓ Salinan disimpan ke: ${destPdf}`);
+        }
+    } else {
+        console.error('PDF file was not created at expected path');
+    }
+}, 1500);

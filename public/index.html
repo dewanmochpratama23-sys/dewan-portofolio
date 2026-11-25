@@ -907,7 +907,69 @@
                     </div>
                 </div>
 
-                <!-- Proyek 4: IoT Smart Car Reverse Parking Sensor System (ESP32) -->
+                <!-- Proyek 4: IoT Multi-Sensor Smart Environment & 4-Stage Traffic Light Alert System (ESP32) -->
+                <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between tilt-card border-2 border-amber-500/30 dark:border-amber-500/40 relative overflow-hidden group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                                IoT & Telemetri Lingkungan
+                            </span>
+                            <span class="text-xs font-medium text-slate-400">Hardware Assembly Aktif</span>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+                                IoT Multi-Sensor & 4-Stage Traffic Light Alert
+                            </h3>
+                            <p class="text-xs text-amber-600 dark:text-amber-400 mt-0.5 font-bold">Stasiun Telemetri Suhu, Kelembapan & Deteksi Cahaya Berbasis ESP32</p>
+                            <p class="text-[11px] text-slate-400 font-mono mt-0.5">ESP32 32-bit &bull; Sensor DHT &bull; LDR Light &bull; Traffic Light 4-LED &bull; LCD 16x2 I2C</p>
+                        </div>
+
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Sistem telemetri cerdas stasiun pemantau kondisi lingkungan kerja dan industri. Mengintegrasikan sensor suhu & kelembapan DHT, sensor cahaya LDR, modul lampu Traffic Light 4-warna berlogika termal bertingkat (*multi-stage thermal logic*), serta display teks LCD 16x2 antarmuka I2C untuk visualisasi status real-time.
+                        </p>
+
+                        <!-- Key Features Checklist -->
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 pt-2">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-traffic-light text-amber-500 mt-0.5"></i>
+                                <span><strong>Traffic Light 4-Level:</strong> Merah (&gt;25°C Hot Alert), Kuning (20-25°C Normal), Hijau (15-20°C Optimal), Biru (0-15°C Dingin)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-sun text-amber-500 mt-0.5"></i>
+                                <span><strong>Sensor Cahaya LDR:</strong> Deteksi foton cahaya real-time melalui ADC ESP32; menampilkan status <code class="bg-amber-100 dark:bg-amber-950/60 px-1 py-0.5 rounded text-[11px] text-amber-800 dark:text-amber-300 font-mono">LIGHT: ACTIVE</code> saat terang dan <code class="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-[11px] font-mono">LIGHT: INACTIVE</code> saat gelap</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-display text-amber-500 mt-0.5"></i>
+                                <span><strong>Display LCD 16x2 I2C:</strong> Menampilkan telemetri suhu, kelembapan udara (%), dan status pencahayaan hanya via 2 pin SDA/SCL</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-industry text-amber-500 mt-0.5"></i>
+                                <span><strong>Relevansi Industri Manufaktur:</strong> Standar Andon visual management dan otomasi keselamatan ruang server / pergudangan</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
+                        <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                            <span class="font-semibold text-emerald-600 dark:text-emerald-400">● Prototipe Hardware Fisik (Aktif)</span>
+                            <span>ESP32 Architecture</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="runCommand('esp32')" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-amber-600 text-white text-xs font-bold hover:bg-amber-700 transition-all hover:scale-105 active:scale-95 shadow-sm cursor-pointer">
+                                <i class="fa-solid fa-terminal"></i>
+                                <span>Info di CLI</span>
+                            </button>
+                            <button onclick="toggleEnvDemoModal()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all hover:scale-105 active:scale-95 cursor-pointer">
+                                <i class="fa-solid fa-sliders text-amber-500"></i>
+                                <span>Uji Simulator Suhu & Cahaya</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyek 5: IoT Smart Car Reverse Parking Sensor System (ESP32) -->
                 <div class="card-clean rounded-2xl p-6 sm:p-7 flex flex-col justify-between tilt-card border-2 border-blue-500/20 dark:border-blue-500/30 relative overflow-hidden group">
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
@@ -987,6 +1049,7 @@
                     <span class="text-slate-400 text-[11px] font-sans">Pintasan:</span>
                     <button onclick="runCommand('help')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">help</button>
                     <button onclick="runCommand('projects')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">projects</button>
+                    <button onclick="runCommand('esp32')" class="px-2.5 py-1 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 hover:bg-amber-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">esp32</button>
                     <button onclick="runCommand('kosan')" class="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">kosan</button>
                     <button onclick="runCommand('skills')" class="px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">skills</button>
                     <button onclick="runCommand('scan')" class="px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white transition-all cursor-pointer font-bold hover:scale-105">scan</button>
@@ -1089,9 +1152,11 @@
                     <div class="flex flex-wrap gap-2 pt-2">
                         <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">ESP32 32-bit</span>
                         <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">C++ / Arduino IDE</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">DHT Suhu & Kelembapan</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">Sensor Cahaya LDR</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">Traffic Light 4-LED</span>
+                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">LCD 16x2 I2C Bus</span>
                         <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">Ultrasonic HC-SR04</span>
-                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">LCD 16x2 Display</span>
-                        <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">LED 3-Warna Indicator</span>
                         <span onclick="bouncePill(this)" class="token-interactive px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-100 dark:hover:bg-amber-900">PWM Buzzer Tone</span>
                     </div>
                 </div>
@@ -1290,6 +1355,7 @@
         const typewriterPhrases = [
             'Founder & Web Dev: Kosan Murah PT MIM',
             'Software & Mobile App Developer',
+            'ESP32 IoT & Firmware Builder',
             'Mahasiswa S1 Teknik Informatika',
             'Python Computer Vision Explorer',
             'React Native & Expo Engineer',
@@ -1523,17 +1589,18 @@
 
         const terminalCommands = {
             help: `Daftar perintah yang tersedia:
-  • <span class="text-cyan-400">help</span>     : Menampilkan bantuan perintah CLI
-  • <span class="text-cyan-400">projects</span> : Menampilkan 4 proyek utama & unit bisnis
-  • <span class="text-cyan-400">iot</span>      : Info sistem sensor mundur mobil ESP32 (Hardware & IoT)
-  • <span class="text-cyan-400">kosan</span>    : Info unit bisnis & web live "Kosan Murah PT MIM"
-  • <span class="text-cyan-400">skills</span>   : Menampilkan daftar tech stack & keahlian
-  • <span class="text-cyan-400">scan</span>     : Menjalankan simulasi scanner Face Recognition AI
-  • <span class="text-cyan-400">contact</span>  : Informasi WhatsApp, Email, GitHub & LinkedIn
-  • <span class="text-cyan-400">bio</span>      : Menampilkan data diri singkat Dewan M. Pratama
-  • <span class="text-cyan-400">cv</span>       : Menampilkan ringkasan Curriculum Vitae & link PDF
-  • <span class="text-cyan-400">theme</span>    : Mengubah mode Gelap / Terang (Dark / Light)
-  • <span class="text-cyan-400">clear</span>    : Membersihkan layar terminal`,
+  • <span class="text-cyan-400">help</span>         : Menampilkan bantuan perintah CLI
+  • <span class="text-cyan-400">projects</span>     : Menampilkan 5 proyek utama & unit bisnis
+  • <span class="text-cyan-400">esp32</span>        : Info IoT Multi-Sensor Suhu, Cahaya LDR & Traffic Light 4-Warna
+  • <span class="text-cyan-400">iot</span>          : Info sistem sensor mundur mobil ESP32 (Hardware & IoT)
+  • <span class="text-cyan-400">kosan</span>        : Info unit bisnis & web live "Kosan Murah PT MIM"
+  • <span class="text-cyan-400">skills</span>       : Menampilkan daftar tech stack & keahlian
+  • <span class="text-cyan-400">scan</span>         : Menjalankan simulasi scanner Face Recognition AI
+  • <span class="text-cyan-400">contact</span>      : Informasi WhatsApp, Email, GitHub & LinkedIn
+  • <span class="text-cyan-400">bio</span>          : Menampilkan data diri singkat Dewan M. Pratama
+  • <span class="text-cyan-400">cv</span>           : Menampilkan ringkasan Curriculum Vitae & link PDF
+  • <span class="text-cyan-400">theme</span>        : Mengubah mode Gelap / Terang (Dark / Light)
+  • <span class="text-cyan-400">clear</span>        : Membersihkan layar terminal`,
 
             cv: `<span class="text-blue-400 font-bold">📄 CURRICULUM VITAE (CV) - DEWAN MOCHAMAD PRATAMA:</span>
 • Pendidikan      : S1 Teknik Informatika (Semester 5) - Universitas Sehati Indonesia
@@ -1558,9 +1625,26 @@
    &rarr; Deteksi wajah real-time, perekaman dataset, dan verifikasi biometrik.
 3. <span class="text-white font-bold">Interactive Mobile Portfolio</span> (React Native, Expo SDK 57, JS)
    &rarr; Aplikasi mobile lintas platform Android & iOS dengan deep-linking aktif.
-4. <span class="text-blue-400 font-bold">IoT Smart Car Reverse Parking Sensor</span> (ESP32, HC-SR04, LCD 16x2, LED 3-Warna, Buzzer)
+4. <span class="text-amber-400 font-bold">IoT Multi-Sensor & 4-Stage Traffic Light Alert System</span> (ESP32)
+   &rarr; Stasiun telemetri suhu (DHT), sensor cahaya (LDR), LCD 16x2 I2C & lampu Traffic Light 4-warna.
+5. <span class="text-blue-400 font-bold">IoT Smart Car Reverse Parking Sensor</span> (ESP32, HC-SR04, LCD 16x2, LED 3-Warna, Buzzer)
    &rarr; Prototipe asistensi parkir real-time non-blocking dengan alarm audio adaptif.
 Repositori: <a href="https://github.com/dewanmochpratama23-sys" target="_blank" class="text-blue-400 underline">github.com/dewanmochpratama23-sys</a>`,
+
+            esp32: `<span class="text-amber-300 font-bold">🚦 IOT MULTI-SENSOR & 4-STAGE TRAFFIC LIGHT ALERT SYSTEM (ESP32):</span>
+• Pengembang        : Dewan Mochamad Pratama
+• Mikrokontroler    : ESP32 32-bit Dual-Core Xtensa LX6 (Arduino C++)
+• Sub-Sistem 1 (Suhu): Sensor Suhu & Kelembapan DHT &rarr; Ambang Batas 4-Tahap Traffic Light:
+  - Suhu > 25°C     : 🔴 <span class="text-rose-400 font-bold">LAMPU MERAH</span> (Suhu Tinggi / Hot Alert - Pemicu Exhaust Otomatis)
+  - Suhu 20°C - 25°C: 🟡 <span class="text-amber-400 font-bold">LAMPU KUNING</span> (Suhu Normal / Moderat Ruang Kerja)
+  - Suhu 15°C - 20°C: 🟢 <span class="text-emerald-400 font-bold">LAMPU HIJAU</span> (Suhu Sejuk / Kondisi Paling Optimal)
+  - Suhu 0°C - 15°C : 🔵 <span class="text-blue-400 font-bold">LAMPU BIRU</span> (Suhu Dingin / Cool Alert - Proteksi Kondensasi)
+• Sub-Sistem 2 (LDR): Sensor Cahaya LDR (Photodiode) via Pin ADC ESP32
+  - Terkena Cahaya  : Layar LCD menampilkan <span class="text-amber-300 font-bold">LIGHT: ACTIVE / ON (TERANG)</span>
+  - Ruang Gelap     : Layar LCD menampilkan <span class="text-slate-400 font-bold">LIGHT: INACTIVE / OFF (GELAP)</span>
+• Tampilan Display  : LCD 16x2 Antarmuka I2C Bus (SDA: GPIO 21, SCL: GPIO 22)
+• Relevansi Industri: Sistem Visual Management Andon, QC Server Room & Otomasi Pabrik Manufaktur
+• Coba Simulator    : <button onclick="toggleEnvDemoModal()" class="text-amber-400 underline font-bold cursor-pointer">Buka Simulator Suhu & Cahaya &rarr;</button>`,
 
             iot: `<span class="text-blue-300 font-bold">🚗 IOT SMART CAR REVERSE PARKING SENSOR SYSTEM (ESP32):</span>
 • Pengembang      : Dewan Mochamad Pratama
@@ -1571,12 +1655,16 @@ Repositori: <a href="https://github.com/dewanmochpratama23-sys" target="_blank" 
 • Status Proyek   : Prototipe Hardware Fisik Berfungsi Aktif (Offline System)
 • Coba Simulator  : <button onclick="toggleIotDemoModal()" class="text-cyan-400 underline font-bold cursor-pointer">Buka Virtual Radar Simulator &rarr;</button>`,
 
-            sensor: `<span class="text-blue-300 font-bold">Ketik <span class="text-cyan-400 cursor-pointer underline" onclick="runCommand('iot')">iot</span> untuk melihat spesifikasi lengkap sistem sensor parkir mobil.</span>`,
+            trafficlight: `<span class="text-amber-300 font-bold">Ketik <span class="text-cyan-400 cursor-pointer underline" onclick="runCommand('esp32')">esp32</span> untuk detail sistem Traffic Light 4-warna & sensor suhu/cahaya.</span>`,
+
+            suhu: `<span class="text-amber-300 font-bold">Ketik <span class="text-cyan-400 cursor-pointer underline" onclick="runCommand('esp32')">esp32</span> untuk detail sistem sensor suhu & kelembapan ESP32.</span>`,
+
+            sensor: `<span class="text-blue-300 font-bold">Ketik <span class="text-cyan-400 cursor-pointer underline" onclick="runCommand('esp32')">esp32</span> (Suhu/Cahaya) atau <span class="text-cyan-400 cursor-pointer underline" onclick="runCommand('iot')">iot</span> (Parkir Mobil) untuk melihat sistem sensor hardware.</span>`,
 
             skills: `<span class="text-emerald-300 font-bold">⚡ KOMPETENSI TEKNIS:</span>
 • Mobile & Frontend : React Native, Expo, JavaScript (ES6+), HTML5, Tailwind CSS
 • Python & AI       : Python 3.x, OpenCV, Face Recognition, NumPy, Tkinter GUI
-• IoT & Embedded    : ESP32 32-bit, C++ / Arduino, HC-SR04, LCD 16x2, LED Indikator, PWM Buzzer
+• IoT & Embedded    : ESP32 32-bit, C++ / Arduino, DHT Sensor, LDR Light, Traffic Light 4-LED, HC-SR04, LCD 16x2 I2C, PWM Buzzer
 • Tools & Workflow  : Git, GitHub, VS Code, Node.js, PowerShell, Laragon`,
 
             contact: `<span class="text-cyan-300 font-bold">📬 SALURAN KONTAK RESMI:</span>
@@ -1952,6 +2040,149 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
             }, { passive: true });
         }
 
+        // --- VIRTUAL ENVIRONMENT & 4-STAGE TRAFFIC LIGHT SIMULATOR (ESP32) ---
+        let simCurrentTemp = 28.0;
+        let simCurrentHumid = 66;
+        let simLightActive = true;
+        let simLightLux = 80;
+
+        function toggleEnvDemoModal() {
+            const modal = document.getElementById('env-simulator-modal');
+            if (!modal) return;
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                updateEnvSim();
+            }
+        }
+
+        function updateEnvTemp(val) {
+            simCurrentTemp = parseFloat(val);
+            updateEnvSim();
+        }
+
+        function toggleEnvLight(forcedState) {
+            if (typeof forcedState === 'boolean') {
+                simLightActive = forcedState;
+            } else {
+                simLightActive = !simLightActive;
+            }
+            simLightLux = simLightActive ? 80 : 15;
+            const luxSlider = document.getElementById('sim-env-lux-slider');
+            if (luxSlider) luxSlider.value = simLightLux;
+            updateEnvSim();
+        }
+
+        function updateEnvLightLux(val) {
+            simLightLux = parseInt(val);
+            simLightActive = simLightLux >= 35;
+            updateEnvSim();
+        }
+
+        function updateEnvSim() {
+            const tempValEl = document.getElementById('sim-temp-val');
+            const luxValEl = document.getElementById('sim-lux-val');
+            const lcdLine1 = document.getElementById('sim-env-lcd-line1');
+            const lcdLine2 = document.getElementById('sim-env-lcd-line2');
+            const tlRed = document.getElementById('sim-tl-red');
+            const tlYellow = document.getElementById('sim-tl-yellow');
+            const tlGreen = document.getElementById('sim-tl-green');
+            const tlBlue = document.getElementById('sim-tl-blue');
+            const actionDesc = document.getElementById('sim-env-action-desc');
+            const lightIcon = document.getElementById('sim-light-indicator');
+
+            if (tempValEl) tempValEl.textContent = `${simCurrentTemp.toFixed(1)} °C`;
+            if (luxValEl) luxValEl.textContent = `${simLightLux}% (${simLightActive ? 'Aktif / Terang' : 'Inaktif / Gelap'})`;
+
+            // Calculate realistic humidity from temp
+            simCurrentHumid = Math.min(95, Math.max(30, Math.round(85 - (simCurrentTemp - 15) * 1.6)));
+
+            if (lcdLine1) {
+                lcdLine1.textContent = `T: ${simCurrentTemp.toFixed(1)}C  H: ${simCurrentHumid}%`;
+            }
+
+            // Inactive LED styles (darkened state)
+            const offRed = 'w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25';
+            const offYellow = 'w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25';
+            const offGreen = 'w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25';
+            const offBlue = 'w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25';
+
+            // Active glowing LED styles
+            const onRed = 'w-6 h-6 rounded-full bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,1)] border-2 border-rose-300 transition-all mx-auto animate-pulse';
+            const onYellow = 'w-6 h-6 rounded-full bg-amber-400 shadow-[0_0_20px_rgba(251,191,36,1)] border-2 border-amber-200 transition-all mx-auto';
+            const onGreen = 'w-6 h-6 rounded-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,1)] border-2 border-emerald-200 transition-all mx-auto';
+            const onBlue = 'w-6 h-6 rounded-full bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,1)] border-2 border-blue-200 transition-all mx-auto';
+
+            let statusText = '';
+            let statusColorClass = '';
+            let actionText = '';
+
+            // 4-Stage Logic
+            if (simCurrentTemp > 25.0) {
+                statusText = 'PANAS/ALERT!';
+                statusColorClass = 'text-rose-400 font-bold';
+                if (tlRed) tlRed.className = onRed;
+                if (tlYellow) tlYellow.className = offYellow;
+                if (tlGreen) tlGreen.className = offGreen;
+                if (tlBlue) tlBlue.className = offBlue;
+                actionText = '🚨 Peringatan Suhu Tinggi (>25°C). Lampu MERAH solid aktif! Pemicu sistem exhaust / cooling otomatis.';
+            } else if (simCurrentTemp >= 20.0) {
+                statusText = 'HANGAT/NORMAL';
+                statusColorClass = 'text-amber-300 font-bold';
+                if (tlRed) tlRed.className = offRed;
+                if (tlYellow) tlYellow.className = onYellow;
+                if (tlGreen) tlGreen.className = offGreen;
+                if (tlBlue) tlBlue.className = offBlue;
+                actionText = '⚠️ Suhu Ruang Kerja Moderat (20°C - 25°C). Lampu KUNING aktif. Pemantauan stabilitas termal reguler.';
+            } else if (simCurrentTemp >= 15.0) {
+                statusText = 'SUHU OPTIMAL';
+                statusColorClass = 'text-emerald-300 font-bold';
+                if (tlRed) tlRed.className = offRed;
+                if (tlYellow) tlYellow.className = offYellow;
+                if (tlGreen) tlGreen.className = onGreen;
+                if (tlBlue) tlBlue.className = offBlue;
+                actionText = '✅ Suhu Sejuk / Ideal (15°C - 20°C). Lampu HIJAU aktif. Efisiensi kerja dan operasional instrumen terbaik.';
+            } else {
+                statusText = 'SUHU DINGIN';
+                statusColorClass = 'text-blue-300 font-bold';
+                if (tlRed) tlRed.className = offRed;
+                if (tlYellow) tlYellow.className = offYellow;
+                if (tlGreen) tlGreen.className = offGreen;
+                if (tlBlue) tlBlue.className = onBlue;
+                actionText = '❄️ Peringatan Suhu Rendah (0°C - 15°C). Lampu BIRU aktif! Proteksi sirkuit kelistrikan dari kondensasi.';
+            }
+
+            const lightLabelStr = simLightActive ? 'CAHAYA:ON' : 'CAHAYA:OFF';
+            if (lcdLine2) {
+                lcdLine2.textContent = `${statusText} | ${lightLabelStr}`;
+                lcdLine2.className = `text-xs font-bold tracking-wider ${statusColorClass}`;
+            }
+
+            if (actionDesc) actionDesc.textContent = actionText;
+
+            if (lightIcon) {
+                if (simLightActive) {
+                    lightIcon.className = 'w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-500 border border-amber-300 flex items-center justify-center text-sm shadow-[0_0_12px_rgba(245,158,11,0.6)]';
+                    lightIcon.innerHTML = '<i class="fa-solid fa-sun"></i>';
+                } else {
+                    lightIcon.className = 'w-8 h-8 rounded-full bg-slate-800 text-slate-400 border border-slate-700 flex items-center justify-center text-sm';
+                    lightIcon.innerHTML = '<i class="fa-solid fa-moon"></i>';
+                }
+            }
+        }
+
+        function testEnvAlertTone() {
+            if (simCurrentTemp > 25) {
+                playIotBuzzerTone(1800, 200);
+                setTimeout(() => playIotBuzzerTone(2200, 300), 240);
+            } else if (simCurrentTemp >= 20) {
+                playIotBuzzerTone(1200, 150);
+            } else if (simCurrentTemp >= 15) {
+                playIotBuzzerTone(800, 120);
+            } else {
+                playIotBuzzerTone(550, 250);
+            }
+        }
+
         // --- VIRTUAL RADAR SIMULATOR (ESP32 PARKING SENSOR) ---
         let iotAudioCtx = null;
         let simCurrentDist = 120;
@@ -2055,7 +2286,136 @@ Fokus      : Rekayasa Perangkat Lunak, Web Responsif & Mobile Cross-Platform`,
         });
     </script>
 
-    <!-- 8. INTERACTIVE VIRTUAL RADAR SIMULATOR MODAL (ESP32 REVERSE PARKING SENSOR) -->
+    <!-- 8. INTERACTIVE VIRTUAL ENVIRONMENT & 4-STAGE TRAFFIC LIGHT SIMULATOR MODAL (ESP32) -->
+    <div id="env-simulator-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl space-y-5 relative">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center text-base">
+                        <i class="fa-solid fa-traffic-light"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Simulasi Telemetri Suhu & Traffic Light</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">ESP32 &bull; DHT Suhu/Kelembapan &bull; LDR Cahaya &bull; LCD 16x2 I2C &bull; Traffic Light 4-Warna</p>
+                    </div>
+                </div>
+                <button onclick="toggleEnvDemoModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Virtual LCD 16x2 Display Box (I2C Bus) -->
+            <div class="bg-emerald-950/95 border-2 border-emerald-500/50 rounded-xl p-3.5 font-mono text-emerald-400 text-center shadow-inner space-y-1">
+                <div class="text-[10px] uppercase tracking-widest text-emerald-500/80 font-bold flex items-center justify-between px-2">
+                    <span>ESP32 I2C DISPLAY (0x27)</span>
+                    <span class="text-[9px] text-emerald-400/70">● 16x2 DOT MATRIX</span>
+                </div>
+                <div class="text-lg font-black tracking-widest" id="sim-env-lcd-line1">T: 28.0C  H: 66%</div>
+                <div class="text-xs font-bold tracking-wider text-rose-400" id="sim-env-lcd-line2">PANAS/ALERT! | CAHAYA:ON</div>
+            </div>
+
+            <!-- 4-Stage Traffic Light Visual Module Bar -->
+            <div class="bg-slate-900 dark:bg-slate-950 border border-slate-800 rounded-2xl p-4 shadow-md">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center mb-3">
+                    Modul Traffic Light 4-Warna (Andon Signal)
+                </div>
+                <div class="grid grid-cols-4 gap-3 text-center">
+                    <!-- Red (>25°C) -->
+                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                        <div id="sim-tl-red" class="w-6 h-6 rounded-full bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,1)] border-2 border-rose-300 transition-all mx-auto animate-pulse"></div>
+                        <div class="text-[10px] font-extrabold text-rose-400 uppercase">Merah</div>
+                        <div class="text-[9px] text-slate-400 font-mono">&gt; 25 °C</div>
+                    </div>
+                    <!-- Yellow (20-25°C) -->
+                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                        <div id="sim-tl-yellow" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
+                        <div class="text-[10px] font-extrabold text-amber-400 uppercase">Kuning</div>
+                        <div class="text-[9px] text-slate-400 font-mono">20 - 25 °C</div>
+                    </div>
+                    <!-- Green (15-20°C) -->
+                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                        <div id="sim-tl-green" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
+                        <div class="text-[10px] font-extrabold text-emerald-400 uppercase">Hijau</div>
+                        <div class="text-[9px] text-slate-400 font-mono">15 - 20 °C</div>
+                    </div>
+                    <!-- Blue (0-15°C) -->
+                    <div class="space-y-1.5 p-2 rounded-xl bg-slate-800/40 border border-slate-700/50">
+                        <div id="sim-tl-blue" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-700/80 transition-all mx-auto opacity-25"></div>
+                        <div class="text-[10px] font-extrabold text-blue-400 uppercase">Biru</div>
+                        <div class="text-[9px] text-slate-400 font-mono">0 - 15 °C</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Temperature Slider Control -->
+            <div class="space-y-1.5">
+                <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-temperature-half text-rose-500"></i>
+                        <span>Uji Suhu Lingkungan (DHT):</span>
+                    </span>
+                    <span id="sim-temp-val" class="px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-mono font-bold">28.0 °C</span>
+                </div>
+                <input type="range" id="sim-env-temp-slider" min="0" max="40" step="0.5" value="28" oninput="updateEnvTemp(this.value)" 
+                       class="w-full accent-rose-500 cursor-pointer h-2 bg-slate-200 dark:bg-slate-800 rounded-lg">
+                <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                    <span class="text-blue-500 font-bold">0°C (Biru)</span>
+                    <span class="text-emerald-500 font-bold">15°C (Hijau)</span>
+                    <span class="text-amber-500 font-bold">20°C (Kuning)</span>
+                    <span class="text-rose-500 font-bold">25°C+ (Merah)</span>
+                </div>
+            </div>
+
+            <!-- Light Sensor (LDR) Controls -->
+            <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-2.5">
+                <div class="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    <div class="flex items-center gap-2">
+                        <div id="sim-light-indicator" class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-500 border border-amber-300 flex items-center justify-center text-sm shadow-[0_0_12px_rgba(245,158,11,0.6)]">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-800 dark:text-white">Sensor Cahaya LDR (Photodiode)</div>
+                            <div class="text-[10px] text-slate-400">Deteksi foton ambien &bull; ADC ESP32</div>
+                        </div>
+                    </div>
+                    <button onclick="toggleEnvLight()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition-all shadow-xs cursor-pointer hover:scale-105 active:scale-95">
+                        <i class="fa-solid fa-lightbulb mr-1"></i> Saklar Senter
+                    </button>
+                </div>
+
+                <div class="space-y-1">
+                    <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                        <span>Intensitas Cahaya Ambien:</span>
+                        <span id="sim-lux-val" class="font-mono font-bold text-amber-600 dark:text-amber-400">80% (Aktif / Terang)</span>
+                    </div>
+                    <input type="range" id="sim-env-lux-slider" min="0" max="100" value="80" oninput="updateEnvLightLux(this.value)"
+                           class="w-full accent-amber-500 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg">
+                </div>
+            </div>
+
+            <!-- Live Action & Industrial Status Box -->
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                <div class="font-bold text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Respons Otomasi Industri / Andon:</div>
+                <div id="sim-env-action-desc" class="font-medium leading-relaxed">
+                    🚨 Peringatan Suhu Tinggi (>25°C). Lampu MERAH solid aktif! Pemicu sistem exhaust / cooling otomatis.
+                </div>
+            </div>
+
+            <!-- Audio Buzzer Test Button -->
+            <div class="pt-1 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <button onclick="testEnvAlertTone()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer hover:scale-105 active:scale-95">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span>Uji Buzzer Frekuensi Alarm</span>
+                </button>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 font-mono text-center sm:text-right">
+                    Arsitektur ESP32 Non-Blocking
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. INTERACTIVE VIRTUAL RADAR SIMULATOR MODAL (ESP32 REVERSE PARKING SENSOR) -->
     <div id="iot-simulator-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity">
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl space-y-5 relative">
             <!-- Modal Header -->

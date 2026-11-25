@@ -463,6 +463,71 @@ export default function App() {
           </TouchableOpacity>
         </View>
 
+        {/* Proyek 4: IoT Multi-Sensor Smart Environment & 4-Stage Traffic Light Alert (ESP32) */}
+        <View style={[styles.projectCard, { backgroundColor: theme.cardBg, borderColor: '#f59e0b', borderWidth: 1.5 }]}>
+          <View style={styles.projectCardTop}>
+            <View style={[styles.tagBadgeBlue, { backgroundColor: '#fffbeb', borderColor: '#fde68a' }]}>
+              <Text style={[styles.tagBadgeBlueText, { color: '#b45309' }]}>IoT & Embedded Systems</Text>
+            </View>
+            <Text style={styles.platformLabel}>Hardware Assembly</Text>
+          </View>
+
+          <Text style={[styles.projectTitle, { color: theme.textMain }]}>IoT Multi-Sensor & 4-Stage Traffic Light Alert System</Text>
+          <Text style={[styles.projectStack, { color: '#d97706', fontWeight: '700' }]}>ESP32 32-bit, Sensor DHT, Sensor Cahaya LDR, LCD 16x2 I2C, Traffic Light 4-LED</Text>
+
+          <Text style={[styles.projectDesc, { color: theme.textMuted }]}>
+            Stasiun telemetri suhu, kelembapan, dan deteksi cahaya ambien berbasis mikrokontroler ESP32. Mengintegrasikan modul lampu Traffic Light 4-warna berlogika termal bertingkat (Merah >25°C, Kuning 20-25°C, Hijau 15-20°C, Biru 0-15°C) serta visualisasi teks LCD 16x2 antarmuka I2C untuk respons otomasi industri.
+          </Text>
+
+          <View style={styles.featureList}>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Traffic Light 4-Tahap: Merah (Panas/Alert), Kuning (Normal), Hijau (Optimal), Biru (Dingin)</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Sensor Cahaya LDR: Deteksi foton real-time menampilkan status CAHAYA:ON / CAHAYA:OFF pada LCD</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Display LCD 16x2 I2C: Pemantauan multi-metrik secara simultan hanya dengan 2 pin SDA/SCL</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Relevansi Industri: Standar Visual Management Andon & QC ruang server pergudangan</Text>
+          </View>
+
+          <TouchableOpacity
+            style={[styles.btnProjectGithub, { backgroundColor: '#d97706' }]}
+            activeOpacity={0.85}
+            onPress={() => handleOpenLink('https://github.com/dewanmochpratama23-sys', 'GitHub IoT ESP32 Multi-Sensor')}
+          >
+            <SafeIcon name="microchip" size={14} color="#ffffff" fallback="⚡" />
+            <Text style={styles.btnProjectGithubText}>Dokumentasi Proyek Hardware</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Proyek 5: IoT Smart Car Reverse Parking Sensor (ESP32) */}
+        <View style={[styles.projectCard, { backgroundColor: theme.cardBg, borderColor: theme.border }]}>
+          <View style={styles.projectCardTop}>
+            <View style={styles.tagBadgeBlue}>
+              <Text style={styles.tagBadgeBlueText}>IoT & Embedded Systems</Text>
+            </View>
+            <Text style={styles.platformLabel}>Hardware Prototype</Text>
+          </View>
+
+          <Text style={[styles.projectTitle, { color: theme.textMain }]}>IoT Smart Car Reverse Parking Sensor System</Text>
+          <Text style={[styles.projectStack, { color: theme.textMuted }]}>ESP32 32-bit, HC-SR04 Ultrasonic, LCD 16x2, LED 3-Warna, PWM Buzzer</Text>
+
+          <Text style={[styles.projectDesc, { color: theme.textMuted }]}>
+            Sistem asistensi keselamatan manuver kendaraan berbasis mikrokontroler ESP32 32-bit yang mengintegrasikan transduser ultrasonik HC-SR04, LCD 16x2, lampu LED 3-warna, dan buzzer adaptif proporsional.
+          </Text>
+
+          <View style={styles.featureList}>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Kalkulasi pantulan gelombang sonik real-time (rentang 2 cm - 400 cm)</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Zonasi visual lampu LED 3 warna (Aman/Waspada/Bahaya) & teks LCD</Text>
+            <Text style={[styles.featureItem, { color: theme.textMain }]}>✔ Modulasi frekuensi buzzer PWM adaptif dari interval rapat ke kontinu</Text>
+          </View>
+
+          <TouchableOpacity
+            style={styles.btnProjectBlue}
+            activeOpacity={0.85}
+            onPress={() => handleOpenLink('https://github.com/dewanmochpratama23-sys', 'GitHub Parking Sensor')}
+          >
+            <SafeIcon name="satellite-dish" size={14} color="#ffffff" fallback="📡" />
+            <Text style={styles.btnProjectGithubText}>Lihat Spesifikasi Hardware</Text>
+          </TouchableOpacity>
+        </View>
+
         {/* 3. KEAHLIAN & TEKNOLOGI */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionBadge}>KOMPETENSI TEKNIS</Text>
@@ -482,6 +547,15 @@ export default function App() {
           <Text style={[styles.skillsCardCategory, { color: theme.textMain, marginTop: 16 }]}>🧠 Python & Computer Vision</Text>
           <View style={styles.skillPillContainer}>
             {['Python 3.x', 'OpenCV', 'Face Recognition', 'NumPy Matrix', 'Tkinter GUI'].map((skill) => (
+              <View key={skill} style={[styles.skillPill, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
+                <Text style={[styles.skillPillText, { color: theme.textMain }]}>{skill}</Text>
+              </View>
+            ))}
+          </View>
+
+          <Text style={[styles.skillsCardCategory, { color: theme.textMain, marginTop: 16 }]}>⚡ Embedded IoT & Hardware</Text>
+          <View style={styles.skillPillContainer}>
+            {['ESP32 32-bit', 'Arduino C++', 'DHT Suhu/Kelembapan', 'Sensor Cahaya LDR', 'Traffic Light 4-LED', 'LCD 16x2 I2C', 'Ultrasonic HC-SR04', 'PWM Buzzer'].map((skill) => (
               <View key={skill} style={[styles.skillPill, { backgroundColor: theme.subtleBg, borderColor: theme.border }]}>
                 <Text style={[styles.skillPillText, { color: theme.textMain }]}>{skill}</Text>
               </View>
